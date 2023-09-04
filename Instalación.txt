@@ -1,0 +1,11 @@
+Para instalar el software se deben seguir los siguientes pasos:
+
+1. Instalar en la extensión virtualenv de python a través del comando ' pip install virtualenv '
+
+2. Crear el entorno virtual a través del comando: ' python -r venv env '. Este crea el entorno llamado 'env'
+
+3. Se debe activar el entorno virtual a través del comando ' .\env\scripts\activate '
+
+4. Una vez activado el entorno, deben instalarse las dependencias a través del comando ' pip install -r "requirements.txt" '
+
+5. Finalmente, se corre el programa con el comando ' streamlit run app.py '
