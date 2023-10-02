@@ -1,0 +1,12 @@
+{% extends "layouts/mainLayout.html" %}
+
+{% block title %}Página principal{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <h1>Push ups:</h1>
+    <img src="{{ url_for('video_feed') }}" alt="Cámara en vivo">
+</div>
+
+{% endblock %}
