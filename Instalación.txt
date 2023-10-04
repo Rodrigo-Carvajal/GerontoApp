@@ -8,4 +8,4 @@ Para instalar el software se deben seguir los siguientes pasos:
 
 4. Una vez activado el entorno, deben instalarse las dependencias a través del comando ' pip install -r "requirements.txt" '
 
-5. Finalmente, se corre el programa con el comando ' streamlit run app.py '
+5. Finalmente, se corre el programa con el comando 'python ruta/a/app2.py'
