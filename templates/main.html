@@ -3,10 +3,47 @@
 {% block title %}Página principal{% endblock %}
 
 {% block body %}
+<div class="container mt-5">
+    <h1>CRUD de Pacientes</h1>
+    <!-- Botón para mostrar el formulario de creación -->
+    <button class="btn btn-primary mb-3" id="btnMostrarFormulario">Agregar Paciente</button>
 
-<div class="container">
-    <h1>Push ups:</h1>
-    <img src="{{ url_for('video_feed') }}" alt="Cámara en vivo">
+    <!-- Formulario para crear/editar pacientes (se muestra/oculta según sea necesario) -->
+    <div id="formulario" style="display:none">
+        <h2>Formulario de Paciente</h2>
+        <form>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Nombre del paciente">
+            </div>
+            <div class="mb-3">
+                <label for="edad" class="form-label">Edad</label>
+                <input type="number" class="form-control" id="edad" placeholder="Edad del paciente">
+            </div>
+            <button type="submit" class="btn btn-success">Guardar</button>
+            <button type="button" class="btn btn-danger" id="btnCancelar">Cancelar</button>
+        </form>
+    </div>
+
+    <!-- Tabla para mostrar la lista de pacientes -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaPacientes">
+            {% for i in pacientes %}
+            <tr>
+                <th>{{ i.id }}</th>
+                <th>{{ i.name }}</th>
+                <th>{{ i.user_id }}</th>
+            </tr>                    
+            {% endfor %}            
+        </tbody>
+    </table>
 </div>
-
 {% endblock %}
