@@ -9,6 +9,12 @@ from app.models import Usuario, load_user
 # Instanciación del blueprint
 adultTrain = Blueprint('app', __name__)
 
+"""
+@app.route("/", methods=['GET', 'POST'])
+def ():
+    return
+"""
+
 @app.route("/")
 def main():
     return redirect(url_for('login'))
@@ -61,10 +67,17 @@ def listar_pacientes():
     pacientes = data[1]
     return render_template('views/kine/listarPacientes.html', pacientes=pacientes)
 
+@app.route("/info_paciente/<int:id_paciente>", methods=['GET', 'POST'])
+def info_paciente(id_paciente):
+    data, count = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
+    pacientes = data[1]
+    pacienteData = pacientes[0]
+    return render_template("views/kine/info_paciente.html", paciente=pacienteData)
+
 @app.route("/video_template", methods=['GET','POST'])
 @login_required
 def video_template():    
-    return render_template('views/cam.html')
+    return render_template('views/kine/cam.html')
 
 @app.route("/video_feed", methods=['GET','POST'])
 @login_required

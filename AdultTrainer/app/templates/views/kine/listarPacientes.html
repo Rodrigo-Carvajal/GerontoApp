@@ -3,7 +3,7 @@
 {% block title %}Pacientes{% endblock %}
 
 {% block body %}
-<div class="container-fluid mt-2">
+<div class="container mt-2">
     <div class="table-responsive">
         <table class="table table-secondary">
             <thead>
@@ -19,7 +19,7 @@
                         <td>{{ i.id_paciente }}</td>
                         <td>{{ i.nombre_completo }}</td>
                         <td>
-                            <a name="infoPacientes" id="infoPacientes" class="btn btn-success" href="/infoPaciente/{{i.id_paciente}}" role="button"><i class="fa-solid fa-info"></i> Info paciente</a>
+                            <a name="info_pacientes" id="info_pacientes" class="btn btn-success" href="/info_paciente/{{i.id_paciente}}" role="button"><i class="fa-solid fa-info"></i> Info paciente</a>
                             <a name="crudSesiones" id="crudSesiones" class="btn btn-warning" href="/crudSesiones/{{i.id_paciente}}" role="button"><i class="fa-solid fa-bars"></i> CRUD de sesiones</a>
                             <a name="crudRutinas" id="crudRutinas" class="btn btn-warning" href="/crudRutinas/{{i.id_paciente}}" role="button"><i class="fa-solid fa-bars"></i> CRUD de rutinas</a>
                             <a name="editUSuario" id="editUsuario" class="btn btn-info" href="/editarPaciente/{{i.id_paciente}}" role="button"><i class="fa-solid fa-pen-nib"></i> Editar</a>
