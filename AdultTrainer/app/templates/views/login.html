@@ -1,0 +1,52 @@
+{% extends "layouts/loginLayout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5 column d-flex border border-dark sm-12 md-12 lg-12 xl-12">
+    <div class=" row g-1 sm-12 md-12 lg-6 xl-6">
+    </div>
+    <div class="col">
+      <form class="col needs-validation sm-12 md-12 lg-6 xl-6" action="/login" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="form-floating sm-12 md-12 lg-6 xl-6 m-5 d-flex">
+            <input type="text" class="form-control" name="nombreUsuario" id="nombreUsuario" required>
+            <label for="nombreUsuario" class="form-label"><i class="fa-solid fa-user"></i> Usuario</label>
+          </div>
+          <div class="form-floating sm-12 md-12 lg-6 xl-6 m-5 d-flex">
+            <input type="password" class="form-control" name="password" id="password" required>
+            <label for="password" class="form-label"><i class="fa-solid fa-key"></i> Constraseña</label>
+          </div>
+          <div class="row">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                  <div class="align-items-center justify-content-center">
+                      {% for category,message in messages %}
+                          <div class="alert col-lg-12  alert-{{category}} alert-dismissible show fade" role="alert" id="alert-message">
+                              <strong>{{message}}</strong> 
+                              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>                        
+                          </div>    
+                      {% endfor %}
+                  </div>
+              {% endif %}
+            {% endwith %}
+          </div>
+          <button class="btn btn-primary mb-4" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Iniciar sesión</button>
+      </form>          
+    </div>        
+  </div> 
+
+<script>
+  // Función para ocultar la alerta después de un tiempo específico (en milisegundos)
+  function hideAlert() {
+      setTimeout(function() {
+          var alertMessage = document.getElementById('alert-message');
+          alertMessage.style.display = 'none';  // Oculta la alerta
+      }, 1500); // 3000 milisegundos = 3 segundos (ajusta este valor según tus necesidades)
+  }
+
+  // Llama a la función para ocultar la alerta cuando se cargue la página
+  window.onload = hideAlert;
+</script>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "layouts/loginLayout.html" %}
+
+{% block title %}404{% endblock %}
+
+{% block body %}
+<section class="page_404">
+    <div class="container">
+      <div class="row"> 
+        <div class="col-sm-12 ">      
+          <div class="four_zero_four_bg">
+            <h1 class="text-center ">404</h1>
+          
+          
+          </div>
+        
+          <div class="contant_box_404">
+          <h3 class="h2">Creo que no deberías estar aquí</h3>
+          
+          <p>La página que buscas no está disponible.</p>
+          
+          <a href="{{ url_for('login') }}" class="link_404">Ir al login</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

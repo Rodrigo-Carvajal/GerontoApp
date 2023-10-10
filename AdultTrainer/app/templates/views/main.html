@@ -1,0 +1,29 @@
+{% extends "layouts/mainLayout.html" %}
+
+{% block title %}Página principal{% endblock %}
+
+{% block body %}
+    <h1>CRUD de Pacientes</h1>
+
+    <!-- Tabla para mostrar la lista de pacientes -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Edad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaPacientes">
+            {% for i in pacientes %}
+            <tr>
+                <th>{{ i.id }}</th>
+                <th>{{ i.name }}</th>
+                <th>{{ i.user_id }}</th>
+            </tr>                    
+            {% endfor %}            
+        </tbody>
+    </table>
+</div>
+{% endblock %}
