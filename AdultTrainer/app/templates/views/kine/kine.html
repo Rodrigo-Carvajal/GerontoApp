@@ -4,4 +4,43 @@
 
 {% block body %}
 
+    <h2>Crear paciente nuevo:</h2>
+    <div class="container col-md-6">
+        <div class="form-floating mb-3">
+          <input
+            type="text"
+            class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="">
+          <label for="nombrePaciente">Nombre del paciente:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="date"
+            class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="">
+          <label for="fechaNacimiento">Fecha de nacimiento:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            class="form-control" name="edadPaciente" id="edadPaciente" placeholder="">
+          <label for="edadPaciente">Edad del paciente:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            class="form-control" name="estatura" id="estatura" placeholder="" step="0.01">
+          <label for="estatura">Estatura del paciente:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input
+            type="number"
+            class="form-control" name="formId1" id="formId1" placeholder="" step="0.01">
+          <label for="formId1">Peso del paciente (kg):</label>
+        </div>
+
+    </div>
+
 {% endblock %}
