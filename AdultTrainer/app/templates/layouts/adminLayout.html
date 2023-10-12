@@ -15,15 +15,18 @@
     </style>
 </head>
 <body class="align-midle text-center">
-    <ul class="nav nav-justified nav-underline nav-tabs">
+    <ul class="nav nav-justified nav-pills nav-tabs">
         <li class="nav-item">
-            <a href="#" class="nav-link">CRUD de kinesiólogos</a>
+            <a href="{{ url_for('administrador_main') }}" class="nav-link fa-solid fa-home"></a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">CRUD de ejercicios</a>
+            <a href="#" class="nav-link fa-solid fa-person"></a>
         </li>
         <li class="nav-item">
-            <a href="{{ url_for('logout') }}" class="nav-link">Salir</a>
+            <a href="#" class="nav-link fa-solid fa-running"></a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url_for('logout') }}" class="nav-link fa-solid fa-right-to-bracket"></a>
         </li>
     </ul>
     {% block body %}

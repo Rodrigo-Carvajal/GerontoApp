@@ -34,8 +34,8 @@ class Paciente():
         self.peso = peso
         self.estatura = estatura
 
-    def get_paciente_id(self):
-        return self.id_paciente
+    def get_limitacion(self):
+        return self.fk_id_limitacion
 
 class Ejercicio():
     def __init__(self, id, fk_id_usuario, fk_id_limitacion, tipo, dificultad, equipamiento, grupo_muscular, descripcion, link_video, nombre):

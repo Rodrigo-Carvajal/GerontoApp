@@ -79,7 +79,12 @@ def info_paciente(id_paciente):
 @login_required
 def crear_paciente():
     if request.method == 'POST':
-        pass
+        nombrePaciente = request.form['nombrePaciente']
+        fechaNacimiento = request.form['fechaNacimiento']
+        estatura = request.form['estatura']
+        peso = request.form['peso']
+        generoPaciente = request.form['generoPaciente']        
+        paciente = Paciente(a, current_user.get_id, )
     return render_template("views/kine/crear_paciente.html")
 
 @app.route("/crud_sesiones/<int:id_paciente>", methods=['GET', 'POST'])

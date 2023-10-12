@@ -15,15 +15,18 @@
     </style>
 </head>
 <body class="align-midle text-center">
-    <ul class="nav nav-justified nav-underline nav-tabs">
+    <ul class="nav nav-pills nav-justified nav-tabs">
         <li class="nav-item">
-            <a href="{{ url_for('listar_pacientes') }}" class="nav-link">CRUD de pacientes</a>
+            <a href="{{ url_for('kinesiologo_main') }}" class="nav-link fa-solid fa-home"></a>
         </li>
         <li class="nav-item">
-            <a href="{{ url_for('video_template') }}" class="nav-link">Evaluación en tiempo real</a>
+            <a href="{{ url_for('listar_pacientes') }}" class="nav-link fa-solid fa-person"></a>
         </li>
         <li class="nav-item">
-            <a href="{{ url_for('logout') }}" class="nav-link">Salir</a>
+            <a href="{{ url_for('video_template') }}" class="nav-link fa-solid fa-camera"></a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ url_for('logout') }}" class="nav-link fa-solid fa-right-to-bracket"></a>
         </li>
     </ul>
     {% block body %}

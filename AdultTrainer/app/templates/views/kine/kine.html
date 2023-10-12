@@ -4,43 +4,48 @@
 
 {% block body %}
 
-    <h2>Crear paciente nuevo:</h2>
-    <div class="container col-md-6">
-        <div class="form-floating mb-3">
-          <input
-            type="text"
-            class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="">
-          <label for="nombrePaciente">Nombre del paciente:</label>
-        </div>
+    <h3 class="m-4">Crear paciente nuevo:</h3>
+    <form action="/crear_paciente()" method="post">
+      <div class="container col-md-6">
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="">
+            <label for="nombrePaciente">Nombre del paciente:</label>
+          </div>
 
-        <div class="form-floating mb-3">
-          <input
-            type="date"
-            class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="">
-          <label for="fechaNacimiento">Fecha de nacimiento:</label>
-        </div>
+          <div class="form-floating mb-3">
+            <input
+              type="date"
+              class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="">
+            <label for="fechaNacimiento">Fecha de nacimiento:</label>
+          </div>
 
-        <div class="form-floating mb-3">
-          <input
-            type="number"
-            class="form-control" name="edadPaciente" id="edadPaciente" placeholder="">
-          <label for="edadPaciente">Edad del paciente:</label>
-        </div>
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              class="form-control" name="estatura" id="estatura" placeholder="" step="0.01">
+            <label for="estatura">Estatura del paciente:</label>
+          </div>
 
-        <div class="form-floating mb-3">
-          <input
-            type="number"
-            class="form-control" name="estatura" id="estatura" placeholder="" step="0.01">
-          <label for="estatura">Estatura del paciente:</label>
-        </div>
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              class="form-control" name="peso" id="peso" placeholder="" step="0.01">
+            <label for="peso">Peso del paciente (kg):</label>
+          </div>
 
-        <div class="form-floating mb-3">
-          <input
-            type="number"
-            class="form-control" name="formId1" id="formId1" placeholder="" step="0.01">
-          <label for="formId1">Peso del paciente (kg):</label>
-        </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="generoPaciente" id="femenino" value="femenino">
+            <label class="form-check-label" for="femenino">Femenino</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="generoPaciente" id="masculino" value="masculino">
+            <label class="form-check-label" for="masculino">Masculino</label>
+          </div>
+          <br>
+          <button type="submit" class="btn btn-primary mt-3 p-2">Crear paciente</button>
 
-    </div>
-
+      </div>
+    </form>
 {% endblock %}
