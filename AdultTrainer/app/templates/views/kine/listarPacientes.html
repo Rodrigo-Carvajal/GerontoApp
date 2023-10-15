@@ -3,7 +3,67 @@
 {% block title %}Pacientes{% endblock %}
 
 {% block body %}
-<div class="container mt-2">
+<div class="row">
+
+<div class="container col-md-4">
+    <h3 class="m-2">Crear paciente nuevo:</h3>
+    <form action="" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="container col-md-10">
+            <div class="mb-3 visually-hidden">
+            <label class="visually-hidden" for="idPaciente">Id paciente</label>
+            <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="" placeholder="">
+        </div>
+        <div class="mb-3 visually-hidden">
+            <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
+            <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
+        </div>
+        <div class="form-floating mb-3">
+            <input
+            type="text"
+            class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="">
+            <label for="nombrePaciente">Nombre del paciente:</label>
+        </div>
+        
+        <div class="form-floating mb-3">
+            <input
+            type="date"
+            class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="">
+            <label for="fechaNacimiento">Fecha de nacimiento:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input
+            type="number"
+            class="form-control" name="estatura" id="estatura" placeholder="" step="0.01">
+            <label for="estatura">Estatura del paciente:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input
+            type="number"
+            class="form-control" name="peso" id="peso" placeholder="" step="0.01">
+            <label for="peso">Peso del paciente (kg):</label>
+        </div>
+
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="generoPaciente" id="femenino" value="femenino">
+            <label class="form-check-label" for="femenino">Femenino</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="generoPaciente" id="masculino" value="masculino">
+            <label class="form-check-label" for="masculino">Masculino</label>
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit" name="submit" value="crear"><i class="fa-solid fa-plus"></i> Crear</button>
+        <button class="btn btn-secondary" type="button" id="borrarCampos"><i class="fa-solid fa-trash"></i> Eliminar</button>
+        
+    </div>
+    </form>
+</div>
+
+
+<div class="container col-md-7 m-4">
     <div class="table-responsive">
         <table class="table table-secondary">
             <thead>
@@ -22,7 +82,7 @@
                             <a name="info_pacientes" id="info_pacientes" class="btn btn-success" href="/info_paciente/{{i.id_paciente}}" role="button"><i class="fa-solid fa-info"></i> Info paciente</a>
                             <a name="crud_sesiones" id="crud_sesiones" class="btn btn-warning" href="/crud_sesiones/{{i.id_paciente}}" role="button"><i class="fa-solid fa-bars"></i> CRUD de sesiones</a>
                             <a name="crudRutinas" id="crudRutinas" class="btn btn-warning" href="/crudRutinas/{{i.id_paciente}}" role="button"><i class="fa-solid fa-bars"></i> CRUD de rutinas</a>
-                            <a name="editUSuario" id="editUsuario" class="btn btn-info" href="/editarPaciente/{{i.id_paciente}}" role="button"><i class="fa-solid fa-pen-nib"></i> Editar</a>
+                            <a name="editUSuario" id="editUsuario" class="btn btn-info" href="/editar_paciente/{{i.id_paciente}}" role="button"><i class="fa-solid fa-pen-nib"></i> Editar</a>
                             <a name="deleteUSuario" id="deleteUsuario" class="btn btn-danger" href="/eliminarPaciente/{{i.id_paciente}}" role="button"><i class="fa-solid fa-x"></i> Eliminar</a>
                         </td>
                     </tr>
@@ -30,5 +90,18 @@
             </tbody>
         </table>                        
     </div>
+</div>
 
+</div>
+
+<script>
+            document.getElementById("borrarCampos").addEventListener("click", function() {
+              // Selecciona los campos de entrada y establece su valor en vacío
+              document.getElementById("nombrePaciente").value = "";
+              document.getElementById("fechaNacimiento").value = "";
+              document.getElementById("edadPaciente").value = "";
+              document.getElementById("estatura").value = "";
+              document.getElementById("formId1").value = "";
+            })
+        </script>
 {% endblock %}

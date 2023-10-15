@@ -16,6 +16,7 @@ def ruta():
     return render_template("views/.html") redirect(url_for(''))
 """
 
+# Rutas comúnes:
 @app.route("/")
 def main():
     return redirect(url_for('login'))
@@ -47,46 +48,87 @@ def login():
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
+
+# Rutas de adminstrador
+
+# Rutas de kinesiologo
+
+
     logout_user()
     return redirect(url_for('login'))
 
+#Rutas de error
+#404 y 500
+@app.route('/error404')
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('views/404.html'), 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('views/500.html'), 500
+
+# Rutas de Administrador
 @app.route("/administrador_main", methods=['GET','POST'])
 @login_required
 def administrador_main():
     return render_template('views/admin/admin.html')
 
+# Rutas de Kinesiologo
 @app.route("/kinesiologo_main", methods=['GET','POST'])
 @login_required
 def kinesiologo_main():
-    return render_template('views/kine/kine.html')
+    #id_kine=current_user.get_id
+    kine = supabase.table('Usuarios').select('*').eq('id', current_user.get_id()).execute()
+    return render_template('views/kine/kine.html', kinesiologo=kine.data)
 
+# CRUD Pacientes
 @app.route("/listar_pacientes", methods=['GET','POST'])
 @login_required
 def listar_pacientes():
-    data, count = supabase.table('Pacientes').select('*').execute()
-    pacientes = data[1]
-    return render_template('views/kine/listarPacientes.html', pacientes=pacientes)
-
-@app.route("/info_paciente/<int:id_paciente>", methods=['GET', 'POST'])
-@login_required
-def info_paciente(id_paciente):
-    data, count = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
-    pacientes = data[1]
-    pacienteData = pacientes[0]
-    return render_template("views/kine/info_paciente.html", paciente=pacienteData)
-
-@app.route("/crear_paciente/<int:id>", methods=['GET', 'POST'])
-@login_required
-def crear_paciente():
+    pacientes = supabase.table('Pacientes').select('*').execute()
+    print(pacientes.data)
     if request.method == 'POST':
+        fk_id_kinesiologo = request.form['fkIdKinesiologo']
         nombrePaciente = request.form['nombrePaciente']
         fechaNacimiento = request.form['fechaNacimiento']
         estatura = request.form['estatura']
         peso = request.form['peso']
-        generoPaciente = request.form['generoPaciente']        
-        paciente = Paciente(a, current_user.get_id, )
-    return render_template("views/kine/crear_paciente.html")
+        generoPaciente = request.form['generoPaciente']
+        paciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fk_id_limitacion': '1', 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura}
+        insert = supabase.table('Pacientes').insert(paciente).execute()
+        return redirect(url_for('listar_pacientes'))
+    return render_template('views/kine/listarPacientes.html', pacientes=pacientes.data)
 
+@app.route("/info_paciente/<int:id_paciente>", methods=['GET', 'POST'])
+@login_required
+def info_paciente(id_paciente):
+    paciente = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
+    return render_template("views/kine/infoPaciente.html", paciente=paciente.data)
+
+@app.route("/editar_paciente/<int:id_paciente>", methods=['GET', 'POST'])
+@login_required
+def editar_paciente(id_paciente):
+    if request.method == 'POST':
+        fk_id_kinesiologo = request.form['fkIdKinesiologo']
+        nombrePaciente = request.form['nombrePaciente']
+        fechaNacimiento = request.form['fechaNacimiento']
+        estatura = request.form['estatura']
+        peso = request.form['peso']
+        generoPaciente = request.form['generoPaciente']
+        paciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fk_id_limitacion': '1', 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura}
+        insert = supabase.table('Pacientes').update(paciente).eq("id_paciente", id_paciente).execute()
+        return redirect(url_for('listar_pacientes'))
+    paciente = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
+    return render_template("views/kine/editarPaciente.html", paciente=paciente.data)
+
+@app.route("/eliminarPaciente/<int:id_paciente>", methods=['GET', 'POST'])
+@login_required
+def eliminarPaciente(id_paciente):
+    data, count = supabase.table('Pacientes').delete().eq('id_paciente', id_paciente).execute()   
+    return redirect(url_for('listar_pacientes'))
+
+# CRUD Sesiones
 @app.route("/crud_sesiones/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
 def crud_sesiones(id_paciente):
@@ -94,6 +136,9 @@ def crud_sesiones(id_paciente):
     sesiones = data[1]
     return render_template('views/kine/sesiones.html', sesiones=sesiones)
 
+
+
+# Rutas de evaluación en tiempo real
 @app.route("/video_template", methods=['GET','POST'])
 @login_required
 def video_template():    
@@ -112,14 +157,3 @@ def video_feed():
         return Response(pushup(cap), 
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     cap.release()
-
-#Rutas de error
-#404 y 500
-@app.route('/error404')
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('views/404.html'), 404
-
-@app.errorhandler(500)
-def page_not_found(e):
-    return render_template('views/500.html'), 500

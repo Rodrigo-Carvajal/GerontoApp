@@ -3,49 +3,20 @@
 {% block title %}Menú principal{% endblock %}
 
 {% block body %}
+<div class="mb-4 rounded-3">
+    <div class="container-fluid py-5">
+        {% for i in kinesiologo %}
+            <h1 class="display-5 fw-bold">Hola {{ current_user.nombre_completo }}</h1>
+            <p class="lead">Acuerdate que en SENAMA, estamos comprometidos en brindar el mejor cuidado y atención a nuestros adultos mayores. Como kinesiólogo, eres una parte fundamental de nuestra misión de promover la salud y el bienestar.</p>
+            <hr class="my-4">
+            <p>Este portal es tu herramienta para acceder a la información y recursos necesarios para llevar a cabo tu importante labor. Aquí encontrarás herramientas de registro y seguimiento, información sobre nuestros programas y directrices</p>
+            <button class="btn btn-primary btn-lg" type="button">Example button</button>
+        {% endfor %} 
+    </div>   
+</div>
+<footer>
+    <!-- Otro contenido del pie de página -->
+    <img src="{{ url_for('static', filename='assets/senama.png') }}" alt="Descripción de la imagen">
+</footer>
 
-    <h3 class="m-4">Crear paciente nuevo:</h3>
-    <form action="/crear_paciente()" method="post">
-      <div class="container col-md-6">
-          <div class="form-floating mb-3">
-            <input
-              type="text"
-              class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="">
-            <label for="nombrePaciente">Nombre del paciente:</label>
-          </div>
-
-          <div class="form-floating mb-3">
-            <input
-              type="date"
-              class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="">
-            <label for="fechaNacimiento">Fecha de nacimiento:</label>
-          </div>
-
-          <div class="form-floating mb-3">
-            <input
-              type="number"
-              class="form-control" name="estatura" id="estatura" placeholder="" step="0.01">
-            <label for="estatura">Estatura del paciente:</label>
-          </div>
-
-          <div class="form-floating mb-3">
-            <input
-              type="number"
-              class="form-control" name="peso" id="peso" placeholder="" step="0.01">
-            <label for="peso">Peso del paciente (kg):</label>
-          </div>
-
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="generoPaciente" id="femenino" value="femenino">
-            <label class="form-check-label" for="femenino">Femenino</label>
-          </div>
-          <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="generoPaciente" id="masculino" value="masculino">
-            <label class="form-check-label" for="masculino">Masculino</label>
-          </div>
-          <br>
-          <button type="submit" class="btn btn-primary mt-3 p-2">Crear paciente</button>
-
-      </div>
-    </form>
 {% endblock %}
