@@ -3,13 +3,13 @@
 {% block title %}Página principal{% endblock %}
 
 {% block body %}
-    <div class="container-fluid mt-5 row">
-          <div class="col-md-8">
-            <h1 class="fs-3">Push ups:</h1>
+    <div class="container-fluid row fondo p-1 justify-content-evenly">
+          <div class="col-sm-12 col-md-4">
+            <h1 class="fw-bold fs-3">Push ups:</h1>
             <img id="videoImage" src="{{ url_for('video_feed') }}" alt="Cámara en vivo">  
           </div>          
-          <div class="col-md-4">
-            <h1 class="fw-bold fs-5">Retroalimentación en tiempo real con mediapipe</h1>
+          <div class="col-sm-12 col-md-3">
+            <h1 class="fw-bold fs-3">Retroalimentación en tiempo real con mediapipe</h1>
             <p class="fs-6">Analiza a través de video ...</p>
             <button class="btn btn-primary btn-lg" type="button" onclick="mostrarImagen()">Example button</button>      
           </div>          

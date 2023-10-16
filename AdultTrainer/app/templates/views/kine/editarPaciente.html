@@ -4,7 +4,7 @@
 
 {% block body %}
 {% for i in paciente %}
-<div class="container col-md-4">
+<div class="container col-md-4 fondo">
     <h3 class="m-2">Crear paciente nuevo:</h3>
     <form action="" method="post">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">

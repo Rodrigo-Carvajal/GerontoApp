@@ -1,4 +1,28 @@
 .fondo{    
     background-image: url("../assets/scattered-forcefields.svg");
-    background-size: cover;
+    background-size:auto;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.container {
+    max-width: 100%;
+    overflow: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+th {
+    border: 1px solid black;
+}
+
+td {
+    border: 1px dashed black;
+}
+
+.btn {
+    border: 1px solid black;
 }

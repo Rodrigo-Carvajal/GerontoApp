@@ -85,9 +85,7 @@ def kinesiologo_main():
 # CRUD Pacientes
 @app.route("/listar_pacientes", methods=['GET','POST'])
 @login_required
-def listar_pacientes():
-    pacientes = supabase.table('Pacientes').select('*').execute()
-    print(pacientes.data)
+def listar_pacientes():    
     if request.method == 'POST':
         fk_id_kinesiologo = request.form['fkIdKinesiologo']
         nombrePaciente = request.form['nombrePaciente']
@@ -98,6 +96,7 @@ def listar_pacientes():
         paciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fk_id_limitacion': '1', 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura}
         insert = supabase.table('Pacientes').insert(paciente).execute()
         return redirect(url_for('listar_pacientes'))
+    pacientes = supabase.table('Pacientes').select('*').order('id_paciente', desc=False).execute()
     return render_template('views/kine/listarPacientes.html', pacientes=pacientes.data)
 
 @app.route("/info_paciente/<int:id_paciente>", methods=['GET', 'POST'])
@@ -122,21 +121,32 @@ def editar_paciente(id_paciente):
     paciente = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
     return render_template("views/kine/editarPaciente.html", paciente=paciente.data)
 
-@app.route("/eliminarPaciente/<int:id_paciente>", methods=['GET', 'POST'])
+@app.route("/eliminar_paciente/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
-def eliminarPaciente(id_paciente):
+def eliminar_paciente(id_paciente):
     data, count = supabase.table('Pacientes').delete().eq('id_paciente', id_paciente).execute()   
     return redirect(url_for('listar_pacientes'))
 
 # CRUD Sesiones
-@app.route("/crud_sesiones/<int:id_paciente>", methods=['GET', 'POST'])
+@app.route("/listar_sesiones/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
-def crud_sesiones(id_paciente):
-    data, count = supabase.table('Sesiones').select('*').eq('fk_id_paciente', id_paciente).execute()
-    sesiones = data[1]
-    return render_template('views/kine/sesiones.html', sesiones=sesiones)
+def listar_sesiones(id_paciente):
+    if request.method == 'POST':
+        fk_id_paciente = id_paciente        
+        fecha = request.form['fecha']
+        objetivo = request.form['objetivo']
+        evaluacion = request.form['evaluacion']
+        comentarios = request.form['comentarios']
+        sesion = {'fk_id_paciente': fk_id_paciente, 'fecha': fecha, 'objetivo': objetivo, 'evaluacion': evaluacion, 'comentarios': comentarios}
+        insert =  supabase.table('Sesiones').insert(sesion).execute()
+        return redirect(url_for('listar_sesiones', id_paciente=id_paciente))
+    sesiones = supabase.table('Sesiones').select('*').eq('fk_id_paciente', id_paciente).execute()
+    return render_template('views/kine/listarSesiones.html', sesiones=sesiones.data)
 
-
+@app.route("/editar_sesion", methods=['GET', 'POST'])
+@login_required
+def editar_sesion():
+    return render_template("views/.html")
 
 # Rutas de evaluación en tiempo real
 @app.route("/video_template", methods=['GET','POST'])
