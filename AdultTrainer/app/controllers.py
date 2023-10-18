@@ -92,18 +92,18 @@ def listar_pacientes():
         fechaNacimiento = request.form['fechaNacimiento']
         estatura = request.form['estatura']
         peso = request.form['peso']
-        generoPaciente = request.form['generoPaciente']
+        generoPaciente = request.form['genero']
         paciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fk_id_limitacion': '1', 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura}
         insert = supabase.table('Pacientes').insert(paciente).execute()
         return redirect(url_for('listar_pacientes'))
     pacientes = supabase.table('Pacientes').select('*').order('id_paciente', desc=False).execute()
-    return render_template('views/kine/listarPacientes.html', pacientes=pacientes.data)
+    return render_template('views/kine/CRUDpacientes/listarPacientes.html', pacientes=pacientes.data)
 
 @app.route("/info_paciente/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
 def info_paciente(id_paciente):
     paciente = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
-    return render_template("views/kine/infoPaciente.html", paciente=paciente.data)
+    return render_template("views/kine/CRUDpacientes/infoPaciente.html", paciente=paciente.data[0])
 
 @app.route("/editar_paciente/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
@@ -114,12 +114,12 @@ def editar_paciente(id_paciente):
         fechaNacimiento = request.form['fechaNacimiento']
         estatura = request.form['estatura']
         peso = request.form['peso']
-        generoPaciente = request.form['generoPaciente']
+        generoPaciente = request.form['genero']
         paciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fk_id_limitacion': '1', 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura}
         insert = supabase.table('Pacientes').update(paciente).eq("id_paciente", id_paciente).execute()
         return redirect(url_for('listar_pacientes'))
     paciente = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
-    return render_template("views/kine/editarPaciente.html", paciente=paciente.data)
+    return render_template("views/kine/CRUDpacientes/editarPaciente.html", paciente=paciente.data[0])
 
 @app.route("/eliminar_paciente/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
@@ -141,7 +141,7 @@ def listar_sesiones(id_paciente):
         insert =  supabase.table('Sesiones').insert(sesion).execute()
         return redirect(url_for('listar_sesiones', id_paciente=id_paciente))
     sesiones = supabase.table('Sesiones').select('*').eq('fk_id_paciente', id_paciente).execute()
-    return render_template('views/kine/listarSesiones.html', sesiones=sesiones.data)
+    return render_template('views/kine/CRUDpacientes/listarSesiones.html', sesiones=sesiones.data)
 
 @app.route("/editar_sesion", methods=['GET', 'POST'])
 @login_required

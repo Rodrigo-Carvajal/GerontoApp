@@ -3,27 +3,35 @@
 {% block title %}Página principal{% endblock %}
 
 {% block body %}
-    <div class="container-fluid row fondo p-1 justify-content-evenly">
-          <div class="col-sm-12 col-md-4">
-            <h1 class="fw-bold fs-3">Push ups:</h1>
-            <img id="videoImage" src="{{ url_for('video_feed') }}" alt="Cámara en vivo">  
-          </div>          
-          <div class="col-sm-12 col-md-3">
-            <h1 class="fw-bold fs-3">Retroalimentación en tiempo real con mediapipe</h1>
-            <p class="fs-6">Analiza a través de video ...</p>
-            <button class="btn btn-primary btn-lg" type="button" onclick="mostrarImagen()">Example button</button>      
-          </div>          
-    </div>
+<div class="container-fluid row fondo p-1 justify-content-evenly">
+      <div class="col-sm-12 col-md-4">
+        <h1 class="fw-bold fs-3">Push ups:</h1>
+        <img id="videoImage" style="display: none; margin-bottom: 1em;"  src="{{ url_for('video_feed') }}" alt="Cámara en vivo">  
+      </div>          
+      <div class="col-sm-12 col-md-3">
+        <h1 class="fw-bold fs-3">Retroalimentación en tiempo real con mediapipe</h1>
+        <p class="fs-6">Analiza a través de video ...</p>
+        <button class="btn btn-primary btn-lg mb-3" type="button" id="toggleButton">Example button</button>      
+      </div>          
+</div>
 <script>
-function mostrarImagen() {
-  // Obtiene la referencia de la imagen por su id
-  var imagen = document.getElementById("videoImage");
+  // JavaScript para mostrar u ocultar la imagen al hacer clic en el botón
+  const toggleButton = document.getElementById('toggleButton');
+  const myImage = document.getElementById('videoImage');
 
-  // Verifica si la imagen ya se ha cargado previamente
-  if (imagen.src === "") {
-    // Cambia la fuente de la imagen para que muestre la imagen deseada
-    imagen.src = "{{ url_for('video_feed') }}";
-  }
-}
+  let imageVisible = false;
+
+  toggleButton.addEventListener('click', function () {
+      if (imageVisible) {
+          myImage.style.display = 'none'; // Oculta la imagen
+      } else {
+          myImage.style.display = 'block'; // Muestra la imagen
+      }
+      imageVisible = !imageVisible; // Cambia el estado de visibilidad
+  });
 </script>
+{% endblock %}
+
+{% block footer %}
+    <h1>Datos ejercicio</h1>
 {% endblock %}

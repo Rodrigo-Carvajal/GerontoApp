@@ -7,16 +7,16 @@
     <div class="container-fluid py-5">
         {% for i in kinesiologo %}
             <h1 class="display-5 fw-bold">Hola {{ current_user.nombre_completo }}</h1>
-            <p class="lead">Acuerdate que en SENAMA, estamos comprometidos en brindar el mejor cuidado y atención a nuestros adultos mayores. Como kinesiólogo, eres una parte fundamental de nuestra misión de promover la salud y el bienestar.</p>
+            <p class="lead">Recuerda que, en SENAMA estamos comprometidos en brindar el mejor cuidado y atención a nuestros adultos mayores. Como kinesiólogo, eres una parte fundamental de nuestra misión de promover la salud y el bienestar.</p>
             <hr class="my-4">
             <p>Este portal es tu herramienta para acceder a la información y recursos necesarios para llevar a cabo tu importante labor. Aquí encontrarás herramientas de registro y seguimiento, información sobre nuestros programas y directrices</p>
             <button class="btn btn-primary btn-lg" type="button">Example button</button>
         {% endfor %} 
     </div>   
 </div>
-<footer>
-    <!-- Otro contenido del pie de página -->
-    <img src="{{ url_for('static', filename='assets/senama.png') }}" alt="Descripción de la imagen">
-</footer>
 
+{% endblock %}
+
+{% block footer %}
+    
 {% endblock %}

@@ -1,0 +1,163 @@
+{% extends "layouts/kineLayout.html" %}
+
+{% block title %}Pacientes{% endblock %}
+
+{% block body %}
+<div class="fondo">
+    <div class="row">
+        <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+              <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes') }}">Pacientes</a></li>
+            </ol>
+          </nav>
+        <div class="container col-md-4">            
+            <h3 class="m-2">Crear paciente nuevo:</h3>
+            <form action="" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="container col-md-10">
+                    <div class="mb-3 visually-hidden">
+                    <label class="visually-hidden" for="idPaciente">Id paciente</label>
+                    <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="" placeholder="">
+                </div>
+                <div class="mb-3 visually-hidden">
+                    <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
+                    <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
+                </div>
+                <div class="form-floating mb-3">
+                    <input
+                    type="text"
+                    class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="">
+                    <label for="nombrePaciente">Nombre del paciente:</label>
+                </div>
+                
+                <div class="form-floating mb-3">
+                    <input
+                    type="date"
+                    class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="">
+                    <label for="fechaNacimiento">Fecha de nacimiento:</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input
+                    type="number"
+                    class="form-control" name="estatura" id="estatura" placeholder="" step="0.01" min="0.00" max="2.20">
+                    <label for="estatura">Estatura del paciente:</label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input
+                    type="number"
+                    class="form-control" name="peso" id="peso" placeholder="" step="0.01" min="0.00" max="300.00">
+                    <label for="peso">Peso del paciente (kg):</label>
+                </div>
+
+                <div class="form-check form-check-inline mb-3">
+                    <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
+                    <label class="form-check-label" for="femenino">Femenino</label>
+                </div>
+                <div class="form-check form-check-inline mb-3">
+                    <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino">
+                    <label class="form-check-label" for="masculino">Masculino</label>
+                </div>
+                <br>
+                <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-user-plus"></i> Crear</button>
+                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+                
+            </div>
+            </form>
+        </div>
+
+        <div class="col-md-7 p-3">
+            <div class="table-responsive">
+                <table class="table table-secondary">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1" scope="col">Paciente:</th>
+                            <th class="col-md-8" scope="col">Nombre de paciente:</th>
+                            <th class="col-md-3" scope="col">Acciones:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in pacientes %}
+                            <tr class="scope">
+                                <td>{{ i.id_paciente }}</td>
+                                <td>{{ i.nombre_completo }}</td>                                
+                                <td>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Información paciente" 
+                                    name="info_pacientes" 
+                                    id="info_pacientes" 
+                                    class="btn btn-success m-1 p-2" 
+                                    href="/info_paciente/{{i.id_paciente}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-address-card"></i>
+                                        <i class="fa-solid fa-"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sesiones de ejercicio" 
+                                    name="listar_sesiones" 
+                                    id="listar_sesiones" 
+                                    class="btn btn-warning m-1 p-2" 
+                                    href="/listar_sesiones/{{i.id_paciente}}" 
+                                    role="button">
+                                        <i class="fa-regular fa-calendar-days"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rutinas del paciente" 
+                                    name="crudRutinas" 
+                                    id="crudRutinas" 
+                                    class="btn btn-warning m-1 p-2" 
+                                    href="/crudRutinas/{{i.id_paciente}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-dumbbell"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar información del paciente" 
+                                    name="editUSuario" 
+                                    id="editUsuario" 
+                                    class="btn btn-info m-1 p-2" 
+                                    href="/editar_paciente/{{i.id_paciente}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-user-pen"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar paciente" 
+                                    name="deleteUSuario" 
+                                    id="deleteUsuario" 
+                                    class="btn btn-danger m-1 p-2" 
+                                    href="/eliminar_paciente/{{i.id_paciente}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-user-xmark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                        
+            </div>
+        </div>
+
+    </div>
+</div>    
+
+<script>
+    document.getElementById("borrarCampos").addEventListener("click", function() {
+        // Selecciona los campos de entrada y establece su valor en vacío
+        document.getElementById("nombrePaciente").value = "";
+        document.getElementById("fechaNacimiento").value = "";
+        document.getElementById("peso").value = "";
+        document.getElementById("estatura").value = "";
+        var opcionesSexo = document.getElementsByName("genero");
+        for (var i = 0; i < opcionesSexo.length; i++) {
+            opcionesSexo[i].checked = false;
+        }
+    })    
+</script>
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
+{% endblock %}

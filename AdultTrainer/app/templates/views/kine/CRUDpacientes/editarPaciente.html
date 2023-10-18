@@ -1,0 +1,82 @@
+{% extends "layouts/kineLayout.html" %}
+
+{% block title %}Editar Paciente{% endblock %}
+
+{% block body %}
+<div class="container col-md-6 fondo">
+    <h3 class="m-2">Editar paciente N° {{paciente.id_paciente}}:</h3>
+    <form action="" method="post">        
+        <div class="container col-md-10">
+            <div class="visually-hidden">
+            <label class="visually-hidden" for="idPaciente">Id paciente</label>
+            <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="{{paciente.id_paciente}}" placeholder="">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        </div>
+        <div class="visually-hidden">
+            <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
+            <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
+        </div>
+        <div class="form-floating mb-3">
+            <input
+            type="text"
+            class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="" value="{{paciente.nombre_completo}}">
+            <label for="nombrePaciente">Nombre del paciente:</label>
+        </div>
+        
+        <div class="form-floating mb-3">
+            <input
+            type="date"
+            class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="" value="{{paciente.fecha_nacimiento}}">
+            <label for="fechaNacimiento">Fecha de nacimiento:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input
+            type="number"
+            class="form-control" name="estatura" id="estatura" placeholder="" step="0.01" value="{{paciente.estatura}}">
+            <label for="estatura">Estatura del paciente:</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input
+            type="number"
+            class="form-control" name="peso" id="peso" placeholder="" step="0.01" value="{{paciente.peso}}">
+            <label for="peso">Peso del paciente (kg):</label>
+        </div>
+        <script>
+            var i = {
+                genero: "{{paciente.genero}}" // Simula el valor de i.genero
+            };
+        </script>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
+                <label class="form-check-label" for="femenino">Femenino</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino" checked>
+                <label class="form-check-label" for="masculino">Masculino</label>
+            </div>        
+        <br>
+        <button class="btn btn-primary m-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-user-pen"></i> Editar</button>       
+    </div>
+    </form>
+</div>
+
+<script>
+    // Obtén una referencia a los botones de radio
+    var radioFemenino = document.getElementById("femenino");
+    var radioMasculino = document.getElementById("masculino");
+
+    // Agrega un evento para cambiar la selección en función de alguna condición
+    // Por ejemplo, si i.genero es "masculino," marca el botón de radio "Masculino"    
+
+    if (i.genero === "masculino") {
+        radioMasculino.checked = true;
+        radioFemenino.checked = false;
+    } else if (i.genero === "femenino") {
+        radioFemenino.checked = true;
+        radioMasculino.checked = false;
+    }
+
+</script>
+{% endblock %}

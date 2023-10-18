@@ -1,0 +1,29 @@
+{% extends "layouts/kineLayout.html" %}
+
+{% block title %}Información paciente{% endblock %}
+
+{% block body %}
+<div class="card">
+
+    <div class="card-body">
+        <h4 class="card-title"><h1>{{paciente.id_paciente}}</h1></h4>
+        <p class="card-text">{{paciente.fecha_nacimiento}}</p>
+        <p class="card-text">{{paciente.nombre_completo}}</p>
+        <p class="card-text">{{paciente.genero}}</p>
+        <p class="card-text">{{paciente.peso}} Kgs.</p>
+        <p class="card-text">{{paciente.estatura}} Mts.</p>
+    </div>
+</div>
+        
+        <h1></h1>
+        <h1></h1>
+        <h1></h1>
+        <h1></h1>
+        <h1></h1>
+
+    
+    
+</div>
+
+
+{% endblock %}
