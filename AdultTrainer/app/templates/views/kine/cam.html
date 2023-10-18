@@ -3,16 +3,18 @@
 {% block title %}Página principal{% endblock %}
 
 {% block body %}
-<div class="container-fluid row fondo p-1 justify-content-evenly">
-      <div class="col-sm-12 col-md-4">
-        <h1 class="fw-bold fs-3">Push ups:</h1>
-        <img id="videoImage" style="display: none; margin-bottom: 1em;"  src="{{ url_for('video_feed') }}" alt="Cámara en vivo">  
-      </div>          
-      <div class="col-sm-12 col-md-3">
-        <h1 class="fw-bold fs-3">Retroalimentación en tiempo real con mediapipe</h1>
-        <p class="fs-6">Analiza a través de video ...</p>
-        <button class="btn btn-primary btn-lg mb-3" type="button" id="toggleButton">Example button</button>      
-      </div>          
+<div class="container fondo">
+  <div class="row">
+    <div class="col-md-8" >
+      <h1 class="fw-bold fs-3">Push ups:</h1>
+      <img id="videoImage" style="display: none" class="m-3 p-1 mx-auto" src="{{ url_for('video_feed') }}" alt="Cámara en vivo">  
+    </div>          
+    <div class="col-md-4">
+      <h1 class="fw-bold fs-3">Retroalimentación en tiempo real con mediapipe</h1>
+      <p class="fs-6">Analiza a través de video ...</p>
+      <button class="btn btn-primary btn-lg mb-3" type="button" id="toggleButton">Example button</button>      
+    </div>          
+  </div>      
 </div>
 <script>
   // JavaScript para mostrar u ocultar la imagen al hacer clic en el botón

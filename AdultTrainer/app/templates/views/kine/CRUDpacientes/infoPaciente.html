@@ -3,27 +3,53 @@
 {% block title %}Información paciente{% endblock %}
 
 {% block body %}
-<div class="card">
-
-    <div class="card-body">
-        <h4 class="card-title"><h1>{{paciente.id_paciente}}</h1></h4>
-        <p class="card-text">{{paciente.fecha_nacimiento}}</p>
-        <p class="card-text">{{paciente.nombre_completo}}</p>
-        <p class="card-text">{{paciente.genero}}</p>
-        <p class="card-text">{{paciente.peso}} Kgs.</p>
-        <p class="card-text">{{paciente.estatura}} Mts.</p>
-    </div>
+<div class="fondo">
+    <section class="section profile p-5">
+        <div class="row">
+            <div class="col-xl-4">
+                <div class="card">
+                    <div class="card_body profile-card pt-4 d-flex flex-column align-items-center">
+                        <img class="rounded-circle" src="" alt="Foto Paciente">
+                        <h2>{{paciente.nombre_completo}}</h2>
+                        <h3>Paciente °{{paciente.id_paciente}}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-8">
+                <div  class="card">
+                    <div class="card_body pt-3">
+                        <ul class="nav nav-tabs nav-tabs-bordered" role="tablist"></ul>
+                    </div>
+                    <div class="tab-content pt-2">
+                        <div id="profile-overview" class="tab-pane fade profile-overview active show" role="tabpanel">
+                            <h5 style="padding: 20px 0 15px 0; font-size: 18px; font-weight: 500; color: #012970; font-family: 'Poppins', sans-serif; text-align: left;" class="card-title">Acerca de</h5>
+                            <p class="small fst-italic">Nuestro paciente {{paciente.nombre_completo}}, lleva realizado XX sesiones.. bla bla</p>
+                            <h5 style="padding: 20px 0 15px 0; font-size: 18px; font-weight: 500; color: #012970; font-family: 'Poppins', sans-serif; text-align: left;" class="card-title">Detalles del Perfil</h5>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Nombre Completo</div>
+                                <div class="col-kg-9 col-md-8">{{paciente.nombre_completo}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Fecha Nacimiento</div>
+                                <div class="col-kg-9 col-md-8">{{paciente.fecha_nacimiento}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Genero</div>
+                                <div class="col-kg-9 col-md-8">{{paciente.genero}}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Peso</div>
+                                <div class="col-kg-9 col-md-8">{{paciente.peso}} Kgs.</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-4 label">Estatura</div>
+                                <div class="col-kg-9 col-md-8">{{paciente.estatura}} Mts.</div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
-        
-        <h1></h1>
-        <h1></h1>
-        <h1></h1>
-        <h1></h1>
-        <h1></h1>
-
-    
-    
-</div>
-
 
 {% endblock %}

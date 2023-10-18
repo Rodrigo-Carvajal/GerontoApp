@@ -3,18 +3,18 @@
 {% block title %}Pacientes{% endblock %}
 
 {% block body %}
-<div class="fondo">
+<div class="fondo container">
     <div class="row">
         <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
-              <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes') }}">Pacientes</a></li>
+              <li class="breadcrumb-item active">Pacientes</li>
             </ol>
           </nav>
         <div class="container col-md-4">            
             <h3 class="m-2">Crear paciente nuevo:</h3>
             <form action="" method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
                 <div class="container col-md-10">
                     <div class="mb-3 visually-hidden">
                     <label class="visually-hidden" for="idPaciente">Id paciente</label>
@@ -61,9 +61,22 @@
                     <label class="form-check-label" for="masculino">Masculino</label>
                 </div>
                 <br>
+                <div class="row">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                      {% if messages %}
+                          <div class="align-items-center justify-content-center">
+                              {% for category,message in messages %}
+                                  <div class="alert col-lg-12  alert-{{category}} alert-dismissible show fade" role="alert" id="alert-message">
+                                      <strong>{{message}}</strong> 
+                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>                        
+                                  </div>    
+                              {% endfor %}
+                          </div>
+                      {% endif %}
+                    {% endwith %}
+                </div>
                 <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-user-plus"></i> Crear</button>
-                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Limpiar</button>
-                
+                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Limpiar</button>                
             </div>
             </form>
         </div>

@@ -95,6 +95,7 @@ def listar_pacientes():
         generoPaciente = request.form['genero']
         paciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fk_id_limitacion': '1', 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura}
         insert = supabase.table('Pacientes').insert(paciente).execute()
+        flash ('Paciente creado exitosamente', 'success')
         return redirect(url_for('listar_pacientes'))
     pacientes = supabase.table('Pacientes').select('*').order('id_paciente', desc=False).execute()
     return render_template('views/kine/CRUDpacientes/listarPacientes.html', pacientes=pacientes.data)
@@ -116,7 +117,8 @@ def editar_paciente(id_paciente):
         peso = request.form['peso']
         generoPaciente = request.form['genero']
         paciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fk_id_limitacion': '1', 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura}
-        insert = supabase.table('Pacientes').update(paciente).eq("id_paciente", id_paciente).execute()
+        update = supabase.table('Pacientes').update(paciente).eq("id_paciente", id_paciente).execute()
+        flash ('Paciente editado exitosamente', 'info')
         return redirect(url_for('listar_pacientes'))
     paciente = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
     return render_template("views/kine/CRUDpacientes/editarPaciente.html", paciente=paciente.data[0])
@@ -124,7 +126,8 @@ def editar_paciente(id_paciente):
 @app.route("/eliminar_paciente/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
 def eliminar_paciente(id_paciente):
-    data, count = supabase.table('Pacientes').delete().eq('id_paciente', id_paciente).execute()   
+    delete = supabase.table('Pacientes').delete().eq('id_paciente', id_paciente).execute()
+    flash ('Paciente eliminado exitosamente', 'danger')
     return redirect(url_for('listar_pacientes'))
 
 # CRUD Sesiones
@@ -139,14 +142,33 @@ def listar_sesiones(id_paciente):
         comentarios = request.form['comentarios']
         sesion = {'fk_id_paciente': fk_id_paciente, 'fecha': fecha, 'objetivo': objetivo, 'evaluacion': evaluacion, 'comentarios': comentarios}
         insert =  supabase.table('Sesiones').insert(sesion).execute()
+        flash('Sesión creada exitosamente', 'success')
         return redirect(url_for('listar_sesiones', id_paciente=id_paciente))
     sesiones = supabase.table('Sesiones').select('*').eq('fk_id_paciente', id_paciente).execute()
-    return render_template('views/kine/CRUDpacientes/listarSesiones.html', sesiones=sesiones.data)
+    return render_template('views/kine/CRUDsesiones/listarSesiones.html', sesiones=sesiones.data)
 
-@app.route("/editar_sesion", methods=['GET', 'POST'])
+@app.route("/editar_sesion/<int:id_sesion>", methods=['GET', 'POST'])
 @login_required
-def editar_sesion():
-    return render_template("views/.html")
+def editar_sesion(id_sesion):
+    if request.method == 'POST':
+        fk_id_paciente = request.form['idPaciente']
+        fecha = request.form['fecha']
+        objetivo = request.form['objetivo']
+        evaluacion = request.form['evaluacion']
+        comentarios = request.form['comentarios']
+        sesion = {'fk_id_paciente': fk_id_paciente, 'fecha': fecha, 'objetivo': objetivo, 'evaluacion': evaluacion, 'comentarios': comentarios}
+        update =  supabase.table('Sesiones').update(sesion).eq('id', id_sesion).execute()
+        flash('Sesión editada exitosamente', 'info')
+        return redirect(url_for('listar_sesiones', id_paciente=fk_id_paciente))
+    sesion = supabase.table('Sesiones').select('*').eq('id', id_sesion).execute()
+    return render_template("views/kine/CRUDsesiones/editarSesion.html", sesion=sesion.data[0])
+
+@app.route("/eliminar_sesion/<int:id_sesion>/<int:id_paciente>", methods=['GET', 'POST'])
+@login_required
+def eliminar_sesion(id_sesion, id_paciente):
+    data, count = supabase.table('Sesiones').delete().eq('id', id_sesion).execute()
+    flash ("Sesión eliminada exitosamente", 'danger')
+    return redirect(url_for('listar_sesiones', id_paciente=id_paciente))
 
 # Rutas de evaluación en tiempo real
 @app.route("/video_template", methods=['GET','POST'])

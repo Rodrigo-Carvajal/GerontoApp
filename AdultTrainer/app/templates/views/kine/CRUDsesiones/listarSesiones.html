@@ -1,0 +1,146 @@
+{% extends "layouts/kineLayout.html" %}
+
+{% block title %}Sesiones{% endblock %}
+
+{% block body %}
+<div class="fondo">
+    <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes') }}">Pacientes</a></li>
+          <li class="breadcrumb-item active">Sesiones</li>
+        </ol>
+    </nav>
+    <div class="row">
+        <div class="container col-md-4">
+            <h3 class="m-2">Crear nueva sesión:</h3>
+            <form action="" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="container col-md-10">
+                    <div class="mb-3 visually-hidden">
+                    <label class="visually-hidden" for="idPaciente">Id paciente</label>
+                    <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="" placeholder="">
+                </div>
+                <div class="mb-3 visually-hidden">
+                    <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
+                    <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
+                </div>            
+                <div class="form-floating mb-3">
+                    <input
+                    type="date"
+                    class="form-control" name="fecha" id="fecha" placeholder="">
+                    <label for="fecha">Fecha de la sesión:</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control" name="objetivo" id="objetivo" placeholder="">
+                  <label for="objetivo">Objetivo de la sesión:</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control" name="comentarios" id="comentarios" placeholder="">
+                  <label for="comentarios">Comentarios de la sesión:</label>
+                </div>
+                <div class="form-control mb-3">
+                    <label for="" class="form-label">Evaluación</label>
+                    <select class="form-select form-select-md" name="evaluacion" id="evaluacion">
+                        <option selected>Evalua esta sesión:</option>
+                        <option value="No logrado">No logrado</option>
+                        <option value="Medianamente logrado">Medianamente logrado</option>
+                        <option value="Cumple las expectativas">Cumple las expectativas</option>
+                    </select>
+                </div>                
+                <br>
+                <div class="row">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                      {% if messages %}
+                          <div class="align-items-center justify-content-center">
+                              {% for category,message in messages %}
+                                  <div class="alert col-lg-12  alert-{{category}} alert-dismissible show fade" role="alert" id="alert-message">
+                                      <strong>{{message}}</strong> 
+                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>                        
+                                  </div>    
+                              {% endfor %}
+                          </div>
+                      {% endif %}
+                    {% endwith %}
+                </div>
+                <br>
+                <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-calendar-plus"></i> Crear</button>
+                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Eliminar</button>   
+            </div>
+            </form>
+        </div>
+
+        <div class="container col-md-7 p-3">
+            <div class="table-responsive">
+                <table class="table table-secondary">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1" scope="col">Sesión:</th>
+                            <th class="col-md-1" scope="col">Fecha de la sesión:</th>
+                            <th class="col-md-2" scope="col">Objetivo de la sesión:</th>
+                            <th class="col-md-2" scope="col">Evaluación de la sesión:</th>
+                            <th class="col-md-3" scope="col">Comentarios de la sesión:</th>
+                            <th class="col-md-3" scope="col">Acciones:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in sesiones %}
+                            <tr class="scope">
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.fecha }}</td>
+                                <td>{{ i.objetivo }}</td>
+                                <td>{{ i.evaluacion }}</td>
+                                <td>{{ i.comentarios }}</td>
+                                <td>                                
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Ejercicios realizados" 
+                                    name="ejerciciosRealizados" 
+                                    id="ejerciciosRealizados" 
+                                    class="btn btn-warning m-1 p-2" 
+                                    href="/crudRutinas/{{i.id}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-list-check"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar" 
+                                    name="editsesion" 
+                                    id="editsesion" 
+                                    class="btn btn-info m-1 p-2" 
+                                    href="/editar_sesion/{{i.id}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar" 
+                                    name="deletesesion" 
+                                    id="deletesesion" 
+                                    class="btn btn-danger m-1 p-2" 
+                                    href="/eliminar_sesion/{{i.id}}/{{i.fk_id_paciente}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                        
+            </div>
+        </div>
+
+    </div>
+</div>    
+
+<script>
+document.getElementById("borrarCampos").addEventListener("click", function() {
+    // Selecciona los campos de entrada y establece su valor en vacío
+    document.getElementById("fecha").value = "";
+    document.getElementById("objetivo").value = "";
+    document.getElementById("comentarios").value = "";
+    document.getElementById("evaluacion").value = "";
+})
+</script>
+{% endblock %}
