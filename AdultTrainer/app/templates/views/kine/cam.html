@@ -4,6 +4,12 @@
 
 {% block body %}
 <div class="container fondo">
+  <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+        <li class="breadcrumb-item active">Retroalimentación en tiempo real</li>
+    </ol>
+  </nav>
   <div class="row">
     <div class="col-md-8" >
       <h1 class="fw-bold fs-3">Push ups:</h1>
@@ -32,8 +38,4 @@
       imageVisible = !imageVisible; // Cambia el estado de visibilidad
   });
 </script>
-{% endblock %}
-
-{% block footer %}
-    <h1>Datos ejercicio</h1>
 {% endblock %}

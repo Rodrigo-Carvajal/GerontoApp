@@ -7,15 +7,15 @@
     <div class="row">
         <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
-              <li class="breadcrumb-item active">Pacientes</li>
+                <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item active">Pacientes</li>
             </ol>
-          </nav>
-        <div class="container col-md-4">            
-            <h3 class="m-2">Crear paciente nuevo:</h3>
-            <form action="" method="post">
+        </nav>
+        <div class="container col-md-4 bg-light card">            
+            <h3 class="mt-2 display-10 fw-bold">Crear paciente nuevo:</h3>
+            <form class="card-body" method="post">
                 <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
-                <div class="container col-md-10">
+                <div class="container col-md-12">
                     <div class="mb-3 visually-hidden">
                     <label class="visually-hidden" for="idPaciente">Id paciente</label>
                     <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="" placeholder="">
@@ -52,14 +52,20 @@
                     <label for="peso">Peso del paciente (kg):</label>
                 </div>
 
-                <div class="form-check form-check-inline mb-3">
-                    <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
-                    <label class="form-check-label" for="femenino">Femenino</label>
-                </div>
-                <div class="form-check form-check-inline mb-3">
-                    <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino">
-                    <label class="form-check-label" for="masculino">Masculino</label>
-                </div>
+                <label class="form-control form-label" for="genero">Género:
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
+                        <label class="form-check-label" for="femenino">Femenino</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino">
+                        <label class="form-check-label" for="masculino">Masculino</label>
+                    </div>
+                </label>
+                
+                <br>
+                <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-user-plus"></i> Crear</button>
+                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Limpiar</button>                
                 <br>
                 <div class="row">
                     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -75,15 +81,13 @@
                       {% endif %}
                     {% endwith %}
                 </div>
-                <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-user-plus"></i> Crear</button>
-                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Limpiar</button>                
             </div>
             </form>
         </div>
 
-        <div class="col-md-7 p-3">
-            <div class="table-responsive">
-                <table class="table table-secondary">
+        <div class="col-md-7">
+            <div class="table-responsive rounded">
+                <table class="table table-striped table-hover">
                     <thead>
                         <tr>
                             <th class="col-md-1" scope="col">Paciente:</th>
@@ -174,3 +178,4 @@
     });
 </script>
 {% endblock %}
+
