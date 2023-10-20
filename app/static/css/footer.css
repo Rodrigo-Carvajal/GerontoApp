@@ -1,8 +1,8 @@
 /* */
 .wrap {
-    width: 1000px;
     margin: 0 auto;
-    position: relative;
+    position: fixed;
+    z-index: 100;
 }
 
 .clearfix:after {
@@ -16,12 +16,3 @@
 .colorFooter {
     background-color: #2545b1;
 }
-
-.redes-mosaico {
-    padding: 25px 0;
-    margin: 0 auto 10px;
-    color: #475156;
-}
-
-
-
