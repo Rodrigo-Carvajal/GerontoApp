@@ -5,12 +5,8 @@
     max-width: 100%;
 }
 
-ul {
+.navbar {
     background-color: #2545b1;
-}
-
-ul > li {
-    background-color: #1c1a81ce;
 }
 
 .container {
@@ -19,7 +15,7 @@ ul > li {
     overflow: hidden;
     overflow-x: hidden;
     overflow-y: hidden;
-    margin-bottom: 15em;
+    margin-bottom: 1em;
     position: relative;
 }
 

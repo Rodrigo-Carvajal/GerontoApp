@@ -37,16 +37,5 @@
   </div>
 </div>
 
-<script>
-  // Función para ocultar la alerta después de un tiempo específico (en milisegundos)
-  function hideAlert() {
-      setTimeout(function() {
-          var alertMessage = document.getElementById('alert-message');
-          alertMessage.style.display = 'none';  // Oculta la alerta
-      }, 1500); // 3000 milisegundos = 3 segundos (ajusta este valor según tus necesidades)
-  }
 
-  // Llama a la función para ocultar la alerta cuando se cargue la página
-  window.onload = hideAlert;
-</script>
 {% endblock %}

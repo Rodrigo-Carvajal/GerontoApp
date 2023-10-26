@@ -97,58 +97,61 @@
                     </thead>
                     <tbody>
                         {% for i in pacientes %}
-                            <tr class="scope">
-                                <td>{{ i.id_paciente }}</td>
-                                <td>{{ i.nombre_completo }}</td>                                
-                                <td>
-                                    <a 
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Información paciente" 
-                                    name="info_pacientes" 
-                                    id="info_pacientes" 
-                                    class="btn btn-success m-1 p-2" 
-                                    href="/info_paciente/{{i.id_paciente}}" 
-                                    role="button">
-                                        <i class="fa-solid fa-address-card"></i>
-                                        <i class="fa-solid fa-"></i>
-                                    </a>
-                                    <a 
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sesiones de ejercicio" 
-                                    name="listar_sesiones" 
-                                    id="listar_sesiones" 
-                                    class="btn btn-warning m-1 p-2" 
-                                    href="/listar_sesiones/{{i.id_paciente}}" 
-                                    role="button">
-                                        <i class="fa-regular fa-calendar-days"></i>
-                                    </a>
-                                    <a 
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rutinas del paciente" 
-                                    name="crudRutinas" 
-                                    id="crudRutinas" 
-                                    class="btn btn-warning m-1 p-2" 
-                                    href="/crudRutinas/{{i.id_paciente}}" 
-                                    role="button">
-                                        <i class="fa-solid fa-dumbbell"></i>
-                                    </a>
-                                    <a 
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar información del paciente" 
-                                    name="editUSuario" 
-                                    id="editUsuario" 
-                                    class="btn btn-info m-1 p-2" 
-                                    href="/editar_paciente/{{i.id_paciente}}" 
-                                    role="button">
-                                        <i class="fa-solid fa-user-pen"></i>
-                                    </a>
-                                    <a 
-                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar paciente" 
-                                    name="deleteUSuario" 
-                                    id="deleteUsuario" 
-                                    class="btn btn-danger m-1 p-2" 
-                                    href="/eliminar_paciente/{{i.id_paciente}}" 
-                                    role="button">
-                                        <i class="fa-solid fa-user-xmark"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                            {% if i.fk_id_kinesiologo %}                                                                
+                            
+                                <tr class="scope">
+                                    <td>{{ i.id_paciente }}</td>
+                                    <td>{{ i.nombre_completo }}</td>                                
+                                    <td>
+                                        <a 
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Información paciente" 
+                                        name="info_pacientes" 
+                                        id="info_pacientes" 
+                                        class="btn btn-success m-1 p-2" 
+                                        href="/info_paciente/{{i.id_paciente}}" 
+                                        role="button">
+                                            <i class="fa-solid fa-address-card"></i>
+                                            <i class="fa-solid fa-"></i>
+                                        </a>
+                                        <a 
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Sesiones de ejercicio" 
+                                        name="listar_sesiones" 
+                                        id="listar_sesiones" 
+                                        class="btn btn-warning m-1 p-2" 
+                                        href="/listar_sesiones/{{i.id_paciente}}" 
+                                        role="button">
+                                            <i class="fa-regular fa-calendar-days"></i>
+                                        </a>
+                                        <a 
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Rutinas del paciente" 
+                                        name="crudRutinas" 
+                                        id="crudRutinas" 
+                                        class="btn btn-warning m-1 p-2" 
+                                        href="/crudRutinas/{{i.id_paciente}}" 
+                                        role="button">
+                                            <i class="fa-solid fa-dumbbell"></i>
+                                        </a>
+                                        <a 
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar información del paciente" 
+                                        name="editUSuario" 
+                                        id="editUsuario" 
+                                        class="btn btn-info m-1 p-2" 
+                                        href="/editar_paciente/{{i.id_paciente}}" 
+                                        role="button">
+                                            <i class="fa-solid fa-user-pen"></i>
+                                        </a>
+                                        <a 
+                                        data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar paciente" 
+                                        name="deleteUSuario" 
+                                        id="deleteUsuario" 
+                                        class="btn btn-danger m-1 p-2" 
+                                        href="/eliminar_paciente/{{i.id_paciente}}" 
+                                        role="button">
+                                            <i class="fa-solid fa-user-xmark"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endif %}
                         {% endfor %}
                     </tbody>
                 </table>                        

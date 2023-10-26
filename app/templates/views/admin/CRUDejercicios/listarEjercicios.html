@@ -1,0 +1,101 @@
+{% extends "layouts/kineLayout.html" %}
+
+{% block title %}Ejercicios{% endblock %}
+
+{% block body %}
+<div class="fondo container">   
+    <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('administrador_main') }}"><i class="fa-solid fa-home"></i></a></li>
+            <li class="breadcrumb-item active">Ejercicios</li>
+        </ol>
+    </nav>
+    <div class="row">        
+        <div class="container col-md-4 bg-light card">
+            <h3 class="mt-2 display-10 fw-bold">Crear nuevo ejercicio:</h3>
+            <form class="card-body" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">                                
+                <br>
+                <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-calendar-plus"></i> Crear</button>
+                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Eliminar</button>   
+                <br>
+                <div class="row">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                      {% if messages %}
+                          <div class="align-items-center justify-content-center">
+                              {% for category,message in messages %}
+                                  <div class="alert col-lg-12  alert-{{category}} alert-dismissible show fade" role="alert" id="alert-message">
+                                      <strong>{{message}}</strong> 
+                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>                        
+                                  </div>    
+                              {% endfor %}
+                          </div>
+                      {% endif %}
+                    {% endwith %}
+                </div>
+            </form>
+        </div>
+
+        <div class="container col-md-8">
+            <div class="table-responsive rounded">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th class="col-md-1" scope="col">Ejercicio:</th>
+                            <th class="col-md-1" scope="col">Nombre del ejercicio:</th>
+                            <th class="col-md-2" scope="col">Tipo de ejercicio:</th>
+                            <th class="col-md-2" scope="col">Dificultad del ejercicio:</th>
+                            <th class="col-md-3" scope="col">Grupo muscular:</th>
+                            <th class="col-md-3" scope="col">Descripción:</th>
+                            <th class="col-md-3" scope="col">Equipamiento:</th>
+                            <th class="col-md-3" scope="col">Acciones:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in ejercicios %}
+                            <tr class="scope">
+                                <td>{{ i.id }}</td>
+                                <td>{{ i.nombre }}</td>
+                                <td>{{ i.tipo }}</td>                                
+                                <td>{{ i.dificultad }}</td>
+                                <td>{{ i.grupo_muscular }}</td>
+                                <td>{{ i.descripcion }}</td>
+                                <td>{{ i.equipamiento }}</td>
+                                <td>                                
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar" 
+                                    name="editsesion" 
+                                    id="editsesion" 
+                                    class="btn btn-info m-1 p-2" 
+                                    href="/editar_sesion/{{i.id}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar" 
+                                    name="deletesesion" 
+                                    id="deletesesion" 
+                                    class="btn btn-danger m-1 p-2" 
+                                    href="/eliminar_sesion/{{i.id}}/{{i.fk_id_paciente}}" 
+                                    role="button">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>                        
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+document.getElementById("borrarCampos").addEventListener("click", function() {
+    // Selecciona los campos de entrada y establece su valor en vacío
+    document.getElementById("fecha").value = "";
+    document.getElementById("objetivo").value = "";
+    document.getElementById("comentarios").value = "";
+    document.getElementById("evaluacion").value = "";
+})
+</script>
+{% endblock %}

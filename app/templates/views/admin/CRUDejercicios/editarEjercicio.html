@@ -1,0 +1,57 @@
+{% extends "layouts/kineLayout.html" %}
+
+{% block title %}Editar Sesión{% endblock %}
+
+{% block body %}
+<div class="container col-md-6 fondo">
+      <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes') }}">Pacientes</a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('listar_sesiones', id_paciente=sesion.fk_id_paciente) }}">Sesiones</a></li>
+        </ol>
+    </nav>
+    <h3 class="m-2">Editar sesion N° {{sesion.id}}:</h3>
+    <div class="container col-md-4">
+        <form action="" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="container col-md-10">
+                <div class="mb-3 visually-hidden">
+                <label class="visually-hidden" for="idPaciente">Id paciente</label>
+                <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="{{sesion.fk_id_paciente}}" placeholder="">
+            </div>
+            <div class="mb-3 visually-hidden">
+                <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
+                <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
+            </div>            
+            <div class="form-floating mb-3">
+                <input
+                type="date"
+                class="form-control" name="fecha" id="fecha" placeholder="" value="{{sesion.fecha}}">
+                <label for="fecha">Fecha de sesión:</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control" name="objetivo" id="objetivo" placeholder="" value="{{sesion.objetivo}}">
+              <label for="objetivo">Objetivo de la sesión:</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control" name="evaluacion" id="evaluacion" placeholder="" value="{{sesion.evaluacion}}">
+              <label for="evaluacion">Evaluación de la sesión:</label>
+            </div>  
+            <div class="form-floating mb-3">
+              <input
+                type="text"
+                class="form-control" name="comentarios" id="comentarios" placeholder="" value="{{sesion.comentarios}}">
+              <label for="comentarios">Comentarios de la sesión</label>
+            </div>
+            <br>
+            <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-pencil"></i> Editar</button>            
+        </div>
+        </form>
+    </div>
+    
+{% endblock %}

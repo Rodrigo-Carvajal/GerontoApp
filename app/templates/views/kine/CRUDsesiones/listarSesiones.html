@@ -8,13 +8,13 @@
          <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
-          <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes') }}">Pacientes</a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id_kinesiologo=current_user.get_id()) }}">Pacientes</a></li>
           <li class="breadcrumb-item active">Sesiones</li>
         </ol>
     </nav>
         <div class="container col-md-4 bg-light card">
             <h3 class="mt-2 display-10 fw-bold">Crear nueva sesión:</h3>
-            <form class=""card-body method="post">
+            <form class="card-body" method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="container col-md-10">
                     <div class="mb-3 visually-hidden">

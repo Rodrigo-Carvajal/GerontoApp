@@ -1,7 +1,54 @@
 import mediapipe as mp
 import cv2 as cv
 import numpy as np
-from math import acos, degrees
+from math import acos, degrees, hypot
+
+def dibujar_articulaciones(cap):
+    #Llamado de objetos mediapipe
+    mp_pose = mp.solutions.pose
+    mp_drawing = mp.solutions.drawing_utils
+
+    with mp_pose.Pose(static_image_mode = False, min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+        while True:
+            ret, frame = cap.read()
+            height, width, _ = frame.shape
+            if ret:
+                gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)                
+                results = pose.process(frame)
+
+            if results.pose_landmarks:
+                right_shoulder = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_SHOULDER]
+                right_elbow = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_ELBOW]
+                right_wrist = results.pose_landmarks.landmark[mp_pose.PoseLandmark.RIGHT_WRIST]
+                
+                if right_shoulder and right_elbow and right_wrist:
+                    # Calcula los vectores entre las articulaciones
+                    shoulder_to_elbow = (right_shoulder.x - right_elbow.x, right_shoulder.y - right_elbow.y)
+                    wrist_to_elbow = (right_wrist.x - right_elbow.x, right_wrist.y - right_elbow.y)
+
+                    # Calcula el ángulo entre los dos vectores usando el producto escalar
+                    dot_product = shoulder_to_elbow[0] * wrist_to_elbow[0] + shoulder_to_elbow[1] * wrist_to_elbow[1]
+                    shoulder_to_elbow_length = hypot(*shoulder_to_elbow)
+                    wrist_to_elbow_length = hypot(*wrist_to_elbow)
+                    angle_radians = acos(dot_product / (shoulder_to_elbow_length * wrist_to_elbow_length))
+
+                    # Convierte el ángulo a grados
+                    angle_degrees = degrees(angle_radians)
+
+                    # Muestra el ángulo en la imagen
+                    cv.putText(frame, f"Ángulo del codo: {angle_degrees:.2f} grados", (10, 30), cv.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+
+                    # Dibuja las articulaciones
+                    mp_drawing.draw_landmarks(frame, results.pose_landmarks, mp_pose.POSE_CONNECTIONS)
+
+            (flag, encodedImage) = cv.imencode(".jpg", frame)  
+                        
+            if not flag:
+                continue
+            yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' +
+                bytearray(encodedImage) + b'\r\n')
+
+
 
 def squat(cap):
     #Llamado de objetos mediapipe
@@ -328,4 +375,5 @@ def pushup(cap):
                     continue
                 yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' +
                     bytearray(encodedImage) + b'\r\n')
- 
+
+

@@ -6,7 +6,7 @@
 <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id=current_user.get_id()) }}">Pacientes</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id_kinesiologo=current_user.get_id()) }}">Pacientes</a></li>
         <li class="breadcrumb-item active">Editar paciente</li>
     </ol>
 </nav>
