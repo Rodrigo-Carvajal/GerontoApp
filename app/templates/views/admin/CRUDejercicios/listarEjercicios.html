@@ -13,9 +13,71 @@
     <div class="row">        
         <div class="container col-md-4 bg-light card">
             <h3 class="mt-2 display-10 fw-bold">Crear nuevo ejercicio:</h3>
-            <form class="card-body" method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">                                
-                <br>
+            <form class="card-body " method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="mb-3 visually-hidden">
+                    <label class="visually-hidden" for="fkIdUsuario"></label>
+                    <input type="number" class="form-control" name="fkIdUsuario" id="fkIdUsuario" value="{{current_user.get_id()}}" placeholder="">
+                </div>
+                <div class="mb-3 visually-hidden">
+                    <label class="visually-hidden" for="fkIdLimitacion"></label>
+                    <input type="number" class="form-control" name="fkIdLimitacion" id="fkIdLimitacion" placeholder="" value="1">
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                          <input
+                            type="text"
+                            class="form-control" name="nombre" id="nombre" placeholder="">
+                          <label for="nombre">Nombre del ejercicio:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                          <input
+                            type="text"
+                            class="form-control" name="equipamiento" id="equipamiento" placeholder="">
+                          <label for="equipamiento">Equipamiento</label>
+                        </div>
+                        <div class="form-control mb-3">
+                            <label for="dificultad" class="form-label">Tipo de ejercicio:</label>
+                            <select class="form-select form-select-md" name="dificultad" id="dificultad">
+                                <option selected>Evalua esta sesión:</option>
+                                <option value="Principiante">Principiante</option>
+                                <option value="Intermedio">Intermedio</option>
+                                <option value="Avanzado">Avanzado</option>
+                            </select>
+                        </div>                        
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-floating mb-3">
+                            <input
+                              type="text"
+                              class="form-control" name="descripcion" id="descripcion" placeholder="">
+                            <label for="descripcion">Descripción ejercicio:</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                          <input
+                            type="text"
+                            class="form-control" name="grupoMuscular" id="grupoMuscular" placeholder="">
+                          <label for="grupoMuscular">Grupo muscular:</label>
+                        </div>
+                        <div class="form-control mb-3">
+                            <label for="tipo" class="form-label">Tipo de ejercicio:</label>
+                            <select class="form-select form-select-md" name="tipo" id="tipo">
+                                <option selected>Evalua esta sesión:</option>
+                                <option value="Aeróbico">Aeróbico</option>
+                                <option value="Equilibrio">Equilibrio</option>
+                                <option value="Fortalecimiento muscular">Fortalecimiento muscular</option>
+                                <option value="Movilidad">Movilidad</option>
+                            </select>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control" name="linkVideo" id="linkVideo" placeholder="">
+                    <label for="linkVideo">Link de video de referencia</label>
+                  </div>
                 <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-calendar-plus"></i> Crear</button>
                 <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Eliminar</button>   
                 <br>
@@ -67,7 +129,7 @@
                                     name="editsesion" 
                                     id="editsesion" 
                                     class="btn btn-info m-1 p-2" 
-                                    href="/editar_sesion/{{i.id}}" 
+                                    href="/editar_ejercicio/{{i.id}}" 
                                     role="button">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
@@ -76,7 +138,7 @@
                                     name="deletesesion" 
                                     id="deletesesion" 
                                     class="btn btn-danger m-1 p-2" 
-                                    href="/eliminar_sesion/{{i.id}}/{{i.fk_id_paciente}}" 
+                                    href="/eliminar_ejercicio/{{i.id}}" 
                                     role="button">
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>

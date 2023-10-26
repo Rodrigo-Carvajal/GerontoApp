@@ -78,7 +78,7 @@ def administrador_main():
 def listar_ejercicios():
     if request.method == 'POST':
         fk_id_usuario = request.form['fkIdUsuario']
-        fk_id_limitacion = request.formp['fkIdLimitacion']
+        fk_id_limitacion = request.form['fkIdLimitacion']
         tipo = request.form['tipo']
         dificultad = request.form['dificultad']
         equipamiento = request.form['equipamiento']
@@ -86,16 +86,39 @@ def listar_ejercicios():
         descripcion = request.form['descripcion']
         link_video = request.form['linkVideo']
         nombre = request.form['nombre']
-        nuevoEjercicio = {'fk_id_usuario': fk_id_usuario, 'fk_id_limitacion': fk_id_limitacion, 'tipo': tipo, 'dificultad': dificultad, 'equipamiento': equipamiento, 'grupo_musuclar': grupo_muscular, 'descripcion': descripcion, 'link_video': link_video, 'nombre': nombre}
+        nuevoEjercicio = {'fk_id_usuario': fk_id_usuario, 'fk_id_limitacion': fk_id_limitacion, 'tipo': tipo, 'dificultad': dificultad, 'equipamiento': equipamiento, 'grupo_muscular': grupo_muscular, 'descripcion': descripcion, 'link_video': link_video, 'nombre': nombre}
         insert = supabase.table('Ejercicios').insert(nuevoEjercicio).execute()
         return redirect(url_for('listar_ejercicios'))
     ejercicios = supabase.table('Ejercicios').select('*').order('id', desc=False).execute()
+    res = supabase.storage.list_buckets()
+    print(res)
     return render_template("views/admin/CRUDejercicios/listarEjercicios.html", ejercicios=ejercicios.data)
 
-@app.route("/editarEjercicio", methods=['GET', 'POST'])
+@app.route("/eliminar_ejercicio/<int:id_ejercicio>", methods=['GET', 'POST'])
 @login_required
-def ruta():
-    return render_template("views/.html") 
+def eliminar_ejercicio(id_ejercicio):
+    delete = supabase.table('Ejercicios').delete().eq('id', id_ejercicio).execute()
+    flash ('Ejercicio eliminado exitosamente', 'danger')
+    return redirect(url_for('listar_ejercicios'))
+
+@app.route("/editar_ejercicio/<int:id_ejercicio>", methods=['GET', 'POST'])
+@login_required
+def editar_ejercicio(id_ejercicio):
+    if request.method == 'POST':
+        fk_id_usuario = request.form['fkIdUsuario']
+        fk_id_limitacion = request.form['fkIdLimitacion']
+        nombre = request.form['nombre']
+        tipo = request.form['tipo']
+        dificultad = request.form['dificultad']
+        equipamiento = request.form['equipamiento']
+        grupo_muscular = request.form['grupoMuscular']
+        descripcion = request.form['descripcion']
+        link_video = request.form['linkVideo']
+        ejercicio = {'fk_id_usuario': fk_id_usuario, 'fk_id_limitacion': fk_id_limitacion, 'tipo': tipo, 'dificultad': dificultad, 'equipamiento': equipamiento, 'grupo_muscular': grupo_muscular, 'descripcion': descripcion, 'link_video': link_video, 'nombre': nombre}
+        update = supabase.table('Ejercicios').update(ejercicio).eq('id', id_ejercicio).execute()
+        return redirect(url_for('listar_ejercicios'))
+    ejercicio = supabase.table('Ejercicios').select('*').eq('id', id_ejercicio).execute()
+    return render_template("views/admin/CRUDejercicios/editarEjercicio.html", ejercicio=ejercicio.data[0])
 
 @app.route("/listar_usuarios", methods=['GET', 'POST'])
 @login_required

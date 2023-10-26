@@ -3,55 +3,121 @@
 {% block title %}Editar Sesión{% endblock %}
 
 {% block body %}
-<div class="container col-md-6 fondo">
+<div class="container fondo">
       <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
-          <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes') }}">Pacientes</a></li>
-          <li class="breadcrumb-item"><a href="{{ url_for('listar_sesiones', id_paciente=sesion.fk_id_paciente) }}">Sesiones</a></li>
+          <li class="breadcrumb-item"><a href="{{ url_for('listar_ejercicios') }}">Ejercicios</a></li>
         </ol>
     </nav>
-    <h3 class="m-2">Editar sesion N° {{sesion.id}}:</h3>
-    <div class="container col-md-4">
-        <form action="" method="post">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <div class="container col-md-10">
-                <div class="mb-3 visually-hidden">
-                <label class="visually-hidden" for="idPaciente">Id paciente</label>
-                <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="{{sesion.fk_id_paciente}}" placeholder="">
-            </div>
-            <div class="mb-3 visually-hidden">
-                <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
-                <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
-            </div>            
-            <div class="form-floating mb-3">
-                <input
-                type="date"
-                class="form-control" name="fecha" id="fecha" placeholder="" value="{{sesion.fecha}}">
-                <label for="fecha">Fecha de sesión:</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input
-                type="text"
-                class="form-control" name="objetivo" id="objetivo" placeholder="" value="{{sesion.objetivo}}">
-              <label for="objetivo">Objetivo de la sesión:</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input
-                type="text"
-                class="form-control" name="evaluacion" id="evaluacion" placeholder="" value="{{sesion.evaluacion}}">
-              <label for="evaluacion">Evaluación de la sesión:</label>
-            </div>  
-            <div class="form-floating mb-3">
-              <input
-                type="text"
-                class="form-control" name="comentarios" id="comentarios" placeholder="" value="{{sesion.comentarios}}">
-              <label for="comentarios">Comentarios de la sesión</label>
-            </div>
-            <br>
-            <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-pencil"></i> Editar</button>            
-        </div>
-        </form>
-    </div>
+    <div class="row">        
+      <div class="container col-md-10 bg-light card">
+          <h3 class="mt-2 display-10 fw-bold">Editar ejercicio N° {{ejercicio.id}}:</h3>
+          <form class="card-body " method="post">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+              <div class="mb-3 visually-hidden">
+                  <label class="visually-hidden" for="fkIdUsuario"></label>
+                  <input type="number" class="form-control" name="fkIdUsuario" id="fkIdUsuario" value="{{current_user.get_id()}}" placeholder="">
+              </div>
+              <div class="mb-3 visually-hidden">
+                  <label class="visually-hidden" for="fkIdLimitacion"></label>
+                  <input type="number" class="form-control" name="fkIdLimitacion" id="fkIdLimitacion" placeholder="" value="1">
+              </div>
+              <div class="row">
+                  <div class="col-md-6">
+                      <div class="form-floating mb-3">
+                        <input
+                          type="text"
+                          class="form-control" name="nombre" id="nombre" placeholder="" value="{{ ejercicio.nombre }}">
+                        <label for="nombre">Nombre del ejercicio:</label>
+                      </div>
+                      <div class="form-floating mb-3">
+                        <input
+                          type="text"
+                          class="form-control" name="equipamiento" id="equipamiento" placeholder="" value="{{ ejercicio.equipamiento }}">
+                        <label for="equipamiento">Equipamiento</label>
+                      </div>
+                      <div class="form-control mb-3">
+                          <label for="dificultad" class="form-label">Tipo de ejercicio:</label>
+                          <select class="form-select form-select-md" name="dificultad" id="dificultad" value="{{ ejercicio.dificultad }}">
+                              <option selected>Evalua esta sesión:</option>
+                              <option value="Principiante" 
+                              {% if ejercicio.dificultad == 'Principiante' %}
+                                  selected
+                              {% endif %}
+                              >Principiante</option>
+                              <option value="Intermedio" 
+                              {% if ejercicio.dificultad == 'Intermedio' %}
+                                  selected
+                              {% endif %}>Intermedio</option>
+                              <option value="Avanzado"
+                              {% if ejercicio.dificultad == 'Avanzado' %}
+                                  selected
+                              {% endif %}>Avanzado</option>
+                          </select>
+                      </div>                        
+                  </div>
+                  <div class="col-md-6">
+                      <div class="form-floating mb-3">
+                          <input
+                            type="text"
+                            class="form-control" name="descripcion" id="descripcion" placeholder="" value="{{ ejercicio.descripcion }}">
+                          <label for="descripcion">Descripción ejercicio:</label>
+                      </div>
+                      <div class="form-floating mb-3">
+                        <input
+                          type="text"
+                          class="form-control" name="grupoMuscular" id="grupoMuscular" placeholder="" value="{{ ejercicio.grupoMuscular }}">
+                        <label for="grupoMuscular">Grupo muscular:</label>
+                      </div>
+                      <div class="form-control mb-3">
+                          <label for="tipo" class="form-label">Tipo de ejercicio:</label>
+                          <select class="form-select form-select-md" name="tipo" id="tipo" value="{{ ejercicio.tipo }}">
+                              <option selected>Evalua esta sesión:</option>
+                              <option value="Aeróbico"
+                              {% if ejercicio.tipo == 'Aeróbico' %}
+                                  selected
+                              {% endif %}>Aeróbico</option>
+                              <option value="Equilibrio"
+                              {% if ejercicio.tipo == 'Equilibrio' %}
+                                  selected
+                              {% endif %}>Equilibrio</option>
+                              <option value="Fortalecimiento muscular"
+                              {% if ejercicio.tipo == 'Fortalecimiento muscular' %}
+                                  selected
+                              {% endif %}>Fortalecimiento muscular</option>
+                              <option value="Movilidad"
+                              {% if ejercicio.tipo == 'Movilidad' %}
+                                  selected
+                              {% endif %}>Movilidad</option>
+                          </select>
+                      </div>                        
+                  </div>
+              </div>
+              <div class="form-floating mb-3">
+                  <input
+                    type="text"
+                    class="form-control" name="linkVideo" id="linkVideo" placeholder="" value="{{ ejercicio.link_video }}">
+                  <label for="linkVideo">Link de video de referencia</label>
+                </div>
+              <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-pen-to-square"></i> Crear</button>
+              <br>
+              <div class="row">
+                  {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="align-items-center justify-content-center">
+                            {% for category,message in messages %}
+                                <div class="alert col-lg-12  alert-{{category}} alert-dismissible show fade" role="alert" id="alert-message">
+                                    <strong>{{message}}</strong> 
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>                        
+                                </div>    
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                  {% endwith %}
+              </div>
+          </form>
+      </div>
+
     
 {% endblock %}
