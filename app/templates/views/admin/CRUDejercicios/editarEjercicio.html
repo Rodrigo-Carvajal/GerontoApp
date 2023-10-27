@@ -35,12 +35,12 @@
                         <input
                           type="text"
                           class="form-control" name="equipamiento" id="equipamiento" placeholder="" value="{{ ejercicio.equipamiento }}">
-                        <label for="equipamiento">Equipamiento</label>
+                        <label for="equipamiento">Equipamiento:</label>
                       </div>
                       <div class="form-control mb-3">
                           <label for="dificultad" class="form-label">Tipo de ejercicio:</label>
                           <select class="form-select form-select-md" name="dificultad" id="dificultad" value="{{ ejercicio.dificultad }}">
-                              <option selected>Evalua esta sesión:</option>
+                              <option selected>Elige una dificultad:</option>
                               <option value="Principiante" 
                               {% if ejercicio.dificultad == 'Principiante' %}
                                   selected
@@ -73,7 +73,7 @@
                       <div class="form-control mb-3">
                           <label for="tipo" class="form-label">Tipo de ejercicio:</label>
                           <select class="form-select form-select-md" name="tipo" id="tipo" value="{{ ejercicio.tipo }}">
-                              <option selected>Evalua esta sesión:</option>
+                              <option selected>Elige un tipo de ejercicio:</option>
                               <option value="Aeróbico"
                               {% if ejercicio.tipo == 'Aeróbico' %}
                                   selected

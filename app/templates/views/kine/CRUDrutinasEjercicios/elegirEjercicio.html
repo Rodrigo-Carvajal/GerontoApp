@@ -1,0 +1,118 @@
+{% extends "layouts/kineLayout.html" %}
+
+{% block title %}Seleccion Ejercicio{% endblock %}
+
+{% block body %}
+<div class="fondo container"> 
+    <div class="row">
+        <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id=current_user.get_id) }}">Pacientes</a></li>
+                <li class="breadcrumb-item active">Seleccionar Ejercicio</li>
+            </ol>
+        </nav>
+<!-- F O R M U L A R I O - S E L E C C I O N A R - E J E R C I C I O S -->
+        <div class="container col-md-4 card" style=" background-color:#c5d7f2">
+            <h3 style="border-radius: 20px;" class="mt-2 display-6 fw-bold card-title bg-dark bg-gradient text-white">Seleccionar Ejercicios:</h3>
+            <form class="card-body" method="post">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="mb-3 text-start">
+                    <label for="ejercicio" class="form-label">Ejercicio:</label>
+                    <select class="form-select" id="ejercicio" name="ejercicio">
+                        <option disabled selected value="">Selecciona un ejercicio</option>
+                        {% for i in ejercicios %}
+                            <option value="{{i.nombre}}">{{i.nombre}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label for="series" class="form-label">Series:</label>
+                    <input type="number" class="form-control" id="series" name="series" min="1">
+                </div>
+
+                <div class="mb-3 text-start">
+                    <label for="repeticiones" class="form-label">Repeticiones:</label>
+                    <input type="number" class="form-control" id="repeticiones" name="repeticiones" min="1">
+                </div>
+
+                <div>
+                    <br>
+                    <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-plus"></i> Agregar Ejercicio</button>
+                    <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+                    <br>
+                </div>
+            </form>
+        </div>
+<!-- T A B L A - D E - E J E R C I C I O S -->
+        <div class="col-md-7">
+            <div class="table-responsive rounded">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="table-dark">
+                            <th class="col-md-2" scope="col">N°:</th>
+                            <th class="col-md-3" scope="col">Ejercicios:</th>
+                            <th class="col-md-2" scope="col">Series:</th>
+                            <th class="col-md-2" scope="col">Repeticiones:</th>
+                            <th class="col-md-3" scope="col">Acciones:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            <tr class="scope table-primary">
+                                <td></td>
+                                <td></td>    
+                                <td></td>
+                                <td></td>                         
+                                <td>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Información rutina" 
+                                    name="**" 
+                                    id="**" 
+                                    class="btn btn-success m-1 p-2" 
+                                    href="**" 
+                                    role="button">
+                                        <i class="fa-solid fa-dumbbell"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Editar rutina" 
+                                    name="editUSuario" 
+                                    id="editUsuario" 
+                                    class="btn btn-info m-1 p-2" 
+                                    href="**" 
+                                    role="button">
+                                        <i class="fa-solid fa-file-pen"></i>
+                                    </a>
+                                    <a 
+                                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar rutina" 
+                                    name="deleteUSuario" 
+                                    id="deleteUsuario" 
+                                    class="btn btn-danger m-1 p-2" 
+                                    href="**" 
+                                    role="button">
+                                        <i class="fa-solid fa-file-circle-xmark"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                    </tbody>
+                </table>                        
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("borrarCampos").addEventListener("click", function () {
+        document.getElementById("ejercicio").value = "";
+        document.getElementById("series").value = "0";
+        document.getElementById("repeticiones").value = "0";
+    });
+</script>
+
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+</script>
+{% endblock %}

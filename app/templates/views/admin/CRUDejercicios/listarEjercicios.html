@@ -11,7 +11,7 @@
         </ol>
     </nav>
     <div class="row">        
-        <div class="container col-md-4 bg-light card">
+        <div class="col-md-4 bg-light card">
             <h3 class="mt-2 display-10 fw-bold">Crear nuevo ejercicio:</h3>
             <form class="card-body " method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
@@ -35,12 +35,12 @@
                           <input
                             type="text"
                             class="form-control" name="equipamiento" id="equipamiento" placeholder="">
-                          <label for="equipamiento">Equipamiento</label>
+                          <label for="equipamiento">Equipamiento:</label>
                         </div>
                         <div class="form-control mb-3">
-                            <label for="dificultad" class="form-label">Tipo de ejercicio:</label>
+                            <label for="dificultad" class="form-label">Dificultad de ejercicio:</label>
                             <select class="form-select form-select-md" name="dificultad" id="dificultad">
-                                <option selected>Evalua esta sesión:</option>
+                                <option selected>Elige una dificultad:</option>
                                 <option value="Principiante">Principiante</option>
                                 <option value="Intermedio">Intermedio</option>
                                 <option value="Avanzado">Avanzado</option>
@@ -63,7 +63,7 @@
                         <div class="form-control mb-3">
                             <label for="tipo" class="form-label">Tipo de ejercicio:</label>
                             <select class="form-select form-select-md" name="tipo" id="tipo">
-                                <option selected>Evalua esta sesión:</option>
+                                <option selected>Elige un tipo de ejercicio:</option>
                                 <option value="Aeróbico">Aeróbico</option>
                                 <option value="Equilibrio">Equilibrio</option>
                                 <option value="Fortalecimiento muscular">Fortalecimiento muscular</option>
