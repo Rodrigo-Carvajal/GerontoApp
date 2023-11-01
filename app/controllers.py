@@ -1,8 +1,11 @@
-from app import app, supabase, login_manager, csrf
+from app import app, supabase, login_manager, csrf, socketio
 from flask import render_template, Response, redirect, url_for, request, flash, Blueprint, session, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 import cv2 as cv
 from app.functions import squat, pushup, dibujar_articulaciones
+from flask_socketio import emit
+
+import base64
 
 from app.models import Usuario, Paciente, Ejercicio, Limitacion, Registro, Sesion
 
@@ -328,6 +331,8 @@ def dibujar_articulacion():
         return Response(dibujar_articulaciones(cap), 
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     cap.release()
+
+
 
 
 ### FIN RTR ###

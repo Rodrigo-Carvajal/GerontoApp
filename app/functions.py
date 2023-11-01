@@ -344,30 +344,46 @@ def pushup(cap):
                     center2 = (rew, reh)  # Puedes ajustar el centro del arco según tus necesidades                    
                     cv.circle(frame, center1, 35, (255,255,255), 1)  # -1 rellena el arco
                     cv.circle(frame, center2, 35, (255,255,255), 0)  # -1 rellena el arco                    
-                    if angle1 >= 160:                        
-                        cv.circle(frame, center1, 10, (0,255,0), -1)  # -1 rellena el arco
+                    if angle1 >= 160:
+                        cv.circle(frame, center1, 16, (0,0,255), -1)  # -1 rellena el arco
                     if angle2 >= 160:
-                        cv.circle(frame, center2, 10, (0,255,0), -1)  # -1 rellena el arco                    
-                    if 160>=angle1 and angle1>= 135:
-                        cv.circle(frame, center1, 18, (0,180,255), -1)  # -1 rellena el arco                    
-                    if 160>=angle2 and angle2>= 135:
-                        cv.circle(frame, center2, 18, (0,180,255), -1)  # -1 rellena el arco
-                    if 135>=angle1 and angle1>= 115:
-                        cv.circle(frame, center1, 23, (0,85,230), -1)  # -1 rellena el arco
-                    if 135>=angle2 and angle2>= 115:
-                        cv.circle(frame, center2, 23, (0,85,230), -1)  # -1 rellena el arco
-                    if 115>=angle1 and angle1>= 100:
-                        cv.circle(frame, center1, 26, (0,80,255), -1)  # -1 rellena el arco                    
-                    if 115>=angle2 and angle2>= 100:
-                        cv.circle(frame, center2, 26, (0,80,255), -1)  # -1 rellena el arco
-                    if 100>=angle1 and angle1>= 85:
-                        cv.circle(frame, center1, 30, (0,75,255), -1)  # -1 rellena el arco
-                    if 100>=angle2 and angle2>= 85:
-                        cv.circle(frame, center2, 30, (0,75,255), -1)  # -1 rellena el arco
-                    if angle1<=85:
-                        cv.circle(frame, center1, 34, (0,25,255), -1)  # -1 rellena el arco
-                    if angle2<=85:
-                        cv.circle(frame, center2, 34, (0,25,255), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 16, (0,0,255), -1)  # -1 rellena el arco
+                    if 160>=angle1 and angle1>= 150:
+                        cv.circle(frame, center1, 18, (0,65,255), -1)  # -1 rellena el arco                    
+                    if 160>=angle2 and angle2>= 150:
+                        cv.circle(frame, center2, 18, (0,65,255), -1)  # -1 rellena el arco
+                    if 150>=angle1 and angle1>= 140:
+                        cv.circle(frame, center1, 20, (0,119,255), -1)  # -1 rellena el arco                    
+                    if 150>=angle2 and angle2>= 140:
+                        cv.circle(frame, center2, 20, (0,119,255), -1)  # -1 rellena el arco
+                    if 140>=angle1 and angle1>= 130:
+                        cv.circle(frame, center1, 22, (0,154,230), -1)  # -1 rellena el arco
+                    if 140>=angle2 and angle2>= 130:
+                        cv.circle(frame, center2, 22, (0,154,230), -1)  # -1 rellena el arco
+                    if 130>=angle1 and angle1>= 120:
+                        cv.circle(frame, center1, 24, (0,205,255), -1)  # -1 rellena el arco                    
+                    if 130>=angle2 and angle2>= 120:
+                        cv.circle(frame, center2, 24, (0,205,255), -1)  # -1 rellena el arco
+                    if 120>=angle1 and angle1>= 110:
+                        cv.circle(frame, center1, 26, (0,230,255), -1)  # -1 rellena el arco
+                    if 120>=angle2 and angle2>= 110:
+                        cv.circle(frame, center2, 26, (0,230,255), -1)  # -1 rellena el arco
+                    if 110>=angle1 and angle1>= 100:
+                        cv.circle(frame, center1, 28, (0,255,239), -1)  # -1 rellena el arco
+                    if 110>=angle2 and angle2>= 100:
+                        cv.circle(frame, center2, 28, (0,255,239), -1)  # -1 rellena el arco
+                    if 100>=angle1 and angle1>= 90:
+                        cv.circle(frame, center1, 30, (0,255,188), -1)  # -1 rellena el arco
+                    if 100>=angle2 and angle2>= 90:
+                        cv.circle(frame, center2, 30, (0,255,188), -1)  # -1 rellena el arco
+                    if 90>=angle1 and angle1>= 80:
+                        cv.circle(frame, center1, 32, (0,255,154), -1)  # -1 rellena el arco
+                    if 90>=angle2 and angle2>= 80:
+                        cv.circle(frame, center2, 32, (0,255,154), -1)  # -1 rellena el arco
+                    if angle1<=80:
+                        cv.circle(frame, center1, 34, (0,255,60), -1)  # -1 rellena el arco
+                    if angle2<=80:
+                        cv.circle(frame, center2, 34, (0,255,60), -1)  # -1 rellena el arco
                     
                 (flag, encodedImage) = cv.imencode(".jpg", frame)  
                 
