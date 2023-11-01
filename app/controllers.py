@@ -3,9 +3,6 @@ from flask import render_template, Response, redirect, url_for, request, flash, 
 from flask_login import login_user, login_required, logout_user, current_user
 import cv2 as cv
 from app.functions import squat, pushup, dibujar_articulaciones
-from flask_socketio import emit
-
-import base64
 
 from app.models import Usuario, Paciente, Ejercicio, Limitacion, Registro, Sesion
 

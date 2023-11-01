@@ -3,12 +3,10 @@ from flask_login import LoginManager
 from config import config
 from flask_wtf.csrf import CSRFProtect
 from supabase import create_client, Client
-from flask_socketio import SocketIO
 
 # Creación de la aplicación flask y su secret key
 app = Flask(__name__)
 app.secret_key = 'jdamksdw-baq_#B#WFV-ZC#V_A@Q=d-kb1i41VFM!'
-socketio = SocketIO(app)
 csrf = CSRFProtect(app)
 csrf.init_app(app)
 
