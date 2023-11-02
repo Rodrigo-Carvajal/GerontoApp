@@ -1,5 +1,5 @@
 # Importación de app:
-from app import app, socketio
+from app import app
 from config import config
 
 # Ejecución de la aplicación:

@@ -1,4 +1,4 @@
-from app import app, supabase, login_manager, csrf, socketio
+from app import app, supabase, login_manager, csrf
 from flask import render_template, Response, redirect, url_for, request, flash, Blueprint, session, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 import cv2 as cv
@@ -290,9 +290,9 @@ def seleccionar_ejercicio(id_rutina):
 
 ### INICIO RTR ###
 # Rutas de retroalimentación en tiempo real
-@app.route("/video_template", methods=['GET','POST'])
+@app.route("/RTR", methods=['GET','POST'])
 @login_required
-def video_template():    
+def RTR():
     return render_template('views/kine/cam.html')
 
 @app.route("/video_feed", methods=['GET','POST'])

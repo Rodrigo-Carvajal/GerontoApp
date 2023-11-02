@@ -233,7 +233,7 @@ def pushup(cap):
             if ret:
                 gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)                
                 results = pose.process(frame)        
-                if results.pose_landmarks is not None:
+                if results.pose_landmarks is not None:                                      
                     #Declaración del joint 11(hombro derecho)
                     rsw = int(results.pose_landmarks.landmark[11].x * width)
                     rsh = int(results.pose_landmarks.landmark[11].y * height)
@@ -283,32 +283,31 @@ def pushup(cap):
                     angleElbow = (angle1 + angle2)/2     
 
                      #Dibujado de joints
-                    cv.circle(frame, (lsw, lsh), 6, (0,0,255), 4)
-                    cv.circle(frame, (lew, leh), 6, (255,0,0), 6)
-                    cv.circle(frame, (lww, lwh), 6, (0,0,255), 4)
-                    cv.circle(frame, (rsw, rsh), 6, (0,0,255), 4)
-                    cv.circle(frame, (rew, reh), 6, (255,0,0), 6)
-                    cv.circle(frame, (rww, rwh), 6, (0,0,255), 4)
+                    cv.circle(frame, (lsw, lsh), 6, (0,0,255, 128), 4)
+                    cv.circle(frame, (lew, leh), 6, (255,0,0, 128), 6)
+                    cv.circle(frame, (lww, lwh), 6, (0,0,255, 128), 4)
+                    cv.circle(frame, (rsw, rsh), 6, (0,0,255, 128), 4)
+                    cv.circle(frame, (rew, reh), 6, (255,0,0, 128), 6)
+                    cv.circle(frame, (rww, rwh), 6, (0,0,255, 128), 4)
 
                     #Dibujado de lineas entre los joints
-                    cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0), 20)
-                    cv.line(frame, (lew, leh), (lww, lwh), (255,0,0), 20)
-                    cv.line(frame, (lsw, lsh), (lww, lwh), (0,0,255), 5)
-                    cv.line(frame, (rsw, rsh), (rew, reh), (255,0,0), 20)
-                    cv.line(frame, (rew, reh), (rww, rwh), (255,0,0), 20)
-                    cv.line(frame, (rsw, rsh), (rww, rwh), (0,0,255), 5)
+                    cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0, 128), 20)
+                    cv.line(frame, (lew, leh), (lww, lwh), (255,0,0, 128), 20)
+                    cv.line(frame, (lsw, lsh), (lww, lwh), (0,0,255, 128), 5)
+                    cv.line(frame, (rsw, rsh), (rew, reh), (255,0,0, 128), 20)
+                    cv.line(frame, (rew, reh), (rww, rwh), (255,0,0, 128), 20)
+                    cv.line(frame, (rsw, rsh), (rww, rwh), (0,0,255, 128), 5)
 
                     #Impresión de la imagen final
-                    cv.rectangle(frame, (40,12), (55,50), (255,255,255), -1)
                     cv.putText(frame, str(count), (50, 50), 1, 3.5, (0, 0, 255), 3)
-                    cv.putText(frame, str(int(angleElbow)), (100, 80), 1, 3.5, (0, 0, 255), 3)
-                    cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0), 2)
-                    cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0), 2)
+                    cv.putText(frame, str(int(angleElbow)), (100, 80), 1, 3.5, (0, 0, 255, 128), 3)
+                    cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0, 128), 2)
+                    cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0, 128), 2)
 
                     #contar la repetición de una flexión válida
                     if angleElbow >= 150:
-                        angleColor1 = (0,0,255)
-                        angleColor2 = (0,0,255)
+                        angleColor1 = (0,0,255, 128)
+                        angleColor2 = (0,0,255, 128)
                         arrow_length = 100
                         arrow_thickness = 3
                         arrow_color = (0, 255, 0)  # Verde
@@ -318,7 +317,7 @@ def pushup(cap):
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
                         arrow_length = 100
                         arrow_thickness = 3
-                        arrow_color = (0, 0, 255)  # Verde
+                        arrow_color = (0, 0, 255, 128)  # Verde
                         x_start = frame.shape[1] - arrow_length
                         y_start = arrow_length * 2
                         x_end = frame.shape[1] - arrow_length
@@ -328,7 +327,7 @@ def pushup(cap):
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
                         arrow_length = 100
                         arrow_thickness = 3
-                        arrow_color = (0, 0, 255)  # Verde
+                        arrow_color = (0, 0, 255, 128)  # Verde
                         x_start = frame.shape[1] - arrow_length
                         y_start = arrow_length * 2
                         x_end = frame.shape[1] - arrow_length
@@ -341,50 +340,53 @@ def pushup(cap):
                     
                     # Dibujar el arco del área del ángulo
                     center1 = (lew, leh)  # Puedes ajustar el centro del arco según tus necesidades
-                    center2 = (rew, reh)  # Puedes ajustar el centro del arco según tus necesidades                    
-                    cv.circle(frame, center1, 35, (255,255,255), 1)  # -1 rellena el arco
-                    cv.circle(frame, center2, 35, (255,255,255), 0)  # -1 rellena el arco                    
-                    if angle1 >= 160:
-                        cv.circle(frame, center1, 16, (0,0,255), -1)  # -1 rellena el arco
-                    if angle2 >= 160:
-                        cv.circle(frame, center2, 16, (0,0,255), -1)  # -1 rellena el arco
-                    if 160>=angle1 and angle1>= 150:
-                        cv.circle(frame, center1, 18, (0,65,255), -1)  # -1 rellena el arco                    
-                    if 160>=angle2 and angle2>= 150:
-                        cv.circle(frame, center2, 18, (0,65,255), -1)  # -1 rellena el arco
-                    if 150>=angle1 and angle1>= 140:
-                        cv.circle(frame, center1, 20, (0,119,255), -1)  # -1 rellena el arco                    
-                    if 150>=angle2 and angle2>= 140:
-                        cv.circle(frame, center2, 20, (0,119,255), -1)  # -1 rellena el arco
-                    if 140>=angle1 and angle1>= 130:
-                        cv.circle(frame, center1, 22, (0,154,230), -1)  # -1 rellena el arco
-                    if 140>=angle2 and angle2>= 130:
-                        cv.circle(frame, center2, 22, (0,154,230), -1)  # -1 rellena el arco
-                    if 130>=angle1 and angle1>= 120:
-                        cv.circle(frame, center1, 24, (0,205,255), -1)  # -1 rellena el arco                    
-                    if 130>=angle2 and angle2>= 120:
-                        cv.circle(frame, center2, 24, (0,205,255), -1)  # -1 rellena el arco
-                    if 120>=angle1 and angle1>= 110:
-                        cv.circle(frame, center1, 26, (0,230,255), -1)  # -1 rellena el arco
-                    if 120>=angle2 and angle2>= 110:
-                        cv.circle(frame, center2, 26, (0,230,255), -1)  # -1 rellena el arco
-                    if 110>=angle1 and angle1>= 100:
-                        cv.circle(frame, center1, 28, (0,255,239), -1)  # -1 rellena el arco
-                    if 110>=angle2 and angle2>= 100:
-                        cv.circle(frame, center2, 28, (0,255,239), -1)  # -1 rellena el arco
-                    if 100>=angle1 and angle1>= 90:
-                        cv.circle(frame, center1, 30, (0,255,188), -1)  # -1 rellena el arco
-                    if 100>=angle2 and angle2>= 90:
-                        cv.circle(frame, center2, 30, (0,255,188), -1)  # -1 rellena el arco
-                    if 90>=angle1 and angle1>= 80:
-                        cv.circle(frame, center1, 32, (0,255,154), -1)  # -1 rellena el arco
-                    if 90>=angle2 and angle2>= 80:
-                        cv.circle(frame, center2, 32, (0,255,154), -1)  # -1 rellena el arco
-                    if angle1<=80:
-                        cv.circle(frame, center1, 34, (0,255,60), -1)  # -1 rellena el arco
-                    if angle2<=80:
-                        cv.circle(frame, center2, 34, (0,255,60), -1)  # -1 rellena el arco
+                    center2 = (rew, reh)  # Puedes ajustar el centro del arco según tus necesidades
                     
+                    # Dibuja los círculos en la imagen superpuesta
+
+                    cv.circle(frame, center1, 20, (255,255,255, 128), 1)  # -1 rellena el arco
+                    cv.circle(frame, center2, 20, (255,255,255, 128), 0)  # -1 rellena el arco                    
+                    if angle1 >= 160:
+                        cv.circle(frame, center1, 10, (0,0,255, 128), -1)  # -1 rellena el arco
+                    if angle2 >= 160:
+                        cv.circle(frame, center2, 10, (0,0,255, 128), -1)  # -1 rellena el arco
+                    if 160>=angle1 and angle1>= 150:
+                        cv.circle(frame, center1, 11, (0,65,255, 128), -1)  # -1 rellena el arco                    
+                    if 160>=angle2 and angle2>= 150:
+                        cv.circle(frame, center2, 11, (0,65,255, 128), -1)  # -1 rellena el arco
+                    if 150>=angle1 and angle1>= 140:
+                        cv.circle(frame, center1, 12, (0,119,255, 128), -1)  # -1 rellena el arco                    
+                    if 150>=angle2 and angle2>= 140:
+                        cv.circle(frame, center2, 12, (0,119,255, 128), -1)  # -1 rellena el arco
+                    if 140>=angle1 and angle1>= 130:
+                        cv.circle(frame, center1, 13, (0,154,230, 128), -1)  # -1 rellena el arco
+                    if 140>=angle2 and angle2>= 130:
+                        cv.circle(frame, center2, 13, (0,154,230, 128), -1)  # -1 rellena el arco
+                    if 130>=angle1 and angle1>= 120:
+                        cv.circle(frame, center1, 14, (0,205,255, 128), -1)  # -1 rellena el arco                    
+                    if 130>=angle2 and angle2>= 120:
+                        cv.circle(frame, center2, 14, (0,205,255, 128), -1)  # -1 rellena el arco
+                    if 120>=angle1 and angle1>= 110:
+                        cv.circle(frame, center1, 15, (0,230,255, 128), -1)  # -1 rellena el arco
+                    if 120>=angle2 and angle2>= 110:
+                        cv.circle(frame, center2, 15, (0,230,255, 128), -1)  # -1 rellena el arco
+                    if 110>=angle1 and angle1>= 100:
+                        cv.circle(frame, center1, 16, (0,255,239, 128), -1)  # -1 rellena el arco
+                    if 110>=angle2 and angle2>= 100:
+                        cv.circle(frame, center2, 16, (0,255,239, 128), -1)  # -1 rellena el arco
+                    if 100>=angle1 and angle1>= 90:
+                        cv.circle(frame, center1, 17, (0,255,188, 128), -1)  # -1 rellena el arco
+                    if 100>=angle2 and angle2>= 90:
+                        cv.circle(frame, center2, 17, (0,255,188, 128), -1)  # -1 rellena el arco
+                    if 90>=angle1 and angle1>= 80:
+                        cv.circle(frame, center1, 18, (0,255,154, 128), -1)  # -1 rellena el arco
+                    if 90>=angle2 and angle2>= 80:
+                        cv.circle(frame, center2, 18, (0,255,154, 128), -1)  # -1 rellena el arco
+                    if angle1<=80:
+                        cv.circle(frame, center1, 19, (0,255,60, 128), -1)  # -1 rellena el arco
+                    if angle2<=80:
+                        cv.circle(frame, center2, 19, (0,255,60, 128), -1)  # -1 rellena el arco            
+
                 (flag, encodedImage) = cv.imencode(".jpg", frame)  
                 
                 if not flag:
