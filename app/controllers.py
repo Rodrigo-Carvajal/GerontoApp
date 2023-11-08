@@ -293,7 +293,12 @@ def seleccionar_ejercicio(id_rutina):
 @app.route("/RTR", methods=['GET','POST'])
 @login_required
 def RTR():
-    return render_template('views/kine/cam.html')
+    return render_template('views/kine/RTR/cam.html')
+
+@app.route("/elegir_ejercicio", methods=['GET', 'POST'])
+@login_required
+def elegir_ejercicio():
+    return render_template("views/kine/RTR/elegirEjercicio.html")
 
 @app.route("/video_feed", methods=['GET','POST'])
 @login_required
