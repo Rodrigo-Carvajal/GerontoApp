@@ -3,6 +3,7 @@ import cv2 as cv
 import numpy as np
 from math import acos, degrees, hypot
 
+
 def dibujar_articulaciones(cap):
     #Llamado de objetos mediapipe
     mp_pose = mp.solutions.pose
@@ -336,7 +337,7 @@ def pushup(cap):
                     if up == True and down == True and angleElbow>=150:
                         count += 1
                         up = False
-                        down = False                                
+                        down = False
                     
                     # Dibujar el arco del área del ángulo
                     center1 = (lew, leh)  # Puedes ajustar el centro del arco según tus necesidades

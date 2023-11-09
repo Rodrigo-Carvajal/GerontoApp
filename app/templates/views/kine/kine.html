@@ -3,20 +3,29 @@
 {% block title %}Menú principal{% endblock %}
 
 {% block body %}
-<div class="container-fluid py-5 bg-light with-background">
-    <img class="rounded-circle" src="{{ url_for('static', filename='assets/senama.png') }}" alt="Foto Paciente">
-    <div class="d-flex row justify-content-center">
-        <div class="">
-            <h1 class="display-5 fw-bold ">Hola {{ current_user.nombre_completo }}</h1>
-            <p class="lead bg-primary bg-gradient text-white"><strong>Recuerda que, en SENAMA estamos comprometidos en brindar el mejor cuidado y atención a nuestros adultos mayores. Como kinesiólogo, eres una parte fundamental de nuestra misión de promover la salud y el bienestar.</strong></p>
-            <hr class="my-4">
-            <p class="bg-primary bg-gradient text-white"><strong>Este portal es tu herramienta para acceder a la información y recursos necesarios para llevar a cabo tu importante labor. Aquí encontrarás herramientas de registro y seguimiento, información sobre nuestros programas y directrices</strong></p>
+<div class="bg-light with-background">    
+    <div class="container col-md-6 ">
+        <img class="rounded-circle" src="{{ url_for('static', filename='assets/senama.png') }}" alt="Foto Paciente">
+        <div class="justify-content-center text-center p-3">
+            <div class="row">
+                <h1 class="display-5 fw-bold row">Hola {{ current_user.nombre_completo }}</h1>
+            </div>
+            <div class="row">
+                <p class="lead bg-primary bg-gradient text-white row">
+                    <strong>Recuerda que, en SENAMA estamos comprometidos en brindar el mejor cuidado y atención a nuestros adultos mayores. Como kinesiólogo, eres una parte fundamental de nuestra misión de promover la salud y el bienestar.</strong>
+                </p>
+            </div>
+            <div class="row">
+                <hr class="">
+                <p class="bg-primary bg-gradient text-white row">
+                    <strong>Este portal es tu herramienta para acceder a la información y recursos necesarios para llevar a cabo tu importante labor. Aquí encontrarás herramientas de registro y seguimiento, información sobre nuestros programas y directrices</strong>
+                </p>
+            </div>
+            
+            
+            
         </div>
     </div>
 </div>
-
-{% endblock %}
-
-{% block footer %}
 
 {% endblock %}

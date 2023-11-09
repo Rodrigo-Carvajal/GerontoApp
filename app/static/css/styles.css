@@ -1,3 +1,39 @@
+.footercito {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1;
+    background-color: #2545b1;
+}
+
+.tabla{
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+    max-height: 32em;
+    overflow: auto;
+}
+
+.btn-ejercicio{
+    --bs-btn-padding-y: 5rem;
+    --bs-btn-padding-x: 5rem;
+    --bs-btn-font-size: 2.5rem;
+}
+
+.table-responsive thead th {
+    position: sticky;
+    top: 0;
+    background-color: #3452b3; /* Puedes ajustar el color de fondo según tus preferencias */
+    z-index: 1; /* Asegura que los encabezados estén por encima del contenido al desplazarse */
+    color: #d8d8ce;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .fondo{    
     background-image: url("../assets/scattered-forcefields.svg");
     background-size:auto;
@@ -10,6 +46,7 @@
 }
 
 .container {
+    min-height: 100%;
     max-width: 100%;
     max-height: 100%;
     overflow: hidden;
