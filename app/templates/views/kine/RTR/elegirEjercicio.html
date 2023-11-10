@@ -7,11 +7,11 @@
 <div class="container m-2">
     <div class="row m-1 d-flex justify-content-center">
         <div class="col-md-6">
-            <a name="" id="" class="btn btn-primary m-1 border btn-xlg btn-ejercicio" href="#" role="button">
+            <a name="" id="" class="btn btn-primary m-1 border btn-xlg btn-ejercicio" href="{{ url_for('RTR',ejercicio='squat') }}" role="button">
                 <img src="{{ url_for('static', filename='icons/squats.png') }}" style="height: 3em; width: 3em;"></img>
             </a>
             
-            <a name="" id="" class="btn btn-danger m-1 border btn-xlg btn-ejercicio" href="{{ url_for('RTR') }}" role="button">
+            <a name="" id="" class="btn btn-danger m-1 border btn-xlg btn-ejercicio" href="{{ url_for('RTR',ejercicio='pushup') }}" role="button">
                 <img src="{{ url_for('static', filename='icons/pushup2.png') }}" style="height: 3em; width: 3em;"></img>
             </a>
             
@@ -19,11 +19,11 @@
     </div>
     <div class="row m-1 d-flex justify-content-center">
         <div class="col-md-6">
-            <a name="" id="" class="btn btn-info m-1 border btn-xlg btn-ejercicio" href="#" role="button">
+            <a name="" id="" class="btn btn-info m-1 border btn-xlg btn-ejercicio" href="{{ url_for('RTR',ejercicio='ohp') }}" role="button">
                 <img src="{{ url_for('static', filename='icons/man-fitness.png') }}" style="height: 3em; width: 3em;"></img>
             </a>
             
-            <a name="" id="" class="btn btn-warning m-1 border btn-xlg btn-ejercicio" href="#" role="button">
+            <a name="" id="" class="btn btn-warning m-1 border btn-xlg btn-ejercicio" href="{{ url_for('RTR',ejercicio='bicep_curl') }}" role="button">
                 <img src="{{ url_for('static', filename='icons/biceps-curl.png') }}" style="height: 3em; width: 3em;"></img>
             </a>
             

@@ -2,7 +2,8 @@ from app import app, supabase, login_manager, csrf
 from flask import render_template, Response, redirect, url_for, request, flash, Blueprint, session, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 import cv2 as cv
-from app.functions import squat, pushup, dibujar_articulaciones
+import pyttsx3
+from app.functions import squat, pushup, ohp, bicep_curl
 
 from app.models import Usuario, Paciente, Ejercicio, Limitacion, Registro, Sesion
 
@@ -289,53 +290,37 @@ def seleccionar_ejercicio(id_rutina):
 ### FIN seleccionar ejercicio ###
 
 ### INICIO RTR ###
-# Rutas de retroalimentación en tiempo real
-@app.route("/RTR", methods=['GET','POST'])
-@login_required
-def RTR():
-    return render_template('views/kine/RTR/cam.html')
 
+# Vista para elegir ejercicio, este entrega como argumento el nombre de ejercicio a evaluar para la ruta RTR
 @app.route("/elegir_ejercicio", methods=['GET', 'POST'])
 @login_required
 def elegir_ejercicio():
     return render_template("views/kine/RTR/elegirEjercicio.html")
 
-@app.route("/video_feed", methods=['GET','POST'])
+# Ruta de retroalimentación en tiempo real, esta envía el ejercicio elegido a la función que evalúa
+@app.route("/RTR/<ejercicio>", methods=['GET','POST'])
 @login_required
-def video_feed():
+def RTR(ejercicio):
+    return render_template('views/kine/RTR/cam.html', ejercicio=ejercicio)
+
+# Esta ruta se ejecuta una vez que es llamada RTR para renderizar la RTR
+@app.route("/video_feed/<ejercicio>", methods=['GET','POST'])
+@login_required
+def video_feed(ejercicio):
     cap = cv.VideoCapture(0, cv.CAP_MSMF)
-    ejercicios = ['squat', 'pushup', 'dibujar_articulaciones']
-    ejercicio = ejercicios[1]
     if ejercicio == 'squat':
         return Response(squat(cap), 
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     elif ejercicio == 'pushup':
         return Response(pushup(cap), 
                         mimetype='multipart/x-mixed-replace; boundary=frame')
-    elif ejercicio == 'dibujar_articulaciones':
-        return Response(dibujar_articulaciones(cap), 
+    elif ejercicio == 'ohp':
+        return Response(ohp(cap), 
+                        mimetype='multipart/x-mixed-replace; boundary=frame')
+    elif ejercicio == 'bicep_curl':
+        return Response(bicep_curl(cap), 
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     cap.release()
-
-@app.route("/dibujar_articulacion", methods=['GET','POST'])
-@login_required
-def dibujar_articulacion():
-    cap = cv.VideoCapture(0, cv.CAP_MSMF)
-    ejercicios = ['squat', 'pushup', 'dibujar_articulaciones']
-    ejercicio = ejercicios[2]
-    if ejercicio == 'squat':
-        return Response(squat(cap), 
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
-    elif ejercicio == 'pushup':
-        return Response(pushup(cap), 
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
-    elif ejercicio == 'dibujar_articulaciones':
-        return Response(dibujar_articulaciones(cap), 
-                        mimetype='multipart/x-mixed-replace; boundary=frame')
-    cap.release()
-
-
-
 
 ### FIN RTR ###
 
