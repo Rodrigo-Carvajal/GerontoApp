@@ -8,7 +8,7 @@
         <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id=current_user.get_id) }}">Pacientes</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id_kinesiologo=current_user.get_id()) }}">Pacientes</a></li>
                 <li class="breadcrumb-item active">Seleccionar Ejercicio</li>
             </ol>
         </nav>
@@ -17,15 +17,17 @@
             <h3 style="border-radius: 20px;" class="mt-2 display-6 fw-bold card-title bg-dark bg-gradient text-white">Seleccionar Ejercicios:</h3>
             <form class="card-body" method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
                 <div class="mb-3 text-start">
                     <label for="ejercicio" class="form-label">Ejercicio:</label>
                     <select class="form-select" id="ejercicio" name="ejercicio">
                         <option disabled selected value="">Selecciona un ejercicio</option>
                         {% for i in ejercicios %}
-                            <option value="{{i.nombre}}">{{i.nombre}}</option>
+                            <option value="{{i.id}}">{{i.nombre}}</option>
                         {% endfor %}
                     </select>
                 </div>
+
 
                 <div class="mb-3 text-start">
                     <label for="series" class="form-label">Series:</label>
@@ -43,8 +45,24 @@
                     <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Limpiar</button>
                     <br>
                 </div>
+
+                <div class="row">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                      {% if messages %}
+                          <div class="align-items-center justify-content-center">
+                              {% for category,message in messages %}
+                                  <div class="alert col-lg-12  alert-{{category}} alert-dismissible show fade" role="alert" id="alert-message">
+                                      <strong>{{message}}</strong> 
+                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>                        
+                                  </div>    
+                              {% endfor %}
+                          </div>
+                      {% endif %}
+                    {% endwith %}
+                </div>
             </form>
         </div>
+
 <!-- T A B L A - D E - E J E R C I C I O S -->
         <div class="col-md-7">
             <div class="table-responsive rounded">
@@ -59,11 +77,13 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for i in Ejerciciosrutina %}
+                            {% if i.fk_id_rutina %}   
                             <tr class="scope table-primary">
-                                <td></td>
-                                <td></td>    
-                                <td></td>
-                                <td></td>                         
+                                <td>{{i.id}}</td>
+                                <td>{{i.fk_id_ejercicio}}</td>    
+                                <td>{{i.series}}</td>
+                                <td>{{i.repeticiones}}</td>                         
                                 <td>
                                     <a 
                                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="Información rutina" 
@@ -88,12 +108,14 @@
                                     name="deleteUSuario" 
                                     id="deleteUsuario" 
                                     class="btn btn-danger m-1 p-2" 
-                                    href="**" 
+                                    href="/eliminar_ejercicio_rutina/{{i.id}},{{i.fk_id_rutina}}" 
                                     role="button">
                                         <i class="fa-solid fa-file-circle-xmark"></i>
                                     </a>
                                 </td>
                             </tr>
+                            {% endif %}
+                        {% endfor %}
                     </tbody>
                 </table>                        
             </div>

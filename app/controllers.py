@@ -252,21 +252,21 @@ def crear_rutina(id_paciente):
     rutinas = supabase.table('Rutinas').select('*').order('id', desc=False).execute()
     return render_template('views/kine/CRUDrutinas/crearRutina.html', rutinas=rutinas.data, id_paciente=id_paciente)
 
-"""@app.route("/editar_rutina/<int:id_rutina>", methods=['GET','POST'])
+@app.route("/editar_rutina/<int:id_rutina>", methods=['GET','POST'])
 @login_required
 def editar_rutina(id_rutina):     
     if request.method == 'POST':
+        fk_id_paciente = request.form['id_paciente']
         tituloRutina = request.form['tituloRutina']
         objetivoRutina = request.form['objetivoRutina']
         tiempoRutina = request.form['tiempoRutina']
         notasRutina = request.form['notasRutina']
-        fk_id_paciente = request.form['fkIdPaciente']
-        rutina = {'titulo': tituloRutina, 'objetivo': objetivoRutina, 'duracion': tiempoRutina, 'notas': notasRutina}
-        update =  supabase.table('Rutinas').update(rutina).eq('id', id_rutina).execute()
-        flash ('Rutina creada exitosamente', 'success')
+        rutina = {'fk_id_paciente' : fk_id_paciente, 'titulo': tituloRutina, 'objetivo': objetivoRutina, 'duracion': tiempoRutina, 'notas': notasRutina}
+        update = supabase.table('Rutinas').update(rutina).eq('id', id_rutina).execute()
+        flash('Rutina editada exitosamente', 'info')
         return redirect(url_for('crear_rutina', id_paciente=fk_id_paciente))
-    rutinas = supabase.table('Rutinas').select('*').order('id', desc=False).execute()
-    return render_template('views/kine/CRUDrutinas/crearRutina.html') """
+    rutina = supabase.table('Rutinas').select('*').eq('id', id_rutina).execute()
+    return render_template('views/kine/CRUDrutinas/editarRutina.html', rutina=rutina.data[0])
 
 @app.route("/eliminar_rutina/<int:id_rutina>/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
@@ -280,12 +280,41 @@ def eliminar_rutina(id_rutina, id_paciente):
 ### INICIO seleccionar ejercicio ###
 
 # Selección de ejercicios
-@app.route("/seleccionar_ejercicio/<int:id_rutina>", methods=['GET','POST'])
+@app.route("/seleccionar_ejercicio_rutina/<int:id_rutina>", methods=['GET','POST'])
 @login_required
-def seleccionar_ejercicio(id_rutina):
+def seleccionar_ejercicio_rutina(id_rutina):
+    if request.method == 'POST':
+       fk_id_ejercicio = request.form['ejercicio']
+       series = request.form['series']
+       repeticiones = request.form['repeticiones']
+       Ejerciciorutina = {'fk_id_rutina': id_rutina, 'fk_id_ejercicio': fk_id_ejercicio, 'series': series, 'repeticiones': repeticiones}
+       insert = supabase.table('Rutinas_Ejercicios').insert(Ejerciciorutina).execute()
+       flash ('Rutina creada exitosamente', 'success')
+    Ejerciciosrutina = supabase.table('Rutinas_Ejercicios').select('*').order('id', desc=False).execute()
     ejercicios = supabase.table('Ejercicios').select('*').order('id', desc=False).execute()
-    return render_template('views/kine/CRUDrutinas/elegirEjercicio.html', ejercicios = ejercicios.data)
+    return render_template('views/kine/CRUDrutinasEjercicios/elegirEjercicio.html', Ejerciciosrutina=Ejerciciosrutina.data, ejercicios=ejercicios.data, id_rutina=id_rutina)
 
+@app.route("/editar_ejercicio_rutina/<int:id_rutina>", methods=['GET','POST'])
+@login_required
+def editar_ejercicio_rutina(id_rutina_ejercicio):     
+    if request.method == 'POST':
+       fk_id_rutina = request.form['id_rutina']
+       fk_id_ejercicio = request.form['ejercicio']
+       series = request.form['series']
+       repeticiones = request.form['repeticiones']
+       Ejerciciorutina = {'fk_id_rutina': fk_id_rutina, 'fk_id_ejercicio': fk_id_ejercicio, 'series': series, 'repeticiones': repeticiones}
+       update = supabase.table('Rutinas_Ejercicios').update(Ejerciciorutina).eq('id', ).execute()
+       flash('Rutina editada exitosamente', 'info')
+       return redirect(url_for('crear_rutina', id_rutina=fk_id_rutina))
+    Ejerciciorutina = supabase.table('Rutinas_Ejercicios').select('*').eq('id', id_rutina_ejercicio).execute()
+    return render_template('views/kine/CRUDrutinas/editarRutina.html', Ejerciciorutina=Ejerciciorutina.data[0])
+
+@app.route("/eliminar_ejercicio_rutina/<int:id_rutina>/<int:id_paciente>", methods=['GET', 'POST'])
+@login_required
+def eliminar_ejercicio_rutina(id_rutina_ejercicio, id_rutina):
+    delete = supabase.table('Rutinas').delete().eq('id', id_rutina_ejercicio).execute()
+    flash ('Rutina eliminada exitosamente', 'danger')
+    return redirect(url_for('seleccionar_ejercicio_rutina', id_rutina=id_rutina)) 
 ### FIN seleccionar ejercicio ###
 
 ### INICIO RTR ###

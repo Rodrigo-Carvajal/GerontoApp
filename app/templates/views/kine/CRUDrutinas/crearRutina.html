@@ -17,6 +17,7 @@
             <h3 style="border-radius: 20px;" class="mt-2 display-6 fw-bold card-title bg-dark bg-gradient text-white">Crear Rutina:</h3>
             <form class="card-body" method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
                 <div class="mb-3 text-start">
                     <label for="tituloRutina" class="form-label">Título:</label>
                     <input type="text" class="form-control" id="tituloRutina" name="tituloRutina" placeholder="Ejemplo: Rutina de Ejercicio Flexibilidad">
@@ -26,9 +27,9 @@
                     <label for="objetivoRutina" class="form-label">Objetivo:</label>
                     <select class="form-select" id="objetivoRutina" name="objetivoRutina">
                         <option disabled selected value="">Selecciona un objetivo</option>
-                        <option value="salud">Mejorar la salud física</option>
-                        <option value="fuerza">Aumentar la fuerza muscular</option>
-                        <option value="flexibilidad">Mejorar la flexibilidad</option>
+                        <option value="Salud">Mejorar la salud física</option>
+                        <option value="Fuerza">Aumentar la fuerza muscular</option>
+                        <option value="Flexibilidad">Mejorar la flexibilidad</option>
                     </select>
                 </div>
 
@@ -99,7 +100,7 @@
                                 name="selectEjercicio" 
                                 id="selectEjercicio" 
                                 class="btn btn-success m-1 p-2" 
-                                href="/seleccionar_ejercicio/{{i.id}}/{{id_paciente}}" 
+                                href="/seleccionar_ejercicio_rutina/{{i.id}}" 
                                 role="button">
                                     <i class="fa-solid fa-dumbbell"></i>
                                 </a>
@@ -108,7 +109,8 @@
                                 name="editRutina" 
                                 id="editRutina" 
                                 class="btn btn-info m-1 p-2" 
-                                href="**" role="button">
+                                href="/editar_rutina/{{i.id}}" 
+                                role="button">
                                     <i class="fa-solid fa-file-pen"></i>
                                 </a>
                                 <a data-bs-toggle="tooltip" data-bs-placement="bottom" title="Eliminar rutina" 

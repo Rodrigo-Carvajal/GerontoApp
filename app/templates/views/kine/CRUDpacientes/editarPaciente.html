@@ -14,15 +14,18 @@
     <h3 class="mt-2 display-10 fw-bold">Editar paciente N° {{paciente.id_paciente}}:</h3>
     <form class="card-body" method="post">        
         <div class="container col-md-10">
-            <div class="visually-hidden">
+
+        <div class="visually-hidden">
             <label class="visually-hidden" for="idPaciente">Id paciente</label>
             <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="{{paciente.id_paciente}}" placeholder="">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         </div>
+
         <div class="visually-hidden">
             <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
             <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
         </div>
+        
         <div class="form-floating mb-3">
             <input
             type="text"

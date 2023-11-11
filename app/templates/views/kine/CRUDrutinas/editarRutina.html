@@ -1,0 +1,63 @@
+{% extends "layouts/kineLayout.html" %}
+
+{% block title %}Editar Rutinas{% endblock %}
+
+{% block body %}
+
+
+<div class="container col-md-4 card mt-2" style="background-color:#c5d7f2">    
+    <h3 style="border-radius: 20px;" class="mt-2 display-6 fw-bold card-title bg-dark bg-gradient text-white">Editar rutina N° {{rutina.id}}:</h3>
+    
+    <form class="card-body" method="post">
+
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="visually-hidden">
+            <label class="visually-hidden" for="idPaciente">Id Rutina</label>
+            <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="{{rutina.id}}" placeholder="">
+        </div>
+
+        <div class="visually-hidden">
+            <label class="visually-hidden" for="idPaciente">Id paciente</label>
+            <input type="hidden" name="id_paciente" id="id_paciente" value="{{rutina.fk_id_paciente}}">
+        </div>  
+
+        <div class="mb-3 text-start">
+            <label for="tituloRutina" class="form-label">Título:</label>
+            <input type="text" class="form-control" id="tituloRutina" name="tituloRutina" placeholder="" value="{{rutina.titulo}}">
+        </div>
+
+        <div class="mb-3 text-start">
+            <label for="objetivoRutina" class="form-label">Objetivo:</label>
+            <select class="form-select" id="objetivoRutina" name="objetivoRutina">
+                <option disabled selected value="">{{rutina.objetivo}}</option>
+                <option value="Salud">Mejorar la salud física</option>
+                <option value="Fuerza">Aumentar la fuerza muscular</option>
+                <option value="Flexibilidad">Mejorar la flexibilidad</option>
+            </select>
+        </div>
+        
+
+        <div class="mb-3 text-start">
+            <label for="tiempoRutina" class="form-label">Duración:</label>
+            <div class="input-group">
+                <input type="number" class="form-control" id="tiempoRutina" name="tiempoRutina" min="0" step="15" value="{{rutina.duracion}}">
+                <span class="input-group-text">minutos</span>
+            </div>
+        </div>
+                
+
+        <div class="mb-3 text-start">
+            <label for="notasRutina" class="form-label">Notas adicionales:</label>
+            <textarea class="form-control" rows="4" id="notasRutina" name="notasRutina" placeholder="">{{rutina.notas|safe}}</textarea>
+        </div>
+
+        <div>
+            <br>
+            <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-plus"></i> Editar</button>
+            <br>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

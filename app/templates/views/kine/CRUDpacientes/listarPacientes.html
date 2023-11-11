@@ -16,14 +16,17 @@
             <form class="card-body" method="post">
                 <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
                 <div class="container col-md-12">
-                    <div class="mb-3 visually-hidden">
+
+                <div class="mb-3 visually-hidden">
                     <label class="visually-hidden" for="idPaciente">Id paciente</label>
                     <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="" placeholder="">
                 </div>
+                
                 <div class="mb-3 visually-hidden">
                     <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
                     <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
                 </div>
+                
                 <div class="form-floating mb-3">
                     <input
                     type="text"
@@ -81,7 +84,7 @@
                       {% endif %}
                     {% endwith %}
                 </div>
-            </div>
+                </div>
             </form>
         </div>
 
