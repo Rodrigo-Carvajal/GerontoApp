@@ -283,7 +283,6 @@ def squat(cap):
                 yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' +
                     bytearray(encodedImage) + b'\r\n')
 
-
 def pushup(cap):
     #Llamado de objetos mediapipe
     mp_drawing = mp.solutions.drawing_utils
@@ -395,7 +394,7 @@ def pushup(cap):
                         count += 1
                         up = False
                         down = False
-                        threading.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
+                        th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
                     if down == True and angleElbow<=65:
                         th.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
                     
@@ -404,7 +403,6 @@ def pushup(cap):
                     center2 = (rew, reh)  # Puedes ajustar el centro del arco según tus necesidades
                     
                     # Dibuja los círculos en la imagen superpuesta
-
                     cv.circle(frame, center1, 20, (255,255,255), 1)  # -1 rellena el arco
                     cv.circle(frame, center2, 20, (255,255,255), 0)  # -1 rellena el arco                    
                     if angle1 >= 160:
