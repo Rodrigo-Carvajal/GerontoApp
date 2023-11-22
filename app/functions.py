@@ -2,14 +2,94 @@ import mediapipe as mp
 import cv2 as cv
 import numpy as np
 from math import acos, degrees
-import threading
-import pyttsx3
+import threading as th
+import pyttsx3 as tts
 
 def text_to_speech(text):
-    engine = pyttsx3.init()
-    engine.setProperty('rate', 200)
+    engine = tts.init()
+    engine.setProperty('rate', 250)
     engine.say(text)
     engine.runAndWait()
+
+"""
+### Declaración de coordenadas de articulaciones:
+#Declaración del joint 0(nariz)
+narizX = int(results.pose_landmarks.landmark[0].x * width)
+narizY = int(results.pose_landmarks.landmark[0].y * height)
+
+#Declaración del joint 11(hombro derecho)
+hombreDerechoX = int(results.pose_landmarks.landmark[11].x * width)
+hombreDerechoY = int(results.pose_landmarks.landmark[11].y * height)
+
+#Declaración del joint 12(hombro izquierdo)
+hombreIzquierdoX = int(results.pose_landmarks.landmark[12].x * width)
+hombreIzquierdoY = int(results.pose_landmarks.landmark[12].y * height)
+
+#Declaración del joint 13(codo derecho)
+codoDerechoX = int(results.pose_landmarks.landmark[13].x * width)
+codoDerechoY = int(results.pose_landmarks.landmark[13].y * height)
+
+#Declaración del joint 14(codo izquierdo)
+codoIzquierdoX = int(results.pose_landmarks.landmark[14].x * width)
+codoIzuiqerdoY = int(results.pose_landmarks.landmark[14].y * height)
+
+#Declaración del joint 15(muñeca derecha)
+munecaDerechaX = int(results.pose_landmarks.landmark[15].x * width)
+munecaDerechaY = int(results.pose_landmarks.landmark[15].y * height)
+
+#Declaración del joint 16(muñeca izquierda)
+munecaIzquierdaX = int(results.pose_landmarks.landmark[16].x * width)
+munecaIzquierdaY = int(results.pose_landmarks.landmark[16].y * height)
+
+#Declaración del joint 23 (cadera derecha)
+caderaDerechaX = int(results.pose_landmarks.landmark[23].x * width)
+caderaDerechaY = int(results.pose_landmarks.landmark[23].y * height)
+
+#Declaración del joint 24 (cadera izquierda)
+caderaIzquierdaX = int(results.pose_landmarks.landmark[24].x * width)
+caderaIzquierdaY = int(results.pose_landmarks.landmark[24].y * height)
+
+#Declaración del joint 25(rodilla derecha)
+rodillaDerechaX = int(results.pose_landmarks.landmark[25].x * width)
+rodillaDerechaY = int(results.pose_landmarks.landmark[25].y * height)
+
+#Declaración del joint 26(rodilla izquierda)
+rodillaIzquierdaX = int(results.pose_landmarks.landmark[26].x * width)
+rodillaIzquierdaY = int(results.pose_landmarks.landmark[26].y * height)
+
+#Declaración del joint 27(tobillo derecha)
+tobilloDerechoX = int(results.pose_landmarks.landmark[27].x * width)
+tobilloDerechoY = int(results.pose_landmarks.landmark[27].y * height)
+
+#Declaración del joint 28(tobillo izquierda)
+tobilloIzquierdoX = int(results.pose_landmarks.landmark[28].x * width)
+tobilloIzquierdoY = int(results.pose_landmarks.landmark[28].y * height)
+
+#Declaración del joint 31(punta del pie derecha)
+pieDerechoX = int(results.pose_landmarks.landmark[31].x * width)
+pieDerechoY = int(results.pose_landmarks.landmark[31].y * height)
+
+#Declaración del joint 32(punta del pie izquierda)
+pieIzquierdoX = int(results.pose_landmarks.landmark[32].x * width)
+pieIzquierdoY = int(results.pose_landmarks.landmark[32].y * height)
+
+### Referencias geometricas
+nariz = np.array([narizX, narizY])
+hombroDerecho = np.array([hombreoDerecho, hombreoDerecho])
+hombroIZquierdo = np.array([hombroIzquierdo, hombroIzquierdo])
+codoDerecho = np.array([codoDerecho, codoDerecho])
+codoIzquierdo = np.array([codoIzquierdo, codoIzquierdo])
+munecaDerecha = np.array([munecaDerecha, munecaDerecha])
+munecaIzquierda = np.array([munecaIzquierda, munecaIzquierda])
+caderaDerecha = np.array([caderaDerecha, caderaDerecha])
+caderaIzquierda = np.array([caderaIzquierda, caderaIzquierda])
+rodillaDerecha = np.array([rodillaDerecha, rodillaDerecha])
+rodillaIzquierda = np.array([rodillaIzquierda, rodillaIzquierda])
+tobilloDerecho = np.array([tobilloDerecho, tobilloDerecho])
+tobilloIzquierdo = np.array([tobilloIzquierdo, tobilloIzquierdo])
+pieDerecho = np.array([pieDerecho, pieDerecho])
+pieIzquierdo = np.array([pieIzquierdo, pieIzquierdo])
+"""
 
 def squat(cap):
     #Llamado de objetos mediapipe
@@ -120,7 +200,7 @@ def squat(cap):
 
                     #Contar la repetición de una sentadilla válida
                     if angleHip >= 115: #Se encuentra acostado
-                        threading.Thread(target=text_to_speech, args=('Squat',)).start()
+                        th.Thread(target=text_to_speech, args=('Squat',)).start()
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
                         arrow_length = 100
                         arrow_thickness = 3
@@ -151,7 +231,7 @@ def squat(cap):
                         count += 1
                         up = False
                         down = False
-                        threading.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
+                        th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
 
                     # Dibujar el arco del área del ángulo
                     center1 = (lhw, lhh)  # Puedes ajustar el centro del arco según tus necesidades
@@ -181,6 +261,7 @@ def squat(cap):
                 yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' +
                     bytearray(encodedImage) + b'\r\n')
 
+
 def pushup(cap):
     #Llamado de objetos mediapipe
     mp_drawing = mp.solutions.drawing_utils
@@ -201,7 +282,7 @@ def pushup(cap):
                     rsw = int(results.pose_landmarks.landmark[11].x * width)
                     rsh = int(results.pose_landmarks.landmark[11].y * height)
 
-                    #Declaración del joint 12(hombro izquierdo)
+                    #Declaración del joint 12(hombro izquierdo) 
                     lsw = int(results.pose_landmarks.landmark[12].x * width)
                     lsh = int(results.pose_landmarks.landmark[12].y * height)
 
@@ -263,13 +344,13 @@ def pushup(cap):
 
                     #Impresión de la imagen final
                     cv.putText(frame, str(count), (50, 50), 1, 3.5, (0, 0, 255), 3)
-                    cv.putText(frame, str(int(angleElbow)), (100, 80), 1, 3.5, (0, 0, 255, 128), 3)
+                    cv.putText(frame, str(int(angleElbow)), (100, 50), 1, 3.5, (0, 0, 255, 128), 3)
                     cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0, 128), 2)
                     cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0, 128), 2)
 
                     #contar la repetición de una flexión válida
-                    if angleElbow >= 150:                        
-                        threading.Thread(target=text_to_speech, args=('Push ap',)).start()
+                    if angleElbow >= 170:                        
+                        th.Thread(target=text_to_speech, args=('Listo para inciar',)).start()
                     if angleElbow <= 150 and 120 <= angleElbow:
                         arrow_length = 100
                         arrow_thickness = 3
@@ -278,7 +359,7 @@ def pushup(cap):
                         up = True                
                     if up == True and down == False and angleElbow <= 90:                                        
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        threading.Thread(target=text_to_speech, args=('Puedes subir',)).start()
+                        th.Thread(target=text_to_speech, args=('Puedes subir',)).start()
                         arrow_length = 100
                         arrow_thickness = 3
                         arrow_color = (0, 0, 255, 128)  # Verde
@@ -301,9 +382,9 @@ def pushup(cap):
                         count += 1
                         up = False
                         down = False
-                        threading.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
+                        th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
                     if down == True and angleElbow<=65:
-                        threading.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
+                        th.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
                     
                     # Dibujar el arco del área del ángulo
                     center1 = (lew, leh)  # Puedes ajustar el centro del arco según tus necesidades
@@ -449,7 +530,7 @@ def ohp(cap):
 
                     #contar la repetición de una flexión válida
                     if angleElbow >= 150:                        
-                        threading.Thread(target=text_to_speech, args=('OHP',)).start()
+                        th.Thread(target=text_to_speech, args=('OHP',)).start()
                     if angleElbow <= 150 and 120 <= angleElbow:
                         arrow_length = 100
                         arrow_thickness = 3
@@ -458,7 +539,7 @@ def ohp(cap):
                         up = True                
                     if up == True and down == False and angleElbow <= 90:                                        
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        threading.Thread(target=text_to_speech, args=('Puedes subir',)).start()
+                        th.Thread(target=text_to_speech, args=('Puedes subir',)).start()
                         arrow_length = 100
                         arrow_thickness = 3
                         arrow_color = (0, 0, 255, 128)  # Verde
@@ -481,9 +562,9 @@ def ohp(cap):
                         count += 1
                         up = False
                         down = False
-                        threading.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
+                        th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
                     if down == True and angleElbow<=65:
-                        threading.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
+                        th.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
                     
                     # Dibujar el arco del área del ángulo
                     center1 = (lew, leh)  # Puedes ajustar el centro del arco según tus necesidades
@@ -557,6 +638,10 @@ def bicep_curl(cap):
                 gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)                
                 results = pose.process(frame)        
                 if results.pose_landmarks is not None:
+                    #Declaración del joint 0(nariz)
+                    nw = int(results.pose_landmarks.landmark[0].x * width)
+                    nh = int(results.pose_landmarks.landmark[0].y * height)
+
                     #Declaración del joint 11(hombro derecho)
                     rsw = int(results.pose_landmarks.landmark[11].x * width)
                     rsh = int(results.pose_landmarks.landmark[11].y * height)
@@ -581,6 +666,14 @@ def bicep_curl(cap):
                     lww = int(results.pose_landmarks.landmark[16].x * width)
                     lwh = int(results.pose_landmarks.landmark[16].y * height)
 
+                    #Declaración del joint 23 (cadera derecha)
+                    rhw = int(results.pose_landmarks.landmark[23].x * width)
+                    rhh = int(results.pose_landmarks.landmark[23].y * height)
+                    
+                    #Declaración del joint 24 (cadera izquierda)
+                    lhw = int(results.pose_landmarks.landmark[24].x * width)
+                    lhh = int(results.pose_landmarks.landmark[24].y * height)
+
                     #Declaración de puntos de referencia
                     hi = np.array([lsw, lsh])
                     hr = np.array([rsw, rsh])
@@ -590,6 +683,9 @@ def bicep_curl(cap):
 
                     mi = np.array([lww, lwh])
                     mr = np.array([rww, rwh])
+
+                    hi = np.array([rhw, rhh]) #Cadera izquierda
+                    hr = np.array([lhw, lhh]) #Cadera derecha
 
                     #Declaración de lineas en base a los puntos de referencia
                     l1 = np.linalg.norm(hi-ci)
@@ -629,7 +725,7 @@ def bicep_curl(cap):
 
                     #contar la repetición de una flexión válida
                     if angleElbow >= 160:                        
-                        threading.Thread(target=text_to_speech, args=('bicep curl',)).start()
+                        th.Thread(target=text_to_speech, args=('bicep curl',)).start()
                     if angleElbow <= 160 and 130 <= angleElbow:
                         arrow_length = 100
                         arrow_thickness = 3
@@ -638,7 +734,7 @@ def bicep_curl(cap):
                         up = True                
                     if up == True and down == False and angleElbow <= 90:                                        
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        threading.Thread(target=text_to_speech, args=('Puedes bajar',)).start()
+                        th.Thread(target=text_to_speech, args=('Puedes bajar',)).start()
                         arrow_length = 100
                         arrow_thickness = 3
                         arrow_color = (0, 0, 255, 128)  # Verde
@@ -661,9 +757,9 @@ def bicep_curl(cap):
                         count += 1
                         up = False
                         down = False
-                        threading.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
+                        th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
                     if down == True and angleElbow<=65:
-                        threading.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
+                        th.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
                     
                     # Dibujar el arco del área del ángulo
                     center1 = (lew, leh)  # Puedes ajustar el centro del arco según tus necesidades
@@ -720,3 +816,6 @@ def bicep_curl(cap):
                     continue
                 yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' +
                     bytearray(encodedImage) + b'\r\n')
+
+
+
