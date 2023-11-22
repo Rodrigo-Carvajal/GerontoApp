@@ -89,6 +89,17 @@ tobilloDerecho = np.array([tobilloDerecho, tobilloDerecho])
 tobilloIzquierdo = np.array([tobilloIzquierdo, tobilloIzquierdo])
 pieDerecho = np.array([pieDerecho, pieDerecho])
 pieIzquierdo = np.array([pieIzquierdo, pieIzquierdo])
+
+### Lineas entre articulaciones del ángulo a evaluar(Ángulo del codo)
+lineaHombroCodoDerecho = np.linalg.norm(hombroDerecho-codoDerecho) -> l1 = cateto
+lineaCodoMunecaDerecho = np.linalg.norm(codoDerecho-munecaDerecha) -> l2 = cateto
+lineaMunecaHombroDerecho = np.linalg.norm(munecaDerecha-hombroDerecho) -> l3 = hipotenusa
+
+### Cálculo de ángulo (EJ: codo)
+angulo = degrees(acos((l1**2 + l3**2 - l2**2) / (2*l1*l3)))
+OR
+angulo = degrees(acos( (lineaHombroCodoDerecho**2 + lineaMunecaHombroDerecho**2 - lineaCodoMunecaDerecho**2)/ (2*lineaHombroCodoDerecho*lineaMunecaHombroDerecho) ))
+
 """
 
 ### Módulo isómetrico (PROXIMAMENTE)
@@ -338,26 +349,26 @@ def pushup(cap):
                     angleElbow = (angle1 + angle2)/2
 
                     #Dibujado de joints
-                    cv.circle(frame, (lsw, lsh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (lew, leh), 6, (255,0,0, 128), 6)
-                    cv.circle(frame, (lww, lwh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (rsw, rsh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (rew, reh), 6, (255,0,0, 128), 6)
-                    cv.circle(frame, (rww, rwh), 6, (0,0,255, 128), 4)
+                    cv.circle(frame, (lsw, lsh), 6, (0,0,255), 4)
+                    cv.circle(frame, (lew, leh), 6, (255,0,0), 6)
+                    cv.circle(frame, (lww, lwh), 6, (0,0,255), 4)
+                    cv.circle(frame, (rsw, rsh), 6, (0,0,255), 4)
+                    cv.circle(frame, (rew, reh), 6, (255,0,0), 6)
+                    cv.circle(frame, (rww, rwh), 6, (0,0,255), 4)
                     
                     #Dibujado de lineas entre los joints
-                    cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0, 128), 20)
-                    cv.line(frame, (lew, leh), (lww, lwh), (255,0,0, 128), 20)
-                    cv.line(frame, (lsw, lsh), (lww, lwh), (0,0,255, 128), 5)
-                    cv.line(frame, (rsw, rsh), (rew, reh), (255,0,0, 128), 20)
-                    cv.line(frame, (rew, reh), (rww, rwh), (255,0,0, 128), 20)
-                    cv.line(frame, (rsw, rsh), (rww, rwh), (0,0,255, 128), 5)
+                    cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0), 20)
+                    cv.line(frame, (lew, leh), (lww, lwh), (255,0,0), 20)
+                    cv.line(frame, (lsw, lsh), (lww, lwh), (0,0,255), 5)
+                    cv.line(frame, (rsw, rsh), (rew, reh), (255,0,0), 20)
+                    cv.line(frame, (rew, reh), (rww, rwh), (255,0,0), 20)
+                    cv.line(frame, (rsw, rsh), (rww, rwh), (0,0,255), 5)
 
                     #Impresión de la imagen final
                     cv.putText(frame, str(count), (50, 50), 1, 3.5, (0, 0, 255), 3)
-                    cv.putText(frame, str(int(angleElbow)), (100, 50), 1, 3.5, (0, 0, 255, 128), 3)
-                    cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0, 128), 2)
-                    cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0, 128), 2)
+                    cv.putText(frame, str(int(angleElbow)), (100, 50), 1, 3.5, (0, 0, 255), 3)
+                    cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0), 2)
+                    cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0), 2)
 
                     #contar la repetición de una flexión válida
                     if angleElbow >= 170:                        
@@ -373,7 +384,7 @@ def pushup(cap):
                         th.Thread(target=text_to_speech, args=('Puedes subir',)).start()
                         arrow_length = 100
                         arrow_thickness = 3
-                        arrow_color = (0, 0, 255, 128)  # Verde
+                        arrow_color = (0, 0, 255)  # Verde
                         x_start = frame.shape[1] - arrow_length
                         y_start = arrow_length * 2
                         x_end = frame.shape[1] - arrow_length
@@ -384,7 +395,7 @@ def pushup(cap):
                         count += 1
                         up = False
                         down = False
-                        th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
+                        threading.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
                     if down == True and angleElbow<=65:
                         th.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
                     
@@ -394,48 +405,48 @@ def pushup(cap):
                     
                     # Dibuja los círculos en la imagen superpuesta
 
-                    cv.circle(frame, center1, 20, (255,255,255, 128), 1)  # -1 rellena el arco
-                    cv.circle(frame, center2, 20, (255,255,255, 128), 0)  # -1 rellena el arco                    
+                    cv.circle(frame, center1, 20, (255,255,255), 1)  # -1 rellena el arco
+                    cv.circle(frame, center2, 20, (255,255,255), 0)  # -1 rellena el arco                    
                     if angle1 >= 160:
-                        cv.circle(frame, center1, 10, (0,0,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 10, (0,0,255), -1)  # -1 rellena el arco
                     if angle2 >= 160:
-                        cv.circle(frame, center2, 10, (0,0,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 10, (0,0,255), -1)  # -1 rellena el arco
                     if 160>=angle1 and angle1>= 150:
-                        cv.circle(frame, center1, 11, (0,65,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 11, (0,65,255), -1)  # -1 rellena el arco                    
                     if 160>=angle2 and angle2>= 150:
-                        cv.circle(frame, center2, 11, (0,65,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 11, (0,65,255), -1)  # -1 rellena el arco
                     if 150>=angle1 and angle1>= 140:
-                        cv.circle(frame, center1, 12, (0,119,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 12, (0,119,255), -1)  # -1 rellena el arco                    
                     if 150>=angle2 and angle2>= 140:
-                        cv.circle(frame, center2, 12, (0,119,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 12, (0,119,255), -1)  # -1 rellena el arco
                     if 140>=angle1 and angle1>= 130:
-                        cv.circle(frame, center1, 13, (0,154,230, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 13, (0,154,230), -1)  # -1 rellena el arco
                     if 140>=angle2 and angle2>= 130:
-                        cv.circle(frame, center2, 13, (0,154,230, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 13, (0,154,230), -1)  # -1 rellena el arco
                     if 130>=angle1 and angle1>= 120:
-                        cv.circle(frame, center1, 14, (0,205,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 14, (0,205,255), -1)  # -1 rellena el arco                    
                     if 130>=angle2 and angle2>= 120:
-                        cv.circle(frame, center2, 14, (0,205,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 14, (0,205,255), -1)  # -1 rellena el arco
                     if 120>=angle1 and angle1>= 110:
-                        cv.circle(frame, center1, 15, (0,230,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 15, (0,230,255), -1)  # -1 rellena el arco
                     if 120>=angle2 and angle2>= 110:
-                        cv.circle(frame, center2, 15, (0,230,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 15, (0,230,255), -1)  # -1 rellena el arco
                     if 110>=angle1 and angle1>= 100:
-                        cv.circle(frame, center1, 16, (0,255,239, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 16, (0,255,239), -1)  # -1 rellena el arco
                     if 110>=angle2 and angle2>= 100:
-                        cv.circle(frame, center2, 16, (0,255,239, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 16, (0,255,239), -1)  # -1 rellena el arco
                     if 100>=angle1 and angle1>= 90:
-                        cv.circle(frame, center1, 17, (0,255,188, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 17, (0,255,188), -1)  # -1 rellena el arco
                     if 100>=angle2 and angle2>= 90:
-                        cv.circle(frame, center2, 17, (0,255,188, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 17, (0,255,188), -1)  # -1 rellena el arco
                     if 90>=angle1 and angle1>= 80:
-                        cv.circle(frame, center1, 18, (0,255,154, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 18, (0,255,154), -1)  # -1 rellena el arco
                     if 90>=angle2 and angle2>= 80:
-                        cv.circle(frame, center2, 18, (0,255,154, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 18, (0,255,154), -1)  # -1 rellena el arco
                     if angle1<=80:
-                        cv.circle(frame, center1, 19, (0,255,60, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 19, (0,255,60), -1)  # -1 rellena el arco
                     if angle2<=80:
-                        cv.circle(frame, center2, 19, (0,255,60, 128), -1)  # -1 rellena el arco            
+                        cv.circle(frame, center2, 19, (0,255,60), -1)  # -1 rellena el arco            
 
                 (flag, encodedImage) = cv.imencode(".jpg", frame)  
                 
@@ -509,26 +520,26 @@ def ohp(cap):
                     angleElbow = (angle1 + angle2)/2     
 
                     #Dibujado de joints
-                    cv.circle(frame, (lsw, lsh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (lew, leh), 6, (255,0,0, 128), 6)
-                    cv.circle(frame, (lww, lwh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (rsw, rsh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (rew, reh), 6, (255,0,0, 128), 6)
-                    cv.circle(frame, (rww, rwh), 6, (0,0,255, 128), 4)
+                    cv.circle(frame, (lsw, lsh), 6, (0,0,255), 4)
+                    cv.circle(frame, (lew, leh), 6, (255,0,0), 6)
+                    cv.circle(frame, (lww, lwh), 6, (0,0,255), 4)
+                    cv.circle(frame, (rsw, rsh), 6, (0,0,255), 4)
+                    cv.circle(frame, (rew, reh), 6, (255,0,0), 6)
+                    cv.circle(frame, (rww, rwh), 6, (0,0,255), 4)
 
                     #Dibujado de lineas entre los joints
-                    cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0, 128), 20)
-                    cv.line(frame, (lew, leh), (lww, lwh), (255,0,0, 128), 20)
-                    cv.line(frame, (lsw, lsh), (lww, lwh), (0,0,255, 128), 5)
-                    cv.line(frame, (rsw, rsh), (rew, reh), (255,0,0, 128), 20)
-                    cv.line(frame, (rew, reh), (rww, rwh), (255,0,0, 128), 20)
-                    cv.line(frame, (rsw, rsh), (rww, rwh), (0,0,255, 128), 5)
+                    cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0), 20)
+                    cv.line(frame, (lew, leh), (lww, lwh), (255,0,0), 20)
+                    cv.line(frame, (lsw, lsh), (lww, lwh), (0,0,255), 5)
+                    cv.line(frame, (rsw, rsh), (rew, reh), (255,0,0), 20)
+                    cv.line(frame, (rew, reh), (rww, rwh), (255,0,0), 20)
+                    cv.line(frame, (rsw, rsh), (rww, rwh), (0,0,255), 5)
 
                     #Impresión de la imagen final
                     cv.putText(frame, str(count), (50, 50), 1, 3.5, (0, 0, 255), 3)
-                    cv.putText(frame, str(int(angleElbow)), (100, 80), 1, 3.5, (0, 0, 255, 128), 3)
-                    cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0, 128), 2)
-                    cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0, 128), 2)
+                    cv.putText(frame, str(int(angleElbow)), (100, 80), 1, 3.5, (0, 0, 255), 3)
+                    cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0), 2)
+                    cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0), 2)
 
                     #contar la repetición de una flexión válida
                     if angleElbow >= 150:                        
@@ -544,7 +555,7 @@ def ohp(cap):
                         th.Thread(target=text_to_speech, args=('Puedes subir',)).start()
                         arrow_length = 100
                         arrow_thickness = 3
-                        arrow_color = (0, 0, 255, 128)  # Verde
+                        arrow_color = (0, 0, 255)  # Verde
                         x_start = frame.shape[1] - arrow_length
                         y_start = arrow_length * 2
                         x_end = frame.shape[1] - arrow_length
@@ -554,7 +565,7 @@ def ohp(cap):
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
                         arrow_length = 100
                         arrow_thickness = 3
-                        arrow_color = (0, 0, 255, 128)  # Verde
+                        arrow_color = (0, 0, 255)  # Verde
                         x_start = frame.shape[1] - arrow_length
                         y_start = arrow_length * 2
                         x_end = frame.shape[1] - arrow_length
@@ -574,48 +585,48 @@ def ohp(cap):
                     
                     # Dibuja los círculos en la imagen superpuesta
 
-                    cv.circle(frame, center1, 20, (255,255,255, 128), 1)  # -1 rellena el arco
-                    cv.circle(frame, center2, 20, (255,255,255, 128), 0)  # -1 rellena el arco                    
+                    cv.circle(frame, center1, 20, (255,255,255), 1)  # -1 rellena el arco
+                    cv.circle(frame, center2, 20, (255,255,255), 0)  # -1 rellena el arco                    
                     if angle1 >= 160:
-                        cv.circle(frame, center1, 10, (0,0,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 10, (0,0,255), -1)  # -1 rellena el arco
                     if angle2 >= 160:
-                        cv.circle(frame, center2, 10, (0,0,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 10, (0,0,255), -1)  # -1 rellena el arco
                     if 160>=angle1 and angle1>= 150:
-                        cv.circle(frame, center1, 11, (0,65,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 11, (0,65,255), -1)  # -1 rellena el arco                    
                     if 160>=angle2 and angle2>= 150:
-                        cv.circle(frame, center2, 11, (0,65,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 11, (0,65,255), -1)  # -1 rellena el arco
                     if 150>=angle1 and angle1>= 140:
-                        cv.circle(frame, center1, 12, (0,119,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 12, (0,119,255), -1)  # -1 rellena el arco                    
                     if 150>=angle2 and angle2>= 140:
-                        cv.circle(frame, center2, 12, (0,119,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 12, (0,119,255), -1)  # -1 rellena el arco
                     if 140>=angle1 and angle1>= 130:
-                        cv.circle(frame, center1, 13, (0,154,230, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 13, (0,154,230), -1)  # -1 rellena el arco
                     if 140>=angle2 and angle2>= 130:
-                        cv.circle(frame, center2, 13, (0,154,230, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 13, (0,154,230), -1)  # -1 rellena el arco
                     if 130>=angle1 and angle1>= 120:
-                        cv.circle(frame, center1, 14, (0,205,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 14, (0,205,255), -1)  # -1 rellena el arco                    
                     if 130>=angle2 and angle2>= 120:
-                        cv.circle(frame, center2, 14, (0,205,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 14, (0,205,255), -1)  # -1 rellena el arco
                     if 120>=angle1 and angle1>= 110:
-                        cv.circle(frame, center1, 15, (0,230,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 15, (0,230,255), -1)  # -1 rellena el arco
                     if 120>=angle2 and angle2>= 110:
-                        cv.circle(frame, center2, 15, (0,230,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 15, (0,230,255), -1)  # -1 rellena el arco
                     if 110>=angle1 and angle1>= 100:
-                        cv.circle(frame, center1, 16, (0,255,239, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 16, (0,255,239), -1)  # -1 rellena el arco
                     if 110>=angle2 and angle2>= 100:
-                        cv.circle(frame, center2, 16, (0,255,239, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 16, (0,255,239), -1)  # -1 rellena el arco
                     if 100>=angle1 and angle1>= 90:
-                        cv.circle(frame, center1, 17, (0,255,188, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 17, (0,255,188), -1)  # -1 rellena el arco
                     if 100>=angle2 and angle2>= 90:
-                        cv.circle(frame, center2, 17, (0,255,188, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 17, (0,255,188), -1)  # -1 rellena el arco
                     if 90>=angle1 and angle1>= 80:
-                        cv.circle(frame, center1, 18, (0,255,154, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 18, (0,255,154), -1)  # -1 rellena el arco
                     if 90>=angle2 and angle2>= 80:
-                        cv.circle(frame, center2, 18, (0,255,154, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 18, (0,255,154), -1)  # -1 rellena el arco
                     if angle1<=80:
-                        cv.circle(frame, center1, 19, (0,255,60, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 19, (0,255,60), -1)  # -1 rellena el arco
                     if angle2<=80:
-                        cv.circle(frame, center2, 19, (0,255,60, 128), -1)  # -1 rellena el arco            
+                        cv.circle(frame, center2, 19, (0,255,60), -1)  # -1 rellena el arco            
 
                 (flag, encodedImage) = cv.imencode(".jpg", frame)  
                 
@@ -704,26 +715,26 @@ def bicep_curl(cap):
                     angleElbow = (angle1 + angle2)/2     
 
                     #Dibujado de joints
-                    cv.circle(frame, (lsw, lsh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (lew, leh), 6, (255,0,0, 128), 6)
-                    cv.circle(frame, (lww, lwh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (rsw, rsh), 6, (0,0,255, 128), 4)
-                    cv.circle(frame, (rew, reh), 6, (255,0,0, 128), 6)
-                    cv.circle(frame, (rww, rwh), 6, (0,0,255, 128), 4)
+                    cv.circle(frame, (lsw, lsh), 6, (0,0,255), 4)
+                    cv.circle(frame, (lew, leh), 6, (255,0,0), 6)
+                    cv.circle(frame, (lww, lwh), 6, (0,0,255), 4)
+                    cv.circle(frame, (rsw, rsh), 6, (0,0,255), 4)
+                    cv.circle(frame, (rew, reh), 6, (255,0,0), 6)
+                    cv.circle(frame, (rww, rwh), 6, (0,0,255), 4)
 
                     #Dibujado de lineas entre los joints
-                    cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0, 128), 20)
-                    cv.line(frame, (lew, leh), (lww, lwh), (255,0,0, 128), 20)
-                    cv.line(frame, (lsw, lsh), (lww, lwh), (0,0,255, 128), 5)
-                    cv.line(frame, (rsw, rsh), (rew, reh), (255,0,0, 128), 20)
-                    cv.line(frame, (rew, reh), (rww, rwh), (255,0,0, 128), 20)
-                    cv.line(frame, (rsw, rsh), (rww, rwh), (0,0,255, 128), 5)
+                    cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0), 20)
+                    cv.line(frame, (lew, leh), (lww, lwh), (255,0,0), 20)
+                    cv.line(frame, (lsw, lsh), (lww, lwh), (0,0,255), 5)
+                    cv.line(frame, (rsw, rsh), (rew, reh), (255,0,0), 20)
+                    cv.line(frame, (rew, reh), (rww, rwh), (255,0,0), 20)
+                    cv.line(frame, (rsw, rsh), (rww, rwh), (0,0,255), 5)
 
                     #Impresión de la imagen final
                     cv.putText(frame, str(count), (50, 50), 1, 3.5, (0, 0, 255), 3)
-                    cv.putText(frame, str(int(angleElbow)), (100, 80), 1, 3.5, (0, 0, 255, 128), 3)
-                    cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0, 128), 2)
-                    cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0, 128), 2)
+                    cv.putText(frame, str(int(angleElbow)), (100, 80), 1, 3.5, (0, 0, 255), 3)
+                    cv.putText(frame, str(int(angle2)), (rew+30, reh), 1, 1.5, (0, 255, 0), 2)
+                    cv.putText(frame, str(int(angle1)), (lew+30, leh), 1, 1.5, (0, 255, 0), 2)
 
                     #contar la repetición de una flexión válida
                     if angleElbow >= 160:                        
@@ -739,7 +750,7 @@ def bicep_curl(cap):
                         th.Thread(target=text_to_speech, args=('Puedes bajar',)).start()
                         arrow_length = 100
                         arrow_thickness = 3
-                        arrow_color = (0, 0, 255, 128)  # Verde
+                        arrow_color = (0, 0, 255)  # Verde
                         x_start = frame.shape[1] - arrow_length
                         y_start = arrow_length * 2
                         x_end = frame.shape[1] - arrow_length
@@ -749,7 +760,7 @@ def bicep_curl(cap):
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
                         arrow_length = 100
                         arrow_thickness = 3
-                        arrow_color = (0, 0, 255, 128)  # Verde
+                        arrow_color = (0, 0, 255)  # Verde
                         x_start = frame.shape[1] - arrow_length
                         y_start = arrow_length * 2
                         x_end = frame.shape[1] - arrow_length
@@ -769,48 +780,48 @@ def bicep_curl(cap):
                     
                     # Dibuja los círculos en la imagen superpuesta
 
-                    cv.circle(frame, center1, 20, (255,255,255, 128), 1)  # -1 rellena el arco
-                    cv.circle(frame, center2, 20, (255,255,255, 128), 0)  # -1 rellena el arco                    
+                    cv.circle(frame, center1, 20, (255,255,255), 1)  # -1 rellena el arco
+                    cv.circle(frame, center2, 20, (255,255,255), 0)  # -1 rellena el arco                    
                     if angle1 >= 160:
-                        cv.circle(frame, center1, 10, (0,0,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 10, (0,0,255), -1)  # -1 rellena el arco
                     if angle2 >= 160:
-                        cv.circle(frame, center2, 10, (0,0,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 10, (0,0,255), -1)  # -1 rellena el arco
                     if 160>=angle1 and angle1>= 150:
-                        cv.circle(frame, center1, 11, (0,65,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 11, (0,65,255), -1)  # -1 rellena el arco                    
                     if 160>=angle2 and angle2>= 150:
-                        cv.circle(frame, center2, 11, (0,65,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 11, (0,65,255), -1)  # -1 rellena el arco
                     if 150>=angle1 and angle1>= 140:
-                        cv.circle(frame, center1, 12, (0,119,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 12, (0,119,255), -1)  # -1 rellena el arco                    
                     if 150>=angle2 and angle2>= 140:
-                        cv.circle(frame, center2, 12, (0,119,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 12, (0,119,255), -1)  # -1 rellena el arco
                     if 140>=angle1 and angle1>= 130:
-                        cv.circle(frame, center1, 13, (0,154,230, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 13, (0,154,230), -1)  # -1 rellena el arco
                     if 140>=angle2 and angle2>= 130:
-                        cv.circle(frame, center2, 13, (0,154,230, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 13, (0,154,230), -1)  # -1 rellena el arco
                     if 130>=angle1 and angle1>= 120:
-                        cv.circle(frame, center1, 14, (0,205,255, 128), -1)  # -1 rellena el arco                    
+                        cv.circle(frame, center1, 14, (0,205,255), -1)  # -1 rellena el arco                    
                     if 130>=angle2 and angle2>= 120:
-                        cv.circle(frame, center2, 14, (0,205,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 14, (0,205,255), -1)  # -1 rellena el arco
                     if 120>=angle1 and angle1>= 110:
-                        cv.circle(frame, center1, 15, (0,230,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 15, (0,230,255), -1)  # -1 rellena el arco
                     if 120>=angle2 and angle2>= 110:
-                        cv.circle(frame, center2, 15, (0,230,255, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 15, (0,230,255), -1)  # -1 rellena el arco
                     if 110>=angle1 and angle1>= 100:
-                        cv.circle(frame, center1, 16, (0,255,239, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 16, (0,255,239), -1)  # -1 rellena el arco
                     if 110>=angle2 and angle2>= 100:
-                        cv.circle(frame, center2, 16, (0,255,239, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 16, (0,255,239), -1)  # -1 rellena el arco
                     if 100>=angle1 and angle1>= 90:
-                        cv.circle(frame, center1, 17, (0,255,188, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 17, (0,255,188), -1)  # -1 rellena el arco
                     if 100>=angle2 and angle2>= 90:
-                        cv.circle(frame, center2, 17, (0,255,188, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 17, (0,255,188), -1)  # -1 rellena el arco
                     if 90>=angle1 and angle1>= 80:
-                        cv.circle(frame, center1, 18, (0,255,154, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 18, (0,255,154), -1)  # -1 rellena el arco
                     if 90>=angle2 and angle2>= 80:
-                        cv.circle(frame, center2, 18, (0,255,154, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center2, 18, (0,255,154), -1)  # -1 rellena el arco
                     if angle1<=80:
-                        cv.circle(frame, center1, 19, (0,255,60, 128), -1)  # -1 rellena el arco
+                        cv.circle(frame, center1, 19, (0,255,60), -1)  # -1 rellena el arco
                     if angle2<=80:
-                        cv.circle(frame, center2, 19, (0,255,60, 128), -1)  # -1 rellena el arco            
+                        cv.circle(frame, center2, 19, (0,255,60), -1)  # -1 rellena el arco            
 
                 (flag, encodedImage) = cv.imencode(".jpg", frame)  
                 
