@@ -91,6 +91,17 @@ pieDerecho = np.array([pieDerecho, pieDerecho])
 pieIzquierdo = np.array([pieIzquierdo, pieIzquierdo])
 """
 
+### Módulo isómetrico (PROXIMAMENTE)
+def plancha(cap):
+    return 'plancha'
+
+### Ejercicios RTR
+def remo_parado(cap):
+    return 'remo parado'
+
+def lateral_raise(cap):
+    return 'lateral raise'
+
 def squat(cap):
     #Llamado de objetos mediapipe
     mp_drawing = mp.solutions.drawing_utils
@@ -279,8 +290,8 @@ def pushup(cap):
                 results = pose.process(frame)        
                 if results.pose_landmarks is not None:                    
                     #Declaración del joint 11(hombro derecho)
-                    rsw = int(results.pose_landmarks.landmark[11].x * width)
-                    rsh = int(results.pose_landmarks.landmark[11].y * height)
+                    rsw = int(results.pose_landmarks.landmark[11]. x * width)
+                    rsh = int(results.pose_landmarks.landmark[11]. y * height)
 
                     #Declaración del joint 12(hombro izquierdo) 
                     lsw = int(results.pose_landmarks.landmark[12].x * width)
@@ -324,7 +335,7 @@ def pushup(cap):
                     angle1 = degrees(acos((l1**2 + l2**2 - l3**2) / (2*l1*l2)))
                     angle2 = degrees(acos((l4**2 + l5**2 - l6**2) / (2*l4*l5)))
 
-                    angleElbow = (angle1 + angle2)/2     
+                    angleElbow = (angle1 + angle2)/2
 
                     #Dibujado de joints
                     cv.circle(frame, (lsw, lsh), 6, (0,0,255, 128), 4)
@@ -333,7 +344,7 @@ def pushup(cap):
                     cv.circle(frame, (rsw, rsh), 6, (0,0,255, 128), 4)
                     cv.circle(frame, (rew, reh), 6, (255,0,0, 128), 6)
                     cv.circle(frame, (rww, rwh), 6, (0,0,255, 128), 4)
-
+                    
                     #Dibujado de lineas entre los joints
                     cv.line(frame, (lsw, lsh), (lew, leh), (255,0,0, 128), 20)
                     cv.line(frame, (lew, leh), (lww, lwh), (255,0,0, 128), 20)
@@ -369,15 +380,6 @@ def pushup(cap):
                         y_end = arrow_length
                         cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)
                         down=True
-                        # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        arrow_length = 100
-                        arrow_thickness = 3
-                        arrow_color = (0, 0, 255, 128)  # Verde
-                        x_start = frame.shape[1] - arrow_length
-                        y_start = arrow_length * 2
-                        x_end = frame.shape[1] - arrow_length
-                        y_end = arrow_length
-                        cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)
                     if up == True and down == True and angleElbow>=150:
                         count += 1
                         up = False
