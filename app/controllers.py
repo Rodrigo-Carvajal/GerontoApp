@@ -3,8 +3,8 @@ from flask import render_template, Response, redirect, url_for, request, flash, 
 from flask_login import login_user, login_required, logout_user, current_user
 import cv2 as cv
 import pyttsx3
-from app.functions import squat, pushup, ohp, bicep_curl
 
+from app.functions import squat, pushup, ohp, bicep_curl, lateral_raise
 from app.models import Usuario, Paciente, Ejercicio, Limitacion, Registro, Sesion
 
 # Instanciación del blueprint
@@ -319,6 +319,9 @@ def video_feed(ejercicio):
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     elif ejercicio == 'bicep_curl':
         return Response(bicep_curl(cap), 
+                        mimetype='multipart/x-mixed-replace; boundary=frame')
+    elif ejercicio == 'lateral_raise':
+        return Response(lateral_raise(cap), 
                         mimetype='multipart/x-mixed-replace; boundary=frame')
     cap.release()
 

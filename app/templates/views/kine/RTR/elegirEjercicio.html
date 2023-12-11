@@ -3,8 +3,13 @@
 {% block title %}Elegir ejercicio a evaluar{% endblock %}
 
 {% block body %}
-
-<div class="container m-2">
+<nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+        <li class="breadcrumb-item active">Elegir ejercicio</li>
+    </ol>
+  </nav>
+<div class="container">
     <div class="row m-1 d-flex justify-content-center">
         <div class="col-md-6">
             <a name="" id="" class="btn btn-primary m-1 border btn-xlg btn-ejercicio" href="{{ url_for('RTR',ejercicio='squat') }}" role="button">
@@ -19,7 +24,7 @@
     </div>
     <div class="row m-1 d-flex justify-content-center">
         <div class="col-md-6">
-            <a name="" id="" class="btn btn-info m-1 border btn-xlg btn-ejercicio" href="{{ url_for('RTR',ejercicio='ohp') }}" role="button">
+            <a name="" id="" class="btn btn-info m-1 border btn-xlg btn-ejercicio" href="{{ url_for('RTR',ejercicio='lateral_raise') }}" role="button">
                 <img src="{{ url_for('static', filename='icons/man-fitness.png') }}" style="height: 3em; width: 3em;"></img>
             </a>
             
