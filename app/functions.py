@@ -75,8 +75,8 @@ pieIzquierdoY = int(results.pose_landmarks.landmark[32].y * height)
 
 ### Referencias geometricas
 nariz = np.array([narizX, narizY])
-hombroDerecho = np.array([hombreoDerechoX, hombreoDerechoY])
 hombroIZquierdo = np.array([hombroIzquierdoX, hombroIzquierdoY])
+hombroDerecho = np.array([hombroDerechoX, hombroDerechoY])
 codoDerecho = np.array([codoDerechoX, codoDerechoY])
 codoIzquierdo = np.array([codoIzquierdoX, codoIzquierdoY])
 munecaDerecha = np.array([munecaDerechaX, munecaDerechaY])
@@ -115,7 +115,7 @@ def lateral_raise(cap):
     mp_pose = mp.solutions.pose
 
     up = False
-    down = False
+    down = True
     count = 0
     with mp_pose.Pose(static_image_mode=False) as pose:
         while True:            
@@ -125,7 +125,6 @@ def lateral_raise(cap):
                 gray = cv.cvtColor(frame, cv.COLOR_BGR2GRAY)                
                 results = pose.process(frame)        
                 if results.pose_landmarks is not None:
-
                     #Declaración del joint 11(hombro derecho)
                     hombroDerechoX = int(results.pose_landmarks.landmark[11].x * width)
                     hombroDerechoY = int(results.pose_landmarks.landmark[11].y * height)
@@ -150,99 +149,97 @@ def lateral_raise(cap):
                     munecaIzquierdaX = int(results.pose_landmarks.landmark[16].x * width)
                     munecaIzquierdaY = int(results.pose_landmarks.landmark[16].y * height)
 
+                    #Declaración del joint 23 (cadera derecha)
+                    caderaDerechaX = int(results.pose_landmarks.landmark[23].x * width)
+                    caderaDerechaY = int(results.pose_landmarks.landmark[23].y * height)
+
+                    #Declaración del joint 24 (cadera izquierda)
+                    caderaIzquierdaX = int(results.pose_landmarks.landmark[24].x * width)
+                    caderaIzquierdaY = int(results.pose_landmarks.landmark[24].y * height)
+
                     #Declaración de puntos de referencia
                     hombroDerecho = np.array([hombroDerechoX, hombroDerechoY])
                     hombroIzquierdo = np.array([hombroIzquierdoX, hombroIzquierdoY])
                     codoDerecho = np.array([codoDerechoX, codoDerechoY])
                     codoIzquierdo = np.array([codoIzquierdoX, codoIzquierdoY])
+                    caderaDerecha = np.array([caderaDerechaX, caderaDerechaY])
+                    caderaIzquierda = np.array([caderaIzquierdaX, caderaIzquierdaY])
                     munecaDerecha = np.array([munecaDerechaX, munecaDerechaY])
                     munecaIzquierda = np.array([munecaIzquierdaX, munecaIzquierdaY])
 
                     #Declaración de lineas en base a los puntos de referencia
-                    L1HombroCodoDerecho = np.linalg.norm(hombroDerecho - codoDerecho) # Catero
-                    L2CodoMunecaDerecho = np.linalg.norm(codoDerecho - munecaDerecha) # Cateto
-                    L3MunecaHombroDerecho = np.linalg.norm(munecaDerecha - hombroDerecho) # Hipotenusa
+                    l1 = np.linalg.norm(hombroDerecho - codoDerecho) # Catero
+                    l2 = np.linalg.norm(caderaDerecha - hombroDerecho) # Cateto 
+                    l3 = np.linalg.norm(codoDerecho - caderaDerecha) # Hipotenusa
 
-                    L4HombroCodoIzquierdo = np.linalg.norm(hombroIzquierdo - codoIzquierdo) # Cateto
-                    L5CodoMunecaIzquierdo = np.linalg.norm(codoIzquierdo - munecaIzquierda) # Cateto
-                    L6MunecaHombroIzquierdo = np.linalg.norm(munecaIzquierda - hombroIzquierdo) # Hipotenusa                   
+                    l4 = np.linalg.norm(hombroIzquierdo - codoIzquierdo) # Cateto
+                    l5 = np.linalg.norm(caderaIzquierda - hombroIzquierdo) # Cateto 
+                    l6 = np.linalg.norm(codoIzquierdo - caderaIzquierda) # Hipotenusa                   
                     
                     #Calculo de angulo entre hombro codo y muñeca
-                    angle1 = degrees(acos((L1HombroCodoDerecho**2 + L3MunecaHombroDerecho**2 - L2CodoMunecaDerecho**2) / (2*L1HombroCodoDerecho*L3MunecaHombroDerecho)))
-                    angle2 = degrees(acos((L4HombroCodoIzquierdo**2 + L6MunecaHombroIzquierdo**2 - L5CodoMunecaIzquierdo**2) / (2*L4HombroCodoIzquierdo*L6MunecaHombroIzquierdo)))
+                    angle1 = degrees(acos((l1**2 + l3**2 - l2**2) / (2*l1*l3)))
+                    angle2 = degrees(acos((l4**2 + l6**2 - l5**2) / (2*l4*l6)))
 
-                    angleElbow = (angle1 + angle2)/2
+                    angleShoulder = (angle1 + angle2)/2
 
                     # Dibujar puntos y líneas
                     cv.circle(frame, (hombroDerechoX, hombroDerechoY), 6, (0, 0, 255), 4)
+                    cv.circle(frame, (caderaDerechaX, caderaDerechaY), 6, (0, 0, 255), 4)
                     cv.circle(frame, (codoDerechoX, codoDerechoY), 6, (0, 0, 255), 4)
-                    cv.circle(frame, (munecaDerechaX, munecaDerechaY), 6, (0, 0, 255), 4)
 
                     cv.circle(frame, (hombroIzquierdoX, hombroIzquierdoY ), 6, (0, 0, 255), 4)
+                    cv.circle(frame, (caderaIzquierdaX, caderaIzquierdaY), 6, (0, 0, 255), 4)
                     cv.circle(frame, (codoIzquierdoX, codoIzquierdoY), 6, (0, 0, 255), 4)
-                    cv.circle(frame, (munecaIzquierdaX, munecaIzquierdaY), 6, (0, 0, 255), 4)
 
-                    cv.line(frame, (hombroDerechoX, hombroDerechoY), (codoDerechoX, codoDerechoY), (255, 0, 0), 20)
-                    cv.line(frame, (codoDerechoX, codoDerechoY), (munecaDerechaX, munecaDerechaY), (255, 0, 0), 20)
-                    cv.line(frame, (munecaDerechaX, munecaDerechaY), (hombroDerechoX, hombroDerechoY), (255, 0, 0), 5)                 
+                    cv.line(frame, (hombroDerechoX, hombroDerechoY), (caderaDerechaX, caderaDerechaY), (255, 0, 0), 20)
+                    cv.line(frame, (caderaDerechaX, caderaDerechaY), (codoDerechoX, codoDerechoY), (255, 0, 0), 5)
+                    cv.line(frame, (codoDerechoX, codoDerechoY), (hombroDerechoX, hombroDerechoY), (255, 0, 0), 20)              
 
-                    cv.line(frame, (hombroIzquierdoX, hombroIzquierdoY), (codoIzquierdoX, codoIzquierdoY), (255, 0, 0), 20)
-                    cv.line(frame, (codoIzquierdoX, codoIzquierdoY), (munecaIzquierdaX, munecaIzquierdaY), (255, 0, 0), 20)
-                    cv.line(frame, (munecaIzquierdaX, munecaIzquierdaY), (hombroIzquierdoX, hombroIzquierdoY), (255, 0, 0), 5)
-
+                    cv.line(frame, (hombroIzquierdoX, hombroIzquierdoY), (caderaIzquierdaX, caderaIzquierdaY), (255, 0, 0), 20)
+                    cv.line(frame, (caderaIzquierdaX, caderaIzquierdaY), (codoIzquierdoX, codoIzquierdoY), (255, 0, 0), 5)
+                    cv.line(frame, (codoIzquierdoX, codoIzquierdoY), (hombroIzquierdoX, hombroIzquierdoY), (255, 0, 0), 20)
+                    
                     #Impresión de la imagen final
                     cv.putText(frame, str(count), (50, 50), 1, 3.5, (0, 0, 255), 3)
-                    cv.putText(frame, str(int(angleElbow)), (100, 80), 1, 3.5, (0, 0, 255), 3)
-                    cv.putText(frame, str(int(angle2)), (codoDerechoX+30, codoDerechoY), 1, 1.5, (0, 255, 0), 2)
-                    cv.putText(frame, str(int(angle1)), (codoIzquierdoX+30, codoIzquierdoY), 1, 1.5, (0, 255, 0), 2)
+                    cv.putText(frame, str(int(angleShoulder)), (100, 80), 1, 3.5, (0, 0, 255), 3)
+                    cv.putText(frame, str(int(angle1)), (hombroDerechoX+30, hombroDerechoY), 1, 1.5, (0, 255, 0), 2)
+                    cv.putText(frame, str(int(angle2)), (hombroIzquierdoX+30, hombroIzquierdoY), 1, 1.5, (0, 255, 0), 2)
 
                     # Condiciones para contar una repetición
-                    if angleElbow >= 95:
+                    if angleShoulder >= 140 and down == True:
                         th.Thread(target=text_to_speech, args=('OHP',)).start()
-                    if angleElbow <= 95 and 45 <= angleElbow:
+                    if angleShoulder <= 140 and 100 <= angleShoulder:
+                        arrow_length = 100
+                        arrow_thickness = 3
+                        arrow_color = (0, 0, 255)  # Verde
+                        x_start = frame.shape[1] - arrow_length
+                        y_start = arrow_length * 2
+                        x_end = frame.shape[1] - arrow_length
+                        y_end = arrow_length
+                        cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)
+                        up = True
+                        down = False
+                    if up == True and down == False and angleShoulder <= 99:
                         arrow_length = 100
                         arrow_thickness = 3
                         arrow_color = (0, 255, 0) #Verde
                         cv.arrowedLine(frame, (width - arrow_length, arrow_length), (width - arrow_length, arrow_length * 2),arrow_color, thickness=arrow_thickness, tipLength=0.3)
-                        up = True
-
-                    if up == True and down == False and angleElbow <= 90:
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        th.Thread(target=text_to_speech, args=('Puedes subir',)).start()
-                        arrow_length = 100
-                        arrow_thickness = 3
-                        arrow_color = (0, 0, 255)  # Verde
-                        x_start = frame.shape[1] - arrow_length
-                        y_start = arrow_length * 2
-                        x_end = frame.shape[1] - arrow_length
-                        y_end = arrow_length
-                        cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)
-                        down=True
-                        # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        arrow_length = 100
-                        arrow_thickness = 3
-                        arrow_color = (0, 0, 255)  # Verde
-                        x_start = frame.shape[1] - arrow_length
-                        y_start = arrow_length * 2
-                        x_end = frame.shape[1] - arrow_length
-                        y_end = arrow_length
-                        cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)
-                    
-                    if up == True and down == True and angleElbow >= 95:
+                        th.Thread(target=text_to_speech, args=('Puedes subir',)).start()                        
+                        down=True                   
+                    if up == True and down == True and angleShoulder >= 80:
                         count += 1
                         up = False
                         down = False
-                        th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
-                    
-                    if down == True and angleElbow <= 65:
-                        th.Thread(target=text_to_speech, args=('¡Está bajando demasiado!',)).start()
+                        th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()                    
+                    if down == True and angleShoulder <= 90:
+                        th.Thread(target=text_to_speech, args=('¡Está subiendo demasiado!',)).start()
 
                     # Dibujar el arco del área del angulo
                     center1 = (hombroDerechoX, hombroDerechoY)  # Puedes ajustar el centro del arco según tus necesidades
                     center2 = (hombroIzquierdoX, hombroIzquierdoY)
 
                     # Dibuja los círculos en la imagen superpuesta
-
                     cv.circle(frame, center1, 20, (255,255,255), 1)  # -1 rellena el arco
                     cv.circle(frame, center2, 20, (255,255,255), 0)  # -1 rellena el arco                    
                     if angle1 >= 160:
@@ -334,37 +331,34 @@ def squat(cap):
                     rodillaIzquierdaY = int(results.pose_landmarks.landmark[26].y * height)
 
                     #Declaración del joint 27(tobillo derecha)
-                    raw = int(results.pose_landmarks.landmark[27].x * width)
-                    rah = int(results.pose_landmarks.landmark[27].y * height)
-                    
+                    tobilloDerechoX = int(results.pose_landmarks.landmark[27].x * width)
+                    tobilloDerechoY = int(results.pose_landmarks.landmark[27].y * height)
+
                     #Declaración del joint 28(tobillo izquierda)
-                    law = int(results.pose_landmarks.landmark[28].x * width)
-                    lah = int(results.pose_landmarks.landmark[28].y * height)
-                
+                    tobilloIzquierdoX = int(results.pose_landmarks.landmark[28].x * width)
+                    tobilloIzquierdoY = int(results.pose_landmarks.landmark[28].y * height)
+
                     #Declaración de puntos de referencia
-                    hi = np.array([hombroIzquierdoX, hombroIzquierdoY])
-                    hr = np.array([hombroDerechoX, hombroDerechoY])
-
-                    ci = np.array([caderaIzquierdaX, caderaIzquierdaY])
-                    cr = np.array([caderaDerechaX, caderaDerechaY])
-                    
-                    ti = np.array([law, lah])
-                    tr = np.array([raw, rah])
-
-                    ri = np.array([rodillaIzquierdaX, rodillaIzquierdaY])
-                    rr = np.array([rodillaDerechaX, rodillaDerechaY])
+                    hombroIZquierdo = np.array([hombroIzquierdoX, hombroIzquierdoY])
+                    hombroDerecho = np.array([hombroDerechoX, hombroDerechoY])
+                    caderaDerecha = np.array([caderaDerechaX, caderaDerechaY])
+                    caderaIzquierda = np.array([caderaIzquierdaX, caderaIzquierdaY])
+                    rodillaDerecha = np.array([rodillaDerechaX, rodillaDerechaY])
+                    rodillaIzquierda = np.array([rodillaIzquierdaX, rodillaIzquierdaY])
+                    tobilloDerecho = np.array([tobilloDerechoX, tobilloDerechoY])
+                    tobilloIzquierdo = np.array([tobilloIzquierdoX, tobilloIzquierdoY])
                     
                     #Declaración de lineas en base a los puntos de referencia
-                    l1 = np.linalg.norm(ri-ti)
-                    l2 = np.linalg.norm(ci-ti)
-                    l3 = np.linalg.norm(ci-ri)
-                    l4 = np.linalg.norm(rr-tr)
-                    l5 = np.linalg.norm(cr-tr)
-                    l6 = np.linalg.norm(cr-rr)
-                    l7 = np.linalg.norm(hi-ci)
-                    l8 = np.linalg.norm(hr-cr)
-                    l9 = np.linalg.norm(hi-ri)
-                    l10 = np.linalg.norm(hr-rr)
+                    l1 = np.linalg.norm(rodillaIzquierda-tobilloIzquierdo)
+                    l2 = np.linalg.norm(caderaIzquierda-tobilloIzquierdo)
+                    l3 = np.linalg.norm(caderaIzquierda-rodillaIzquierda)
+                    l4 = np.linalg.norm(rodillaDerecha-tobilloDerecho)
+                    l5 = np.linalg.norm(caderaDerecha-tobilloDerecho)
+                    l6 = np.linalg.norm(caderaDerecha-rodillaDerecha)
+                    l7 = np.linalg.norm(hombroIZquierdo-caderaIzquierda)
+                    l8 = np.linalg.norm(hombroDerecho-caderaDerecha)
+                    l9 = np.linalg.norm(hombroIZquierdo-rodillaIzquierda)
+                    l10 = np.linalg.norm(hombroDerecho-rodillaDerecha)
 
                     #Cálculo de ángulos en base al tciángulo formado por los joints
                     angle1 = degrees(acos((l1**2 + l3**2 - l2**2) / (2*l1*l3)))
@@ -451,8 +445,7 @@ def squat(cap):
                     # Dibujar el arco del área del ángulo
                     center4 = (rodillaDerechaX, rodillaDerechaY)  # Puedes ajustar el centro del arco según tus necesidades
                     radius = 50  # Puedes ajustar el radio del arco según tus necesidades
-                    cv.ellipse(frame, center4, (radius, radius), 0, 180 - angle2 / 2, 180 + angle2 / 2, (0, 0, 255), -1)  # -1 rellena el arco
-                    
+                    cv.ellipse(frame, center4, (radius, radius), 0, 180 - angle2 / 2, 180 + angle2 / 2, (0, 0, 255), -1)  # -1 rellena el arco                    
 
                 (flag, encodedImage) = cv.imencode(".jpg", frame)  
                 
@@ -718,9 +711,8 @@ def ohp(cap):
                     cv.putText(frame, str(int(angle1)), (codoIzquierdoX+30, codoIzquierdoY), 1, 1.5, (0, 255, 0), 2)
 
                     #contar la repetición de una flexión válida
-                    if angleElbow >= 150:                        
-                        th.Thread(target=text_to_speech, args=('OHP',)).start()
                     if angleElbow <= 150 and 120 <= angleElbow:
+                        th.Thread(target=text_to_speech, args=('Puedes subir',)).start()
                         arrow_length = 100
                         arrow_thickness = 3
                         arrow_color = (0, 255, 0)  # Verde
@@ -728,7 +720,6 @@ def ohp(cap):
                         up = True                
                     if up == True and down == False and angleElbow <= 90:                                        
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        th.Thread(target=text_to_speech, args=('Puedes subir',)).start()
                         arrow_length = 100
                         arrow_thickness = 3
                         arrow_color = (0, 0, 255)  # Verde
@@ -738,15 +729,6 @@ def ohp(cap):
                         y_end = arrow_length
                         cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)
                         down=True
-                        # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        arrow_length = 100
-                        arrow_thickness = 3
-                        arrow_color = (0, 0, 255)  # Verde
-                        x_start = frame.shape[1] - arrow_length
-                        y_start = arrow_length * 2
-                        x_end = frame.shape[1] - arrow_length
-                        y_end = arrow_length
-                        cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)
                     if up == True and down == True and angleElbow>=150:
                         count += 1
                         up = False
