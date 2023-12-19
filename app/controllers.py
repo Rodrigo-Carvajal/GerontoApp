@@ -95,6 +95,27 @@ def listar_ejercicios():
     print(res)
     return render_template("views/admin/CRUDejercicios/listarEjercicios.html", ejercicios=ejercicios.data)
 
+@app.route("/Klistar_ejercicios", methods=['GET', 'POST'])
+@login_required
+def Klistar_ejercicios():
+    if request.method == 'POST':
+        fk_id_usuario = request.form['fkIdUsuario']
+        fk_id_limitacion = request.form['fkIdLimitacion']
+        tipo = request.form['tipo']
+        dificultad = request.form['dificultad']
+        equipamiento = request.form['equipamiento']
+        grupo_muscular = request.form['grupoMuscular']
+        descripcion = request.form['descripcion']
+        link_video = request.form['linkVideo']
+        nombre = request.form['nombre']
+        nuevoEjercicio = {'fk_id_usuario': fk_id_usuario, 'fk_id_limitacion': fk_id_limitacion, 'tipo': tipo, 'dificultad': dificultad, 'equipamiento': equipamiento, 'grupo_muscular': grupo_muscular, 'descripcion': descripcion, 'link_video': link_video, 'nombre': nombre}
+        insert = supabase.table('Ejercicios').insert(nuevoEjercicio).execute()
+        return redirect(url_for('Klistar_ejercicios'))
+    ejercicios = supabase.table('Ejercicios').select('*').order('id', desc=False).execute()
+    res = supabase.storage.list_buckets()
+    print(res)
+    return render_template("views/kine/KCRUDejercicios/KlistarEjercicios.html", ejercicios=ejercicios.data)
+
 @app.route("/eliminar_ejercicio/<int:id_ejercicio>", methods=['GET', 'POST'])
 @login_required
 def eliminar_ejercicio(id_ejercicio):

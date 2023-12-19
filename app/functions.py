@@ -168,26 +168,41 @@ def lateral_raise(cap):
                     munecaIzquierda = np.array([munecaIzquierdaX, munecaIzquierdaY])
 
                     #Declaración de lineas en base a los puntos de referencia
+
+                    #Líneas ángulo del hombro(cadera, hombro, codo)
                     l1 = np.linalg.norm(hombroDerecho - codoDerecho) # Catero
                     l2 = np.linalg.norm(caderaDerecha - hombroDerecho) # Cateto 
                     l3 = np.linalg.norm(codoDerecho - caderaDerecha) # Hipotenusa
 
                     l4 = np.linalg.norm(hombroIzquierdo - codoIzquierdo) # Cateto
                     l5 = np.linalg.norm(caderaIzquierda - hombroIzquierdo) # Cateto 
-                    l6 = np.linalg.norm(codoIzquierdo - caderaIzquierda) # Hipotenusa                   
+                    l6 = np.linalg.norm(codoIzquierdo - caderaIzquierda) # Hipotenusa
+
+                    #Líneas ángulo del codo(hombro, codo, muñeca)
+                    l7 = np.linalg.norm(codoDerecho - munecaDerecha)
+                    l8 = np.linalg.norm(hombroDerecho - munecaDerecha)
+
+                    l9 = np.linalg.norm(codoIzquierdo - munecaIzquierda)
+                    l10 = np.linalg.norm(hombroIzquierdo - munecaIzquierda)
                     
-                    #Calculo de angulo entre hombro codo y muñeca
+                    #Calculo de angulo entre hombro codo y cadera
                     angle1 = degrees(acos((l1**2 + l3**2 - l2**2) / (2*l1*l3)))
                     angle2 = degrees(acos((l4**2 + l6**2 - l5**2) / (2*l4*l6)))
 
                     angleShoulder = (angle1 + angle2)/2
 
+                    #Calculo de angulo entre hombro codo y muñeca
+                    angle3 = degrees(acos((l1**2 + l8**2 - l7**2) / (2*l1*l8)))
+                    angle4 = degrees(acos((l4**2 + l10**2 - l9**2) / (2*l4*l10)))
+
+                    angleelbow = (angle3 + angle4)/2
+
                     # Dibujar puntos y líneas
-                    cv.circle(frame, (hombroDerechoX, hombroDerechoY), 6, (0, 0, 255), 4)
+                    cv.circle(frame, (hombroDerechoX, hombroDerechoY), 6, (0, 0, 255), 6)
                     cv.circle(frame, (caderaDerechaX, caderaDerechaY), 6, (0, 0, 255), 4)
                     cv.circle(frame, (codoDerechoX, codoDerechoY), 6, (0, 0, 255), 4)
 
-                    cv.circle(frame, (hombroIzquierdoX, hombroIzquierdoY ), 6, (0, 0, 255), 4)
+                    cv.circle(frame, (hombroIzquierdoX, hombroIzquierdoY ), 6, (0, 0, 255), 6)
                     cv.circle(frame, (caderaIzquierdaX, caderaIzquierdaY), 6, (0, 0, 255), 4)
                     cv.circle(frame, (codoIzquierdoX, codoIzquierdoY), 6, (0, 0, 255), 4)
 
@@ -198,6 +213,8 @@ def lateral_raise(cap):
                     cv.line(frame, (hombroIzquierdoX, hombroIzquierdoY), (caderaIzquierdaX, caderaIzquierdaY), (255, 0, 0), 20)
                     cv.line(frame, (caderaIzquierdaX, caderaIzquierdaY), (codoIzquierdoX, codoIzquierdoY), (255, 0, 0), 5)
                     cv.line(frame, (codoIzquierdoX, codoIzquierdoY), (hombroIzquierdoX, hombroIzquierdoY), (255, 0, 0), 20)
+
+                    
                     
                     #Impresión de la imagen final
                     cv.putText(frame, str(count), (50, 50), 1, 3.5, (0, 0, 255), 3)
@@ -374,6 +391,7 @@ def squat(cap):
                     cv.circle(frame, (caderaIzquierdaX, caderaIzquierdaY), 6, (0,0,255), 4)
                     cv.circle(frame, (rodillaIzquierdaX, rodillaIzquierdaY), 6, (255,0,0), 6)
                     cv.circle(frame, (caderaDerechaX, caderaDerechaY), 6, (0,0,255), 4)
+
                     cv.circle(frame, (rodillaDerechaX, rodillaDerechaY), 6, (255,0,0), 6)
                     cv.circle(frame, (hombroDerechoX, hombroDerechoY), 6, (0,0,255), 4)
                     cv.circle(frame, (hombroIzquierdoX, hombroIzquierdoY), 6, (0,0,255), 4)
@@ -382,6 +400,7 @@ def squat(cap):
                     cv.line(frame, (caderaIzquierdaX, caderaIzquierdaY), (rodillaIzquierdaX, rodillaIzquierdaY), (255,0,0), 20)
                     cv.line(frame, (caderaDerechaX, caderaDerechaY), (rodillaDerechaX, rodillaDerechaY), (255,0,0), 20)
                     cv.line(frame, (hombroIzquierdoX, hombroIzquierdoY), (caderaIzquierdaX, caderaIzquierdaY), (255,0,0), 20)
+
                     cv.line(frame, (hombroDerechoX, hombroDerechoY), (caderaDerechaX, caderaDerechaY), (255,0,0), 20)
                     cv.line(frame, (rodillaDerechaX, rodillaDerechaY), (hombroDerechoX, hombroDerechoY), (0,0,255), 5)
                     cv.line(frame, (rodillaIzquierdaX, rodillaIzquierdaY), (hombroIzquierdoX, hombroIzquierdoY), (0,0,255), 5)
@@ -522,6 +541,7 @@ def pushup(cap):
                     cv.circle(frame, (hombroIzquierdoX, hombroIzquierdoY), 6, (0,0,255), 4)
                     cv.circle(frame, (codoIzquierdoX, codoIzquierdoY), 6, (255,0,0), 6)
                     cv.circle(frame, (munecaIzquierdaX, munecaIzquierdaY), 6, (0,0,255), 4)
+
                     cv.circle(frame, (hombroDerechoX, hombroDerechoY), 6, (0,0,255), 4)
                     cv.circle(frame, (codoDerechoX, codoDerechoY), 6, (255,0,0), 6)
                     cv.circle(frame, (munecaDerechaX, munecaDerechaY), 6, (0,0,255), 4)
@@ -530,6 +550,7 @@ def pushup(cap):
                     cv.line(frame, (hombroIzquierdoX, hombroIzquierdoY), (codoIzquierdoX, codoIzquierdoY), (255,0,0), 20)
                     cv.line(frame, (codoIzquierdoX, codoIzquierdoY), (munecaIzquierdaX, munecaIzquierdaY), (255,0,0), 20)
                     cv.line(frame, (hombroIzquierdoX, hombroIzquierdoY), (munecaIzquierdaX, munecaIzquierdaY), (0,0,255), 5)
+
                     cv.line(frame, (hombroDerechoX, hombroDerechoY), (codoDerechoX, codoDerechoY), (255,0,0), 20)
                     cv.line(frame, (codoDerechoX, codoDerechoY), (munecaDerechaX, munecaDerechaY), (255,0,0), 20)
                     cv.line(frame, (hombroDerechoX, hombroDerechoY), (munecaDerechaX, munecaDerechaY), (0,0,255), 5)

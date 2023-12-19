@@ -16,7 +16,12 @@
             <div class="col-xl-4 col-xl-4-custom">
                 <div class="card bg-light">
                     <div class="card_body profile-card pt-4 d-flex flex-column align-items-center">
-                        <img class="rounded-circle perfil-max" src="{{ url_for('static', filename='assets/Messirve.png') }}" alt="Foto Paciente">
+                        {% if paciente.genero == "femenino" %}
+                            <img class="rounded-circle perfil-max" src="{{ url_for('static', filename='assets/mujerAvatar.png') }}" alt="Foto Paciente">        
+                        {% elif paciente.genero == "masculino" %}
+                            <img class="rounded-circle perfil-max" src="{{ url_for('static', filename='assets/hombreAvatar.png') }}" alt="Foto Paciente">
+                        {% endif %}                                                                        
+                        
                         <h2 class="text-black-50">{{paciente.nombre_completo}}</h2>
                         <h3 class="text-black-50">Paciente N°{{paciente.id_paciente}}</h3>
                     </div>
