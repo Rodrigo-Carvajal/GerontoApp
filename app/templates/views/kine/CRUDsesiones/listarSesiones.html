@@ -11,72 +11,96 @@
           <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id_kinesiologo=current_user.get_id()) }}">Pacientes</a></li>
           <li class="breadcrumb-item active">Sesiones</li>
         </ol>
+        <span class="col-md-5 justify-content-end">
+            <button type="button" class="btn btn-success m-1" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <i class="fa-solid fa-plus">
+                </i>
+                Crear sesión
+            </button>        
+        </span>
     </nav>
 
-        <div class="container col-md-4 card" style="background-color:#c5d7f2">
-            <h3 style="border-radius: 15px; background-color: #3452b3; color: #d8d8ce;" class="p-2 mt-2 display-6 fw-bold card-title bg-gradient">Crear nueva sesión:</h3>
-            <form class="card-body" method="post">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <div class="container col-md-10">
-                    <div class="mb-3 visually-hidden">
-                    <label class="visually-hidden" for="idPaciente">Id paciente</label>
-                    <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="" placeholder="">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Crear sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <div class="mb-3 visually-hidden">
-                    <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
-                    <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
-                </div>            
-                <div class="form-floating mb-3">
-                    <input
-                    type="date"
-                    class="form-control" name="fecha" id="fecha" placeholder="">
-                    <label for="fecha">Fecha de la sesión:</label>
+                <div class="modal-body">
+                    <div class="container col-md-12 card" style="background-color:#c5d7f2">
+                        <h3 style="border-radius: 15px; background-color: #3452b3; color: #d8d8ce;" class="p-2 mt-2 display-6 fw-bold card-title bg-gradient">Crear nueva sesión:</h3>
+                        <form class="card-body" method="post">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <div class="container col-md-10">
+                                <div class="mb-3 visually-hidden">
+                                <label class="visually-hidden" for="idPaciente">Id paciente</label>
+                                <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="" placeholder="">
+                            </div>
+            
+                            <div class="mb-3 visually-hidden">
+                                <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
+                                <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
+                            </div>            
+                            <div class="form-floating mb-3">
+                                <input
+                                type="date"
+                                class="form-control" name="fecha" id="fecha" placeholder="">
+                                <label for="fecha">Fecha de la sesión:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                              <input
+                                type="text"
+                                class="form-control" name="objetivo" id="objetivo" placeholder="">
+                              <label for="objetivo">Objetivo de la sesión:</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                              <input
+                                type="text"
+                                class="form-control" name="comentarios" id="comentarios" placeholder="">
+                              <label for="comentarios">Comentarios de la sesión:</label>
+                            </div>
+                            <div class="form-control mb-3">
+                                <label for="evaluacion" class="form-label">Evaluación</label>
+                                <select class="form-select form-select-md" name="evaluacion" id="evaluacion">
+                                    <option selected>Evalua esta sesión:</option>
+                                    <option value="No logrado">No logrado</option>
+                                    <option value="Medianamente logrado">Medianamente logrado</option>
+                                    <option value="Cumple las expectativas">Cumple las expectativas</option>
+                                </select>
+                            </div>         
+                            <br>
+                            <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-calendar-plus"></i> Crear</button>
+                            <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Eliminar</button>   
+                            <br>
+                        </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control" name="objetivo" id="objetivo" placeholder="">
-                  <label for="objetivo">Objetivo de la sesión:</label>
-                </div>
-                <div class="form-floating mb-3">
-                  <input
-                    type="text"
-                    class="form-control" name="comentarios" id="comentarios" placeholder="">
-                  <label for="comentarios">Comentarios de la sesión:</label>
-                </div>
-                <div class="form-control mb-3">
-                    <label for="evaluacion" class="form-label">Evaluación</label>
-                    <select class="form-select form-select-md" name="evaluacion" id="evaluacion">
-                        <option selected>Evalua esta sesión:</option>
-                        <option value="No logrado">No logrado</option>
-                        <option value="Medianamente logrado">Medianamente logrado</option>
-                        <option value="Cumple las expectativas">Cumple las expectativas</option>
-                    </select>
-                </div>         
-                <br>
-                <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-calendar-plus"></i> Crear</button>
-                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Eliminar</button>   
-                <br>
-                <div class="row">
-                    {% with messages = get_flashed_messages(with_categories=true) %}
-                      {% if messages %}
-                          <div class="align-items-center justify-content-center">
-                              {% for category,message in messages %}
-                                  <div class="alert col-lg-12  alert-{{category}} alert-dismissible show fade" role="alert" id="alert-message">
-                                      <strong>{{message}}</strong> 
-                                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>                        
-                                  </div>    
-                              {% endfor %}
-                          </div>
-                      {% endif %}
-                    {% endwith %}
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal"><i class="fa-solid fa-x"></i> Cerrar</button>
                 </div>
             </div>
-            </form>
         </div>
+    </div>
+    
 
-        <div class="col-md-8">
+        <div class="col-md-12">
+            <div class="row">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                  {% if messages %}
+                      <div class="align-items-center justify-content-center">
+                          {% for category,message in messages %}
+                              <div class="alert col-lg-12  alert-{{category}} alert-dismissible show fade" role="alert" id="alert-message">
+                                  <strong>{{message}}</strong> 
+                                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>                        
+                              </div>    
+                          {% endfor %}
+                      </div>
+                  {% endif %}
+                {% endwith %}
+            </div>
             <div class="table-responsive rounded tabla">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -131,10 +155,10 @@
                     </tbody>
                 </table>                        
             </div>
-        </div>
-
+        </div>        
     </div>
 </div>    
+
 
 <script>
 document.getElementById("borrarCampos").addEventListener("click", function() {

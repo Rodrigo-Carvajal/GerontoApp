@@ -431,40 +431,12 @@ def squat(cap):
                         y_end = arrow_length
                         cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)
                         up = True
-                        # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
-                        arrow_length = 100
-                        arrow_thickness = 3
-                        arrow_color = (0, 0, 255)  # Verde
-                        x_start = frame.shape[1] - arrow_length
-                        y_start = arrow_length * 2
-                        x_end = frame.shape[1] - arrow_length
-                        y_end = arrow_length
-                        cv.arrowedLine(frame, (x_start, y_start), (x_end, y_end), arrow_color, thickness=arrow_thickness, tipLength=0.3)                                        
                     if up == True and down == True  and angleHip >=115:
                         count += 1
                         up = False
                         down = False
                         th.Thread(target=text_to_speech, args=('Repetición número ' + str(count),)).start()
 
-                    # Dibujar el arco del área del ángulo
-                    center1 = (caderaIzquierdaX, caderaIzquierdaY)  # Puedes ajustar el centro del arco según tus necesidades
-                    radius = 50  # Puedes ajustar el radio del arco según tus necesidades
-                    cv.ellipse(frame, center1, (radius, radius), 0, 360 - angle1 / 2, 360 + angle1 / 2, (0, 0, 255), -1)  # -1 rellena el arco
-                    
-                    # Dibujar el arco del área del ángulo
-                    center2 = (caderaDerechaX, caderaDerechaY)  # Puedes ajustar el centro del arco según tus necesidades
-                    radius = 50  # Puedes ajustar el radio del arco según tus necesidades
-                    cv.ellipse(frame, center2, (radius, radius), 0, 180 - angle2 / 2, 180 + angle2 / 2, (0, 0, 255), -1)  # -1 rellena el arco
-                    
-                    # Dibujar el arco del área del ángulo
-                    center3 = (rodillaIzquierdaX, rodillaIzquierdaY)  # Puedes ajustar el centro del arco según tus necesidades
-                    radius = 50  # Puedes ajustar el radio del arco según tus necesidades
-                    cv.ellipse(frame, center3, (radius, radius), 0, 360 - angle1 / 2, 360 + angle1 / 2, (0, 0, 255), -1)  # -1 rellena el arco
-                    
-                    # Dibujar el arco del área del ángulo
-                    center4 = (rodillaDerechaX, rodillaDerechaY)  # Puedes ajustar el centro del arco según tus necesidades
-                    radius = 50  # Puedes ajustar el radio del arco según tus necesidades
-                    cv.ellipse(frame, center4, (radius, radius), 0, 180 - angle2 / 2, 180 + angle2 / 2, (0, 0, 255), -1)  # -1 rellena el arco                    
 
                 (flag, encodedImage) = cv.imencode(".jpg", frame)  
                 
@@ -1016,4 +988,3 @@ def bicep_curl(cap):
                     continue
                 yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' +
                     bytearray(encodedImage) + b'\r\n')
-
