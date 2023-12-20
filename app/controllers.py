@@ -6,6 +6,7 @@ import pyttsx3
 
 from app.functions import squat, pushup, ohp, bicep_curl, lateral_raise
 from app.models import Usuario, Paciente, Ejercicio, Limitacion, Registro, Sesion
+from flask_login import UserMixin
 
 # Instanciación del blueprint
 adultTrain = Blueprint('app', __name__)
@@ -92,14 +93,20 @@ def listar_ejercicios():
     ejercicios = supabase.table('Ejercicios').select('*').order('id', desc=False).execute()
     res = supabase.storage.list_buckets()
     print(res)
-    return render_template("views/admin/CRUDejercicios/listarEjercicios.html", ejercicios=ejercicios.data)
+    if current_user.rol == 'Administrador':
+        return render_template("views/admin/CRUDejercicios/listarEjercicios.html", ejercicios=ejercicios.data)
+    elif current_user.rol == 'Kinesiologo':
+        return render_template("views/kine/KCRUDejercicios/KlistarEjercicios.html", ejercicios=ejercicios.data)
 
 @app.route("/eliminar_ejercicio/<int:id_ejercicio>", methods=['GET', 'POST'])
 @login_required
 def eliminar_ejercicio(id_ejercicio):
     delete = supabase.table('Ejercicios').delete().eq('id', id_ejercicio).execute()
     flash ('Ejercicio eliminado exitosamente', 'danger')
-    return redirect(url_for('listar_ejercicios'))
+    if current_user.rol == 'Administrador':
+        return redirect(url_for('listar_ejercicios'))
+    elif current_user.rol == 'Kinesiologo':
+        return redirect(url_for('Klistar_ejercicios'))
 
 @app.route("/editar_ejercicio/<int:id_ejercicio>", methods=['GET', 'POST'])
 @login_required

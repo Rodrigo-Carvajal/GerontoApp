@@ -20,7 +20,20 @@
       <div id="videoTutorial" style="display: block;">
         <h1>Video</h1>
         <video controls width="550" height="450" >
-            <source src="https://iwzzyjvqvbgmkaybieeh.supabase.co/storage/v1/object/public/Videos/abs3.mp4?t=2023-10-24T23%3A42%3A19.104Z" type="video/mp4">
+          {% if ejercicio == 'squat' %}
+            <source src="https://iwzzyjvqvbgmkaybieeh.supabase.co/storage/v1/object/public/Videos/squat2.mp4?t=2023-12-20T16%3A46%3A18.579Z" type="video/mp4">
+          {% elif ejercicio == 'pushup' %}
+            <source src="https://iwzzyjvqvbgmkaybieeh.supabase.co/storage/v1/object/public/Videos/push?t=2023-12-20T16%3A52%3A03.383Z" type="video/mp4">
+          {% elif ejercicio == 'lateral_raise' %}
+            <source src="https://iwzzyjvqvbgmkaybieeh.supabase.co/storage/v1/object/public/Videos/lateralRaise" type="video/mp4">
+          {% elif ejercicio == 'ohp' %}
+            <source src="https://iwzzyjvqvbgmkaybieeh.supabase.co/storage/v1/object/public/Videos/ohp" type="video/mp4">
+          {% elif ejercicio == 'bicep_curl' %}
+            <source src="https://iwzzyjvqvbgmkaybieeh.supabase.co/storage/v1/object/public/Videos/bicep1.mp4?t=2023-12-20T16%3A48%3A01.696Z" type="video/mp4">
+          {% endif %}
+          
+          
+            
         </video>
       </div>
     </div>          
