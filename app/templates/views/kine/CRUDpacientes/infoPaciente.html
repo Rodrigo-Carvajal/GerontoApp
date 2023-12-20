@@ -11,29 +11,60 @@
             <li class="breadcrumb-item active">Información del paciente</li>
         </ol>
     </nav>
+    
     <section class="section profile p-5">
         <div class="row equal-height">
             <div class="col-xl-4 col-xl-4-custom">
-                <div class="card bg-light">
+                <div class="card" style="background-color:#c5d7f2">                
                     <div class="card_body profile-card pt-4 d-flex flex-column align-items-center">
                         {% if paciente.genero == "femenino" %}
                             <img class="rounded-circle perfil-max" src="{{ url_for('static', filename='assets/mujerAvatar.png') }}" alt="Foto Paciente">        
                         {% elif paciente.genero == "masculino" %}
                             <img class="rounded-circle perfil-max" src="{{ url_for('static', filename='assets/hombreAvatar.png') }}" alt="Foto Paciente">
-                        {% endif %}                                                                        
-                        
+                        {% endif %}                                                                                                
                         <h2 class="text-black-50">{{paciente.nombre_completo}}</h2>
                         <h3 class="text-black-50">Paciente N°{{paciente.id_paciente}}</h3>
+                        <div class="card_head justify-content-center">
+                            {% set alguna_limitacion = false %}
+                            {% if paciente.EC_cardiaca %}
+                                {% set alguna_limitacion = true %}
+                                <span class="badge rounded-pill bg-danger m-1"><i class="fa-solid fa-heart-pulse"></i> EC Cardiaca</span>
+                            {% endif %}                                                                            
+                            {% if paciente.EC_respiratoria %}
+                                <span class="badge rounded-pill bg-dark m-1"><i class="fa-solid fa-lungs"></i> EC Respiratoria</span>
+                                {% set alguna_limitacion = true %}
+                            {% endif %}                                                                            
+                            {% if paciente.EC_renal %}
+                                <span class="badge rounded-pill bg-success m-1"><i class="fa-solid fa-warning"></i> EC Renal</span>
+                                {% set alguna_limitacion = true %}
+                            {% endif %}                                                                            
+                            {% if paciente.EC_gastrointestinal %}
+                                <span class="badge rounded-pill bg-warning m-1"><i class="fa-solid fa-warning"></i> EC Gastrointestinal</span>
+                                {% set alguna_limitacion = true %}
+                            {% endif %}                                                                            
+                            {% if paciente.fisica %}
+                                <span class="badge rounded-pill bg-info m-1"><i class="fa-solid fa-wheelchair"></i> Fisica</span>
+                                {% set alguna_limitacion = true %}
+                            {% endif %}                                                                            
+                            {% if paciente.cognitiva %}
+                                <span class="badge rounded-pill bg-info m-1"><i class="fa-solid fa-head-side-virus"></i> Cognitiva</span>
+                                {% set alguna_limitacion = true %}
+                            {% endif %}                           
+                            {% if not alguna_limitacion %}
+                                <span class="badge rounded-pill bg-success m-1"><i class="fa-solid fa-thumbs-up"></i> Sin condiciones previas</span>
+                            {% endif %}                                                                                                         
+                            
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="col-xl-8">
-                <div  class="card bg-light">
+                <div  class="card" style="background-color:#c5d7f2">
                     <div class="tab-content pt-2">
                         <div id="profile-overview" class="tab-pane fade profile-overview active show" role="tabpanel">
-                            <h5 style="font-family: 'Poppins', sans-serif; text-align: left; border-radius: 20px;" class="card-title p-3 m-2 bg-primary bg-gradient text-white">Acerca de:</h5>
+                            <h5 style="text-align: left; border-radius: 10px; background-color: #3452b3;" class="card-title p-3 m-2 fw-bold bg-gradient text-white">Acerca de:</h5>
                             <p class="small fst-italic">Nuestro paciente {{paciente.nombre_completo}}, lleva realizado XX sesiones.. bla bla</p>
-                            <h5 style="font-family: 'Poppins', sans-serif; text-align: left; border-radius: 20px;" class="card-title p-3 m-2 bg-primary bg-gradient text-white">Detalles del Perfil:</h5>
+                            <h5 style="text-align: left; border-radius: 10px; background-color: #3452b3;" class="card-title p-3 m-2 fw-bold bg-gradient text-white">Detalles del Perfil:</h5>
                             <div class="row">
                                 <div class="col-lg-3 col-md-4 label text-primary">Nombre Completo</div>
                                 <div class="col-kg-9 col-md-8">{{paciente.nombre_completo}}</div>

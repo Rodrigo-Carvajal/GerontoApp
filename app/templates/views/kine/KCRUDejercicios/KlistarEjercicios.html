@@ -10,15 +10,17 @@
             <li class="breadcrumb-item active">Ejercicios</li>
         </ol>
     </nav>
+
     <div class="row">        
-        <div class="col-md-4 bg-light card">
-            <h3 class="mt-2 display-10 fw-bold">Crear nuevo ejercicio:</h3>
+        <div class="container col-md-4 card" style="background-color:#c5d7f2">
+            <h3 style="border-radius: 15px; background-color: #3452b3; color: #d8d8ce;" class="p-2 mt-2 display-6 fw-bold card-title bg-gradient">Crear nuevo ejercicio:</h3>
             <form class="card-body " method="post">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="mb-3 visually-hidden">
                     <label class="visually-hidden" for="fkIdUsuario"></label>
                     <input type="number" class="form-control" name="fkIdUsuario" id="fkIdUsuario" value="{{current_user.get_id()}}" placeholder="">
                 </div>
+
                 <div class="mb-3 visually-hidden">
                     <label class="visually-hidden" for="fkIdLimitacion"></label>
                     <input type="number" class="form-control" name="fkIdLimitacion" id="fkIdLimitacion" placeholder="" value="1">

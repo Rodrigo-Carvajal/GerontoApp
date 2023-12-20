@@ -93,35 +93,21 @@ def listar_ejercicios():
     ejercicios = supabase.table('Ejercicios').select('*').order('id', desc=False).execute()
     res = supabase.storage.list_buckets()
     print(res)
-    return render_template("views/admin/CRUDejercicios/listarEjercicios.html", ejercicios=ejercicios.data)
-
-@app.route("/Klistar_ejercicios", methods=['GET', 'POST'])
-@login_required
-def Klistar_ejercicios():
-    if request.method == 'POST':
-        fk_id_usuario = request.form['fkIdUsuario']
-        fk_id_limitacion = request.form['fkIdLimitacion']
-        tipo = request.form['tipo']
-        dificultad = request.form['dificultad']
-        equipamiento = request.form['equipamiento']
-        grupo_muscular = request.form['grupoMuscular']
-        descripcion = request.form['descripcion']
-        link_video = request.form['linkVideo']
-        nombre = request.form['nombre']
-        nuevoEjercicio = {'fk_id_usuario': fk_id_usuario, 'fk_id_limitacion': fk_id_limitacion, 'tipo': tipo, 'dificultad': dificultad, 'equipamiento': equipamiento, 'grupo_muscular': grupo_muscular, 'descripcion': descripcion, 'link_video': link_video, 'nombre': nombre}
-        insert = supabase.table('Ejercicios').insert(nuevoEjercicio).execute()
-        return redirect(url_for('Klistar_ejercicios'))
-    ejercicios = supabase.table('Ejercicios').select('*').order('id', desc=False).execute()
-    res = supabase.storage.list_buckets()
-    print(res)
-    return render_template("views/kine/KCRUDejercicios/KlistarEjercicios.html", ejercicios=ejercicios.data)
+    if current_user.rol == 'Administrador':
+        return render_template("views/admin/CRUDejercicios/listarEjercicios.html", ejercicios=ejercicios.data)
+    elif current_user.rol == 'Kinesiologo':
+        return render_template("views/kine/KCRUDejercicios/KlistarEjercicios.html", ejercicios=ejercicios.data)
+    
 
 @app.route("/eliminar_ejercicio/<int:id_ejercicio>", methods=['GET', 'POST'])
 @login_required
 def eliminar_ejercicio(id_ejercicio):
     delete = supabase.table('Ejercicios').delete().eq('id', id_ejercicio).execute()
     flash ('Ejercicio eliminado exitosamente', 'danger')
-    return redirect(url_for('listar_ejercicios'))
+    if current_user.rol == 'Administrador':
+        return redirect(url_for('listar_ejercicios'))
+    elif current_user.rol == 'Kinesiologo':
+        return redirect(url_for('Klistar_ejercicios'))
 
 @app.route("/editar_ejercicio/<int:id_ejercicio>", methods=['GET', 'POST'])
 @login_required
@@ -140,7 +126,10 @@ def editar_ejercicio(id_ejercicio):
         update = supabase.table('Ejercicios').update(ejercicio).eq('id', id_ejercicio).execute()
         return redirect(url_for('listar_ejercicios'))
     ejercicio = supabase.table('Ejercicios').select('*').eq('id', id_ejercicio).execute()
-    return render_template("views/admin/CRUDejercicios/editarEjercicio.html", ejercicio=ejercicio.data[0])
+    if current_user.rol == 'Administrador':
+        return render_template("views/admin/CRUDejercicios/editarEjercicio.html", ejercicio=ejercicio.data[0])
+    elif current_user.rol == 'Kinesiologo':
+        return render_template("views/kine/KCRUDejercicios/KeditarEjercicio.html", ejercicio=ejercicio.data[0])
 
 @app.route("/listar_usuarios", methods=['GET', 'POST'])
 @login_required
@@ -163,14 +152,23 @@ def kinesiologo_main():
 @app.route("/listar_pacientes/<int:id_kinesiologo>", methods=['GET','POST'])
 @login_required
 def listar_pacientes(id_kinesiologo):    
+    limitaciones_posibles = ['ECcardiaca', 'ECrespiratoria', 'ECrenal', 'ECgastro', 'cognitiva', 'fisica']  # Reemplaza con los nombres reales de tus limitaciones
     if request.method == 'POST':
         fk_id_kinesiologo = id_kinesiologo
         nombrePaciente = request.form['nombrePaciente']
         fechaNacimiento = request.form['fechaNacimiento']
         estatura = request.form['estatura']
         peso = request.form['peso']
-        generoPaciente = request.form['genero']
-        nuevoPaciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fk_id_limitacion': '1', 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura}
+        generoPaciente = request.form['genero']        
+        # Crear el diccionario para almacenar las limitaciones        
+        limitaciones = {limitacion: limitacion in request.form.getlist('limitaciones') for limitacion in limitaciones_posibles}
+        ecCardiaca = limitaciones['ECcardiaca']
+        ecRespiratoria = limitaciones['ECrespiratoria']
+        ecRenal = limitaciones['ECrenal']
+        ecGastro = limitaciones['ECgastro']
+        cognitiva = limitaciones['cognitiva']
+        fisica = limitaciones['fisica']
+        nuevoPaciente = {'fk_id_kinesiologo': fk_id_kinesiologo, 'fecha_nacimiento': fechaNacimiento, 'nombre_completo': nombrePaciente, 'genero': generoPaciente, 'peso': peso, 'estatura': estatura, 'EC_cardiaca': ecCardiaca, 'EC_respiratoria': ecRespiratoria, 'EC_renal': ecRenal, 'EC_gastrointestinal': ecGastro, 'cognitiva': cognitiva, 'fisica': fisica}
         insert = supabase.table('Pacientes').insert(nuevoPaciente).execute()
         flash ('Paciente creado exitosamente', 'success')
         return redirect(url_for('listar_pacientes', id_kinesiologo=id_kinesiologo))
@@ -181,7 +179,7 @@ def listar_pacientes(id_kinesiologo):
 @app.route("/info_paciente/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
 def info_paciente(id_paciente):
-    paciente = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()
+    paciente = supabase.table('Pacientes').select('*').eq('id_paciente', id_paciente).execute()    
     return render_template("views/kine/CRUDpacientes/infoPaciente.html", paciente=paciente.data[0])
 
 # Editar información de un paciente

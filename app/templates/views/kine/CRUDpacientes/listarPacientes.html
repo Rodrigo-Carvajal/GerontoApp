@@ -11,8 +11,9 @@
                 <li class="breadcrumb-item active">Pacientes</li>
             </ol>
         </nav>
-        <div class="container col-md-4 bg-light card">            
-            <h3 class="mt-2 display-10 fw-bold">Crear paciente nuevo:</h3>
+  
+        <div class="container col-md-4 card" style="background-color:#c5d7f2">            
+            <h3 style="border-radius: 15px; background-color: #3452b3; color: #d8d8ce;" class="p-2 mt-2 display-6 fw-bold card-title bg-gradient">Crear paciente nuevo:</h3>
             <form class="card-body" method="post">
                 <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
                 <div class="container col-md-12">
@@ -20,6 +21,7 @@
                     <label class="visually-hidden" for="idPaciente">Id paciente</label>
                     <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="" placeholder="">
                 </div>
+
                 <div class="mb-3 visually-hidden">
                     <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
                     <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
@@ -62,6 +64,41 @@
                         <label class="form-check-label" for="masculino">Masculino</label>
                     </div>
                 </label>
+
+                <button class="btn btn-primary m-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Limitaciones
+                </button>
+                <div class="form-floating mb-3 collapse" id="collapseExample">
+                    <ul class="list-group">
+                        <span>
+                            <li class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" name="limitaciones" value="ECcardiaca" aria-label="...">
+                            Enfermedad crónica cardiaca
+                            </li>
+                            <li class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" name="limitaciones" value="ECrespiratoria" aria-label="...">
+                            Enfermedad crónica respiratoria
+                            </li>
+                            <li class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" name="limitaciones" value="ECrenal" aria-label="...">
+                            Enfermedad crónica renal
+                            </li>
+                            <li class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" name="limitaciones" value="ECgastro" aria-label="...">
+                            Enfermedad crónica gastrointestinal
+                            </li>
+                            <li class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" name="limitaciones" value="cognitiva" aria-label="...">
+                            Condición cognitiva
+                            </li>
+                            <li class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" name="limitaciones" value="fisica" aria-label="...">
+                            Condición física
+                            </li>
+                        </span>
+                    </ul>
+                </div>
+                
                 
                 <br>
                 <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-user-plus"></i> Crear</button>
@@ -85,7 +122,7 @@
             </form>
         </div>
 
-        <div class="col-md-7">
+        <div class="col-md-8">
             <div class="table-responsive rounded tabla">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -99,7 +136,7 @@
                         {% for i in pacientes %}
                             {% if i.fk_id_kinesiologo %}                                                                
                             
-                                <tr class="scope">
+                                <tr class="scope table-primary">
                                     <td>{{ i.id_paciente }}</td>
                                     <td>{{ i.nombre_completo }}</td>                                
                                     <td>
@@ -157,7 +194,7 @@
                 </table>                        
             </div>
         </div>
-
+    </div>
     </div>
 </div>    
 
