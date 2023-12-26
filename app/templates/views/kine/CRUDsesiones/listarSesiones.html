@@ -115,8 +115,8 @@
                     </thead>
                     <tbody>
                         {% for i in sesiones %}
-                            <tr class="scope">
-                                <td>{{ i.id }}</td>
+                            <tr class="scope table-primary">
+                                <td>{{ loop.index }}</td>
                                 <td>{{ i.fecha }}</td>
                                 <td>{{ i.objetivo }}</td>
                                 <td>{{ i.evaluacion }}</td>
@@ -127,7 +127,7 @@
                                     name="ejerciciosRealizados" 
                                     id="ejerciciosRealizados" 
                                     class="btn btn-warning m-1 p-2" 
-                                    href="/crudRutinas/{{i.id}}" 
+                                    href="/listar_ejercicios_realizados/{{i.id}}/{{i.fk_id_paciente}}" 
                                     role="button">
                                         <i class="fa-solid fa-list-check"></i>
                                     </a>

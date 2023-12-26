@@ -1,12 +1,10 @@
-from app import app, supabase, login_manager, csrf
-from flask import render_template, Response, redirect, url_for, request, flash, Blueprint, session, jsonify
+from app import app, supabase
+from flask import render_template, Response, redirect, url_for, request, flash, Blueprint
 from flask_login import login_user, login_required, logout_user, current_user
 import cv2 as cv
-import pyttsx3
 
 from app.functions import squat, pushup, ohp, bicep_curl, lateral_raise
-from app.models import Usuario, Paciente, Ejercicio, Limitacion, Registro, Sesion
-from flask_login import UserMixin
+from app.models import Usuario
 
 # Instanciación del blueprint
 adultTrain = Blueprint('app', __name__)
@@ -91,8 +89,6 @@ def listar_ejercicios():
         insert = supabase.table('Ejercicios').insert(nuevoEjercicio).execute()
         return redirect(url_for('listar_ejercicios'))
     ejercicios = supabase.table('Ejercicios').select('*').order('id', desc=False).execute()
-    res = supabase.storage.list_buckets()
-    print(res)
     if current_user.rol == 'Administrador':
         return render_template("views/admin/CRUDejercicios/listarEjercicios.html", ejercicios=ejercicios.data)
     elif current_user.rol == 'Kinesiologo':
@@ -129,11 +125,6 @@ def editar_ejercicio(id_ejercicio):
     elif current_user.rol == 'Kinesiologo':
         return render_template("views/kine/KCRUDejercicios/KeditarEjercicio.html", ejercicio=ejercicio.data[0])
 
-
-@app.route("/listar_usuarios", methods=['GET', 'POST'])
-@login_required
-def listar_usuarios():
-    return 'dasdasd' #render_template("views/.html") 
 
 ### FIN Ejercicios ###
 
@@ -260,6 +251,50 @@ def eliminar_sesion(id_sesion, id_paciente):
     flash ("Sesión eliminada exitosamente", 'danger')
     return redirect(url_for('listar_sesiones', id_paciente=id_paciente))
 
+@app.route("/listar_ejercicios_realizados/<int:id_sesion>/<int:id_paciente>", methods=['GET', 'POST'])
+@login_required
+def listar_ejercicios_realizados(id_sesion, id_paciente):
+    if request.method == 'POST':
+        fk_id_ejercicio = request.form['ejercicio']
+        serie = request.form['serie']
+        repeticion = request.form['repeticion']
+        peso = request.form['peso']
+        duracion = request.form['duracion']
+        comentarios = request.form['comentarios']
+        esfuerzo_percibido = request.form['esfuerzo_percibido']
+        evaluacion = request.form['evaluacion']
+        presion_cardiaca = request.form['presion_cardiaca']
+        presion_arterial = request.form['presion_arterial']
+        saturacion = request.form['saturacion']
+        registro = {
+            'fk_id_sesion': id_sesion,
+            'fk_id_paciente': id_paciente,
+            'fk_id_ejercicio': fk_id_ejercicio,
+            'serie': serie,
+            'repeticiones': repeticion,
+            'peso': peso,
+            'duracion': duracion,
+            'comentarios': comentarios,
+            'esfuerzo_percibido': esfuerzo_percibido,
+            'evaluacion': evaluacion,
+            'presion_cardiaca': presion_cardiaca,
+            'presion_arterial': presion_arterial,
+            'saturacion_oxigeno': saturacion,
+        }
+        insert =  supabase.table('Registros').insert(registro).execute()
+        flash ("Ejercicio registrado exitosamente", 'success')
+    registros = supabase.table('Registros').select('*').eq('fk_id_sesion', id_sesion).execute()
+    ejercicios = supabase.table('Ejercicios').select('id', 'nombre').execute()
+    print(registros.data)
+    return render_template("views/kine/CRUDsesiones/ejerciciosRealizados.html", ejercicios = ejercicios.data, id_sesion=id_sesion, registros = registros.data, id_paciente = id_paciente)
+
+@app.route("/eliminar_ejercicio_realizado/<int:id>/<int:id_paciente>/<int:id_sesion>", methods=['GET', 'POST'])
+@login_required
+def eliminar_ejercicio_realizado(id, id_paciente, id_sesion):
+    delete = supabase.table('Registros').delete().eq('id', id).execute()
+    flash ('Rutina eliminada exitosamente', 'danger')
+    return redirect(url_for('listar_ejercicios_realizados',id_sesion = id_sesion, id_paciente=id_paciente))
+
 ### FIN sesiones ###
 
 ### INICIO rutinas ###
@@ -277,7 +312,7 @@ def crear_rutina(id_paciente):
         insert = supabase.table('Rutinas').insert(rutina).execute()
         flash ('Rutina creada exitosamente', 'success')
         return redirect(url_for('crear_rutina', id_paciente=id_paciente))
-    rutinas = supabase.table('Rutinas').select('*').order('id', desc=False).execute()
+    rutinas = supabase.table('Rutinas').select('*').eq('fk_id_paciente', id_paciente).order('id', desc=False).execute()
     return render_template('views/kine/CRUDrutinas/crearRutina.html', rutinas=rutinas.data, id_paciente=id_paciente)
 
 @app.route("/editar_rutina/<int:id_rutina>/<int:id_paciente>", methods=['GET','POST'])
@@ -293,7 +328,7 @@ def editar_rutina(id_rutina, id_paciente):
         flash ('Rutina creada exitosamente', 'success')
         return redirect(url_for('crear_rutina', id_paciente=id_paciente))
     rutina = supabase.table('Rutinas').select('*').eq('id', id_rutina).execute()
-    return render_template('views/kine/CRUDrutinas/editarRutina.html', rutina = rutina.data[0])
+    return render_template('views/kine/CRUDrutinas/editarRutina.html', rutina = rutina.data[0], id_paciente = id_paciente)
 
 @app.route("/eliminar_rutina/<int:id_rutina>/<int:id_paciente>", methods=['GET', 'POST'])
 @login_required
@@ -304,11 +339,33 @@ def eliminar_rutina(id_rutina, id_paciente):
 
 ### INICIO seleccionar ejercicio ###
 
-@app.route("/seleccionar_ejercicio/<int:id_rutina>", methods=['GET','POST'])
+@app.route("/seleccionar_ejercicio/<int:id_rutina>/<id_paciente>", methods=['GET', 'POST'])
 @login_required
-def seleccionar_ejercicio(id_rutina):
-    ejercicios = supabase.table('Ejercicios').select('*').order('id', desc=False).execute()
-    return render_template('views/kine/CRUDrutinas/seleccionarEjercicios.html', ejercicios = ejercicios.data)
+def seleccionar_ejercicio(id_rutina, id_paciente):
+    if request.method == 'POST':
+        series = request.form['series']
+        fk_id_ejercicio = request.form['ejercicio']
+        repeticiones = request.form['repeticiones']
+        peso = request.form['peso']
+        ejercicioRutina = {
+            'fk_id_rutina': id_rutina,                
+            'fk_id_ejercicio': fk_id_ejercicio,
+            'series': series,
+            'repeticiones': repeticiones,
+            'peso': peso
+        }
+        insert =  supabase.table('Rutinas_Ejercicios').insert(ejercicioRutina).execute()
+        flash ("Ejercicio añadido exitosamente", 'success')
+    rutina = supabase.table('Rutinas_Ejercicios').select('*').eq('fk_id_rutina', id_rutina).execute()
+    ejercicios = supabase.table('Ejercicios').select('id', 'nombre').execute()
+    return render_template("views/kine/CRUDrutinasEjercicios/listarEjerciciosRutina.html", rutina = rutina.data, ejercicios = ejercicios.data, id_rutina = id_rutina, id_paciente = id_paciente)
+
+@app.route("/eliminar_ejercicio_rutina/<int:id>/<int:id_rutina>/<int:id_paciente>", methods=['GET', 'POST'])
+@login_required
+def eliminar_ejercicio_rutina(id, id_rutina, id_paciente):
+    data, count = supabase.table('Rutinas_Ejercicios').delete().eq('id', id).execute()
+    flash ("Ejercicio eliminada exitosamente de la rutina", 'danger')
+    return redirect(url_for('seleccionar_ejercicio', id_rutina = id_rutina, id_paciente = id_paciente))
 
 ### FIN seleccionar ejercicio ###
 

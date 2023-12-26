@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_login import LoginManager
-from config import config
 from flask_wtf.csrf import CSRFProtect
 from supabase import create_client, Client
 

@@ -3,74 +3,82 @@
 {% block title %}Editar Paciente{% endblock %}
 
 {% block body %}
-<nav class="m-1" style="--bs-breadcrumb-divider: '>';">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
-        <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id_kinesiologo=current_user.get_id()) }}">Pacientes</a></li>
-        <li class="breadcrumb-item active">Editar paciente</li>
-    </ol>
-</nav>
-
-<div class="container col-md-4 card" style="background-color:#c5d7f2">    
-    <h3 style="border-radius: 15px; background-color: #3452b3; color: #d8d8ce;" class="p-2 mt-2 display-6 fw-bold card-title bg-gradient">Editar paciente N° {{paciente.id_paciente}}:</h3>
-    <form class="card-body" method="post">        
-        <div class="container col-md-10">
-            <div class="visually-hidden">
-            <label class="visually-hidden" for="idPaciente">Id paciente</label>
-            <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="{{paciente.id_paciente}}" placeholder="">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        </div>
-        <div class="visually-hidden">
-            <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
-            <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
-        </div>
-        <div class="form-floating mb-3">
-            <input
-            type="text"
-            class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="" value="{{paciente.nombre_completo}}">
-            <label for="nombrePaciente">Nombre del paciente:</label>
-        </div>
-        
-        <div class="form-floating mb-3">
-            <input
-            type="date"
-            class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="" value="{{paciente.fecha_nacimiento}}">
-            <label for="fechaNacimiento">Fecha de nacimiento:</label>
-        </div>
-
-        <div class="form-floating mb-3">
-            <input
-            type="number"
-            class="form-control" name="estatura" id="estatura" placeholder="" step="0.01" value="{{paciente.estatura}}">
-            <label for="estatura">Estatura del paciente:</label>
-        </div>
-
-        <div class="form-floating mb-3">
-            <input
-            type="number"
-            class="form-control" name="peso" id="peso" placeholder="" step="0.01" value="{{paciente.peso}}">
-            <label for="peso">Peso del paciente (kg):</label>
-        </div>
-        <script>
-            var i = {
-                genero: "{{paciente.genero}}" // Simula el valor de i.genero
-            };
-        </script>
-            <label class="form-control form-label" for="genero">Género:
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
-                    <label class="form-check-label" for="femenino">Femenino</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino">
-                    <label class="form-check-label" for="masculino">Masculino</label>
-                </div>
-            </label>      
-        <br>
-        <button class="btn btn-primary m-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-user-pen"></i> Editar</button>       
+<div class="container fondo  mb-3">
+    <div class="row">
+        <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id_kinesiologo=current_user.get_id()) }}">Pacientes</a></li>
+                <li class="breadcrumb-item active">Editar paciente</li>
+            </ol>
+        </nav>
     </div>
-    </form>
+
+    <div class="container col-md-12 card" style="background-color:#c5d7f2">    
+        <h3 style="border-radius: 15px; background-color: #3452b3; color: #d8d8ce;" class="p-2 mt-2 display-6 fw-bold card-title bg-gradient">Editar paciente N° {{paciente.id_paciente}}:</h3>
+        <form class="card-body" method="post">        
+            <div class="container col-md-10">
+                <div class="visually-hidden">
+                <label class="visually-hidden" for="idPaciente">Id paciente</label>
+                <input type="number" class="form-control" name="idPaciente" id="idPaciente" value="{{paciente.id_paciente}}" placeholder="">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            </div>
+            <div class="visually-hidden">
+                <label class="visually-hidden" for="fkIdKinesiologo">Id Kinesiologo</label>
+                <input type="number" class="form-control" name="fkIdKinesiologo" id="fkIdKinesiologo" placeholder="" value="{{current_user.get_id()}}">
+            </div>
+            <div class="form-floating mb-3">
+                <input
+                type="text"
+                class="form-control" name="nombrePaciente" id="nombrePaciente" placeholder="" value="{{paciente.nombre_completo}}">
+                <label for="nombrePaciente">Nombre del paciente:</label>
+            </div>
+            
+            <div class="form-floating mb-3">
+                <input
+                type="date"
+                class="form-control" name="fechaNacimiento" id="fechaNacimiento" placeholder="" value="{{paciente.fecha_nacimiento}}">
+                <label for="fechaNacimiento">Fecha de nacimiento:</label>
+            </div>
+    
+            <div class="form-floating mb-3">
+                <input
+                type="number"
+                class="form-control" name="estatura" id="estatura" placeholder="" step="0.01" value="{{paciente.estatura}}">
+                <label for="estatura">Estatura del paciente:</label>
+            </div>
+    
+            <div class="form-floating mb-3">
+                <input
+                type="number"
+                class="form-control" name="peso" id="peso" placeholder="" step="0.01" value="{{paciente.peso}}">
+                <label for="peso">Peso del paciente (kg):</label>
+            </div>
+            <script>
+                var i = {
+                    genero: "{{paciente.genero}}" // Simula el valor de i.genero
+                };
+            </script>
+                <label class="form-control form-label" for="genero">Género:
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="genero" id="femenino" value="femenino">
+                        <label class="form-check-label" for="femenino">Femenino</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="genero" id="masculino" value="masculino">
+                        <label class="form-check-label" for="masculino">Masculino</label>
+                    </div>
+                </label>      
+            <br>
+            <button class="btn btn-primary m-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-user-pen"></i> Editar</button>       
+        </div>
+        </form>
+    </div>
+
 </div>
+
+
+
 
 <script>
     // Obtén una referencia a los botones de radio

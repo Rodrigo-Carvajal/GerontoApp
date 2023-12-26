@@ -163,7 +163,7 @@
                             {% if i.fk_id_kinesiologo %}                                                                
                             
                                 <tr class="scope table-primary">
-                                    <td>{{ i.id_paciente }}</td>
+                                    <td>{{ loop.index }}</td>
                                     <td>{{ i.nombre_completo }}</td>                                
                                     <td>
                                         <a 

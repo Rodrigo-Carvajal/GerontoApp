@@ -11,11 +11,16 @@
             <li class="breadcrumb-item active">Información del paciente</li>
         </ol>
     </nav>
+    <div class="d-flex justify-content-center">
+        <h3 style="background-color: #3452b3; color: #d8d8ce;" class="col-md-8 pb-2 display-5 fw-bold card-title bg-gradient rounded-3">Ficha del paciente:</h3>
+    </div>
     
-    <section class="section profile p-5">
+    
+    <section class="section profile m-3">
         <div class="row equal-height">
             <div class="col-xl-4 col-xl-4-custom">
-                <div class="card" style="background-color:#c5d7f2">                
+                <div class="card" style="background-color:#c5d7f2">
+                    
                     <div class="card_body profile-card pt-4 d-flex flex-column align-items-center">
                         {% if paciente.genero == "femenino" %}
                             <img class="rounded-circle perfil-max" src="{{ url_for('static', filename='assets/mujerAvatar.png') }}" alt="Foto Paciente">        

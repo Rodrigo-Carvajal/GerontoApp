@@ -3,58 +3,55 @@
 {% block title %}Rutinas {% endblock %}
 
 {% block body %}
-<div class="fondo container">
+<div class="fondo container  mb-3">
     <div class="row">  
-    <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
-            <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id_kinesiologo=current_user.get_id()) }}">Pacientes</a></li>
-            <li class="breadcrumb-item active">Editar rutina</li>
-        </ol>    
-    </nav>
-<!-- F O R M U L A R I O - C R E A R - R U T I N A -->
+        <nav class="m-1" style="--bs-breadcrumb-divider: '>';">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ url_for('kinesiologo_main') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('listar_pacientes', id_kinesiologo = current_user.get_id()) }}">Pacientes</a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('crear_rutina', id_paciente = id_paciente) }}">Rutinas</a></li>
+                <li class="breadcrumb-item active">Editar rutina</li>
+            </ol>    
+        </nav>
+    </div>
+    <!-- F O R M U L A R I O - C R E A R - R U T I N A -->
 
-<div class="container col-md-12 card" style="background-color:#c5d7f2">
-    <h3 style="border-radius: 15px; background-color: #3452b3; color: #d8d8ce;" class="p-2 mt-2 display-6 fw-bold card-title bg-gradient">Crear Rutina:</h3>
-    <form class="card-body" method="post">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <div class="mb-3 text-start">
-            <label for="tituloRutina" class="form-label">Título:</label>
-            <input type="text" class="form-control" id="tituloRutina" name="tituloRutina" value="{{rutina.titulo}}" placeholder="Ejemplo: Rutina de Ejercicio Flexibilidad">
-        </div>
-
-        <div class="mb-3 text-start">
-            <label for="objetivoRutina" class="form-label">Objetivo:</label>
-            <select class="form-select" id="objetivoRutina" name="objetivoRutina" value="{{rutina.objetivo}}">
-                <option disabled>Selecciona un objetivo</option>
-                <option value="salud">Mejorar la salud física</option>
-                <option value="fuerza">Aumentar la fuerza muscular</option>
-                <option value="flexibilidad">Mejorar la flexibilidad</option>
-            </select>
-        </div>
-
-        <div class="mb-3 text-start">
-            <label for="tiempoRutina" class="form-label">Duración:</label>
-            <div class="input-group">
-                <input type="number" class="form-control" id="tiempoRutina" name="tiempoRutina" min="0" step="15" value="{{rutina.duracion}}">
-                <span class="input-group-text">minutos</span>
-            </div>
-        </div>
-        
-
-        <div class="mb-3 text-start">
-            <label for="notasRutina" class="form-label">Notas adicionales:</label>
-            <input class="form-control" rows="4" id="notasRutina" name="notasRutina" value="{{rutina.notas}}"></input>
-        </div>
-
-        <div>
-            <br>
-            <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-plus"></i> Actualizar Rutina</button>
-            <br>
-        </div>
-                
-    </form>
-</div>
+    <div class="container col-md-12 card" style="background-color:#c5d7f2">
+        <h3 style="border-radius: 15px; background-color: #3452b3; color: #d8d8ce;" class="p-2 mt-2 display-6 fw-bold card-title bg-gradient">Editar Rutina:</h3>
+        <form class="card-body" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <div class="mb-3 text-start">
+                <label for="tituloRutina" class="form-label">Título:</label>
+                <input type="text" class="form-control" id="tituloRutina" name="tituloRutina" placeholder="Ejemplo: Rutina de Ejercicio Flexibilidad">
+            </div>        
+            <div class="mb-3 text-start">
+                <label for="objetivoRutina" class="form-label">Objetivo:</label>
+                <select class="form-select" id="objetivoRutina" name="objetivoRutina">
+                    <option disabled selected value="">Selecciona un objetivo</option>
+                    <option value="Mejorar la salud física">Mejorar la salud física</option>
+                    <option value="Aumentar la fuerza muscular">Aumentar la fuerza muscular</option>
+                    <option value="Mejorar la flexibilidad">Mejorar la flexibilidad</option>
+                </select>
+            </div>        
+            <div class="mb-3 text-start">
+                <label for="tiempoRutina" class="form-label">Duración:</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" id="tiempoRutina" name="tiempoRutina" min="0" step="15">
+                    <span class="input-group-text">minutos</span>
+                </div>
+            </div>                                
+            <div class="mb-3 text-start">
+                <label for="notasRutina" class="form-label">Notas adicionales:</label>
+                <textarea class="form-control" rows="4" id="notasRutina" name="notasRutina" placeholder="Agrega notas adicionales si es necesario"></textarea>
+            </div>        
+            <div>
+                <br>
+                <button class="btn btn-primary mb-3" type="submit" name="submit" value="crear"><i class="fa-solid fa-plus"></i> Crear Rutina</button>
+                <button class="btn btn-danger mb-3" type="button" id="borrarCampos"><i class="fa-solid fa-eraser"></i> Limpiar</button>
+                <br>
+            </div>                
+        </form>
+    </div>
 
 
 <script>

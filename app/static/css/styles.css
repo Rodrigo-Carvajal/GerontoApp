@@ -1,7 +1,7 @@
 .footercito {
-    position: sticky;
+    position: relative;
     bottom: 0;
-    width: 100%;
+    min-width: 100vh;
     z-index: 1;
     background-color: #2545b1;
 }
@@ -38,11 +38,17 @@
     background-image: url("../assets/scattered-forcefields.svg");
     background-size:auto;
     background-attachment: fixed;
-    max-width: 100%;
+    max-width: 99%;
+    max-height: 99%;
 }
 
 .navbar {
     background-color: #2545b1;
+}
+
+.nav-item :hover {
+    color: #f38787;
+    background: #ac1111;
 }
 
 .container {
@@ -52,7 +58,6 @@
     overflow: hidden;
     overflow-x: hidden;
     overflow-y: hidden;
-    margin-bottom: 1em;
     position: relative;
 }
 
@@ -89,7 +94,7 @@
     background-image: url("../assets/4.jpg");
     background-position: center;
     background-attachment: fixed;
-    min-height: 100vh;
+    max-height: 100vh;
 }
 
 .with-background h1,
