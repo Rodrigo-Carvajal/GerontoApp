@@ -7,7 +7,7 @@ import pyttsx3 as tts
 
 def text_to_speech(text):
     engine = tts.init()
-    engine.setProperty('rate', 250)
+    engine.setProperty('rate', 135)
     engine.say(text)
     engine.runAndWait()
 
@@ -388,22 +388,28 @@ def squat(cap):
                     angleHip = (angle3 + angle4) / 2
 
                     #Dibujado de joints
-                    cv.circle(frame, (caderaIzquierdaX, caderaIzquierdaY), 6, (0,0,255), 4)
-                    cv.circle(frame, (rodillaIzquierdaX, rodillaIzquierdaY), 6, (255,0,0), 6)
-                    cv.circle(frame, (caderaDerechaX, caderaDerechaY), 6, (0,0,255), 4)
+                    cv.circle(frame, rodillaIzquierda, 6, (255,0,0), 6)
+                    cv.circle(frame, hombroIZquierdo, 6, (0,0,255), 4)
+                    cv.circle(frame, caderaIzquierda, 6, (0,0,255), 4)
+                    cv.circle(frame, tobilloIzquierdo, 6, (0,0,255), 4)
 
-                    cv.circle(frame, (rodillaDerechaX, rodillaDerechaY), 6, (255,0,0), 6)
-                    cv.circle(frame, (hombroDerechoX, hombroDerechoY), 6, (0,0,255), 4)
-                    cv.circle(frame, (hombroIzquierdoX, hombroIzquierdoY), 6, (0,0,255), 4)
+                    cv.circle(frame, rodillaDerecha, 6, (255,0,0), 6)
+                    cv.circle(frame, hombroDerecho, 6, (0,0,255), 4)
+                    cv.circle(frame, caderaDerecha, 6, (0,0,255), 4)
+                    cv.circle(frame, tobilloDerecho, 6, (0,0,255), 4)
 
                     #Dibujado de lineas entre los joints
-                    cv.line(frame, (caderaIzquierdaX, caderaIzquierdaY), (rodillaIzquierdaX, rodillaIzquierdaY), (255,0,0), 20)
-                    cv.line(frame, (caderaDerechaX, caderaDerechaY), (rodillaDerechaX, rodillaDerechaY), (255,0,0), 20)
-                    cv.line(frame, (hombroIzquierdoX, hombroIzquierdoY), (caderaIzquierdaX, caderaIzquierdaY), (255,0,0), 20)
+                    cv.line(frame, caderaIzquierda, rodillaIzquierda, (255,0,0), 20)
+                    cv.line(frame, hombroIZquierdo, caderaIzquierda, (255,0,0), 20)
+                    cv.line(frame, rodillaIzquierda, hombroIZquierdo, (0,0,255), 5)
+                    cv.line(frame, rodillaIzquierda, tobilloIzquierdo, (255,0,0), 20)
+                    cv.line(frame, caderaIzquierda, tobilloIzquierdo, (0,0,255), 5)
 
-                    cv.line(frame, (hombroDerechoX, hombroDerechoY), (caderaDerechaX, caderaDerechaY), (255,0,0), 20)
-                    cv.line(frame, (rodillaDerechaX, rodillaDerechaY), (hombroDerechoX, hombroDerechoY), (0,0,255), 5)
-                    cv.line(frame, (rodillaIzquierdaX, rodillaIzquierdaY), (hombroIzquierdoX, hombroIzquierdoY), (0,0,255), 5)
+                    cv.line(frame, caderaDerecha, rodillaDerecha, (255,0,0), 20)
+                    cv.line(frame, hombroDerecho, caderaDerecha, (255,0,0), 20)
+                    cv.line(frame, rodillaDerecha, hombroDerecho, (0,0,255), 5)
+                    cv.line(frame, rodillaDerecha, tobilloDerecho, (255,0,0), 20)
+                    cv.line(frame, caderaDerecha, tobilloDerecho, (0,0,255), 5)
                 
                     #Impresión de la imagen final
                     cv.rectangle(frame, (40,12), (90,50), (150,150,150), -1)
@@ -414,7 +420,7 @@ def squat(cap):
 
                     #Contar la repetición de una sentadilla válida
                     if angleHip >= 115: #Se encuentra acostado
-                        th.Thread(target=text_to_speech, args=('Squat',)).start()
+                        th.Thread(target=text_to_speech, args=('Puede iniciar el ejercicio',)).start()
                         # Dibujar la flecha apuntando hacia arriba en la esquina derecha del fotograma
                         arrow_length = 100
                         arrow_thickness = 3
@@ -616,6 +622,7 @@ def pushup(cap):
                     continue
                 yield(b'--frame\r\n' b'Content-Type: image/jpeg\r\n\r\n' +
                     bytearray(encodedImage) + b'\r\n')
+
 
 def ohp(cap):
     #Llamado de objetos mediapipe
