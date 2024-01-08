@@ -1,0 +1,30 @@
+Cualquier artículo científico, publicación, presentación y/o producto derivado que se beneficie del uso de este software y/o cualquiera de sus módulos ( tanto de gestión de pacientes como el módulo de opencv) deberá reconocer explícitamente su utilización incluyendo 
+una mención a los autores del software. Además deberá contactar con la previa autorización de los autores de este repositorio a través de correo para obtener la respectiva confirmación del uso del software.
+Todo esto es debido a la privacidad que se requirió por parte del Hogar de Cristo y SENAMA.
+
+Estas medidas se consideran como asumidas al descargar este software o al realizar alguna de las acciones anteriormente mencionadas.
+
+Cualquier hecho que viole los términos y condiciones previamente estipulados, infiere en una falta a la ley 17.336, artículo 3, punto 16 y en su artículo 4. 
+
+"Artículo 3°- Quedan especialmente protegidos con arreglo a la presente ley:
+  ...
+  16) Los programas computacionales, cualquiera sea el modo o forma de expresión, como programa fuente o programa objeto, e incluso la documentación preparatoria, su descripción técnica y manuales de uso.
+  ...
+"
+
+Y en su artículo 4:
+"Artículo 4°- El título de la obra forma parte de ellas y deberá ser siempre mencionado junto con el nombre del autor, cuando aquélla sea utilizada públicamente.
+    No podrá utilizarse el título de una obra u otro que pueda manifiestamente inducir a engaño o confusión, para individualizar otra del mismo género."
+
+Considerando que el siguiente software cuenta con la clasificación de "Obra en colaboración" y "Obra originaria", como lo señala el artículo 5, inciso b e inciso h. Además, también se encuentra sujeto al artículo 5, inciso t y w.
+"b) Obra en colaboración: la que sea producida, conjuntamente, por dos o más personas naturales cuyos aportes no puedan ser separados".
+"h) Obra originaria: aquella que es primigénitamente creada".
+"t) Programa computacional: conjunto de instrucciones para ser usadas directa o indirectamente en un computador a fin de efectuar u obtener un determinado proceso o resultado, contenidas en un cassete, diskette, cinta magnética u otro soporte material."
+"w) Transformación: todo acto de modificación de la obra, comprendida su traducción, adaptación y cualquier otra variación en su forma de la que se derive una obra diferente."
+
+
+Todo esto además se basa en el cáptiulo II de esta misma ley, que indica en el artículo 6 y 8 lo siguiente:
+"Artículo 6°- Sólo corresponde al titular del derecho de autor decidir sobre la divulgación parcial o total de la obra."
+"Artículo 8°- Se presume autor de una obra, salvo prueba en contrario, a quien aparezca como tal al divulgarse aquélla, mediante indicación de su nombre, seudónimo,firma o signo que lo identifique de forma usual, o aquéla quien, 
+según la respectiva inscripción, pertenezca el ejemplar que se registra. Tratándose de programas computacionales, serán titulares del derecho de autor respectivo las personas naturales o jurídicas cuyos dependientes,
+en el desempeño de sus funciones laborales, los hubiesen producido, salvo estipulación escrita en contrario."
