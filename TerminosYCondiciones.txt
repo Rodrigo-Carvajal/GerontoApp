@@ -2,8 +2,6 @@ Cualquier artículo científico, publicación, presentación y/o producto deriva
 una mención a los autores del software. Además deberá contactar con la previa autorización de los autores de este repositorio a través de correo para obtener la respectiva confirmación del uso del software.
 Todo esto es debido a la privacidad que se requirió por parte del Hogar de Cristo y SENAMA.
 
-Estas medidas se consideran como asumidas al descargar este software o al realizar alguna de las acciones anteriormente mencionadas.
-
 Cualquier hecho que viole los términos y condiciones previamente estipulados, infiere en una falta a la ley 17.336, artículo 3, punto 16 y en su artículo 4. 
 
 "Artículo 3°- Quedan especialmente protegidos con arreglo a la presente ley:
@@ -28,3 +26,8 @@ Todo esto además se basa en el cáptiulo II de esta misma ley, que indica en el
 "Artículo 8°- Se presume autor de una obra, salvo prueba en contrario, a quien aparezca como tal al divulgarse aquélla, mediante indicación de su nombre, seudónimo,firma o signo que lo identifique de forma usual, o aquéla quien, 
 según la respectiva inscripción, pertenezca el ejemplar que se registra. Tratándose de programas computacionales, serán titulares del derecho de autor respectivo las personas naturales o jurídicas cuyos dependientes,
 en el desempeño de sus funciones laborales, los hubiesen producido, salvo estipulación escrita en contrario."
+
+Estas medidas se consideran como asumidas al descargar este software o al realizar alguna de las acciones anteriormente mencionadas. 
+Los medios de contacto para solicitar la autroización será a través del siguiente correo.
+
+rodrigo.carvajal.ramos@gmail.com
